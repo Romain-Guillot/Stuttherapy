@@ -1,33 +1,33 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
-import 'package:stutterapy/account/feed.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 
 
 abstract class User {
-  static String userIdentifier;
+  static const String userIdentifier = "";
+
+  List<String> savedWord = [];
+  HashMap<ExerciseTheme, List<ExerciseProgression>> progression; 
 
   bool isLogged = false;
   String pseudo;
 }
 
 
+
 class TherapistUser extends User {
-  static String userIdentifier = "Therapist";
+  static const String userIdentifier = "Therapist";
 
   // List<StutterUser> patients = [];
-
-
 }
 
 class StutterUser extends User {
-  static String userIdentifier = "Stutter";
+  static const String userIdentifier = "Stutter";
 
-  List<String> savedWord = [];
-  HashMap<ExerciseTheme, List<ExerciseProgression>> progression; 
+
   // TherapistUser therapist;
   // Feed feed;
-
 }
+
+class UninitializeUser extends User {}
 

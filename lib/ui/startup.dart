@@ -5,9 +5,15 @@ import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';
 
-///
-///
-///
+/// Start-up page, display when it's the first application launch (or first 
+/// launch without go further).
+/// 
+/// This widget displayed a welcomed message with an applicaiton introduction.
+/// User have to chose the type of account that he wants :
+/// - [StutterUser] if it's a basic user that want to use application to do
+///   exercises
+/// - [TherapistUser] is it's a professionnal medicial therapist that want to help
+///   [StutterUser]
 class StartUp extends StatefulWidget {
 
   StartUp({Key key}) : super(key: key);
@@ -17,8 +23,15 @@ class StartUp extends StatefulWidget {
 }
 
 
-///
-///
+/// State of [StartUp] widget that handled the choice made by the user 
+/// between the two types of account available in the app.
+/// 
+/// The user chose is tracked with [selectedAccount] variable. Before that user
+/// submit his choice no [User] object is created ! User choice is handled and track thanks
+/// to the [Type] type.
+/// 
+/// When the user submit his choice, he can go further and a [Manager] is created with an
+/// [User] object according to his choice.
 ///
 class _StartUpState extends State<StartUp> {
 
@@ -38,7 +51,7 @@ class _StartUpState extends State<StartUp> {
             _choicesWidget(),
             RaisedButton(
               child: Text(Strings.startupSubmitButton),
-              onPressed: () {
+              onPressed: selectedAccount == null ? null :  () {
                 _submitChoice(newCtx);
               },
             ),
@@ -48,26 +61,34 @@ class _StartUpState extends State<StartUp> {
     ));
   }
 
-  ///
-  ///
+  /// Function called when the user submit his choice
+  /// The function check if an [User] [Type] is selected (even if the 
+  /// UI prevent the submit access if no [User] [Type] is selected).
+  /// So, if a [User] [Type] is selected, the route is changed according to
+  /// the user choice ([HomePageTherapist] or [HomePageStutter]). A manager
+  /// is created with a new [User] ([TherapistUser] or [StutterUser]) and pass throught the new 
+  /// widget.
   _submitChoice(BuildContext ctx) {
-    // widget.manager.setFirstStartupValue(false);
     Widget _appropriateHomePage;
+    User _user;
 
     switch (selectedAccount) {
       case TherapistUser: 
+        _user = TherapistUser();
         _appropriateHomePage = HomePageTherapist(
-          manager: Manager(user: TherapistUser())
+          manager: Manager(user: _user)
         );   
         break;
       case StutterUser:
+        _user = StutterUser();
         _appropriateHomePage = HomePageStutter(
-          manager: Manager(user: StutterUser())
+          manager: Manager(user: _user)
         );
         break;
     }
 
     if(_appropriateHomePage != null) {
+      // SharedPrefProvider.setSavedUser(_user);
       Navigator.pushReplacement(ctx, MaterialPageRoute(
         builder: (BuildContext bc) => _appropriateHomePage
       ));
@@ -77,8 +98,9 @@ class _StartUpState extends State<StartUp> {
     }
   }
 
-  ///
-  ///
+  /// Return the widget composed of the list of account type
+  /// available (so [TherapistUser] and [StutterUser]). Each account
+  /// type is dislayed as a [RaiseButton] and it is selectionnable.
   Widget _choicesWidget() {
     return Expanded(
       child: ListView.builder(
@@ -99,6 +121,8 @@ class _StartUpState extends State<StartUp> {
     );
   }
 
+  /// Return simply the accont type identifier
+  /// Maybe find a best way to achieve this ...
   String _getAccountIdentifier(Type accountType) {
     switch (accountType) {
       case TherapistUser:

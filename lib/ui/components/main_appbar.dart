@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/account/accounts.dart';
+import 'package:stutterapy/ui/account/account_log_in.dart';
 
 class MainAppBar extends AppBar {
   MainAppBar({
@@ -16,7 +17,11 @@ class LogIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       child: Text("Log in".toUpperCase()),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (BuildContext ctx) => AccountLogIn()
+        ));
+      },
     );
   }
 }
