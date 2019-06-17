@@ -10,9 +10,9 @@ abstract class ExerciseTheme {
 
   ExerciseTheme({@required this.name, @required this.shortDescription, @required this.longDescription, Map<String, ExerciseSettingsItem> exercisesSettings}) {
     Map _basicSettings = {
-      'cover_sentences' : BooleanField(label: "Cover sentences", disable: true, initialValue: true),
+      'cover_sentences' : BooleanField(label: "Cover sentences"),
       'resource' : ComboBoxField(label: "Resources", items: ["dfgfd"]),
-      'perception': ComboBoxField(label: "Perception", items: ResourcePerception.values, disable: true, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
+      'perception': ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
     };
 
 
