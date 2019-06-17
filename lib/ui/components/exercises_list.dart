@@ -26,12 +26,10 @@ class ExercisesListView extends StatelessWidget {
           return Text("Loading data...");
         }else {
           print(snapshotThemes.data.length);
-          return Expanded(
-              child: ListView(
-              children: snapshotThemes.data.map(
-                (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme, user: manager.user,)
-              ).toList(),
-            ),
+          return Column(
+            children: snapshotThemes.data.map(
+              (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme, user: manager.user,)
+            ).toList(),
           );
         }
       },
