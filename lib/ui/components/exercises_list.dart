@@ -56,7 +56,7 @@ class ExerciseListItem extends StatelessWidget {
         children: <Widget>[
           ListTile(
             title: Text(theme.name),
-            subtitle: Text(theme.shortDescription),
+            subtitle: Text(theme.shortDescription, maxLines: 1, overflow: TextOverflow.ellipsis,),
           ),
           ButtonTheme.bar(
             child: ButtonBar(

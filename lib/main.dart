@@ -29,7 +29,13 @@ class Stutterapy extends StatelessWidget {
     return MaterialApp(
       title: Strings.appName,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(brightness: Brightness.dark, color: Colors.transparent, elevation: 0, iconTheme: IconThemeData(color: Colors.black)),
+        appBarTheme: AppBarTheme(
+          brightness: Brightness.dark, 
+          color: Colors.transparent, 
+          elevation: 0, 
+          iconTheme: IconThemeData(color: Colors.black), 
+          textTheme: TextTheme(title: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold))
+        ),
         primaryColor: Color.fromRGBO(96, 33, 255, 1),
       ),
       home:FutureBuilder<User>(

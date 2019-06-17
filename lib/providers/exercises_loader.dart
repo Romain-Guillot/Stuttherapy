@@ -16,7 +16,7 @@ class ExercisesLoader {
       MetronomeExercise(),
       DAFExercise(),
       MirroringExercise(),
-      ReadingExercise()
+      ReadingExercise(),
     ]));
     return _themes.stream;
   }
