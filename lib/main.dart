@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stutterapy/account/accounts.dart';
 import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/providers/account_provider.dart';
@@ -7,8 +8,16 @@ import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';
 import 'package:stutterapy/ui/startup.dart';
 
+final Color primaryColor = Color.fromRGBO(255, 172, 82, 1);
 
-void main() async => runApp(Stutterapy());
+void main() async { 
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.white, // navigation bar color
+    systemNavigationBarIconBrightness: Brightness.dark,
+    statusBarColor: primaryColor, // status bar color
+  ));
+  runApp(Stutterapy());
+}
 
 
 /// Entry point of the application.
@@ -30,7 +39,7 @@ class Stutterapy extends StatelessWidget {
       title: Strings.appName,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          brightness: Brightness.dark, 
+          brightness: Brightness.light, 
           color: Colors.transparent, 
           elevation: 0, 
           iconTheme: IconThemeData(color: Colors.black), 
