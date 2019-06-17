@@ -3,8 +3,8 @@ import 'package:stutterapy/strings.dart';
 
 class DAFExercise extends ExerciseTheme {
   DAFExercise() : super(
-    name: Strings.dafTitle, 
-    shortDescription: Strings.dafShortDescription, 
-    longDescription: Strings.dafLongDescription
+    name: Strings.DAF_TITLE, 
+    shortDescription: Strings.DAF_DESCRIPTION_SHORT, 
+    longDescription: Strings.DAF_DESCRIPTION_LONG
   );
 }

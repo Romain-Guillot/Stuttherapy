@@ -25,7 +25,7 @@ class HomePageStutter extends StatefulWidget {
 class _HomePageStutterState extends State<HomePageStutter> {
 
   List<Widget> pages = [Center(child:CircularProgressIndicator()), Center(child:CircularProgressIndicator())];
-  Map<String, Icon> _pagesNavigationIndicator = {"Exercises" : Icon(Icons.home), "My Feed" : Icon(Icons.feedback)};
+  Map<String, Icon> _pagesNavigationIndicator = {Strings.EXERCISES_TITLE : Icon(Icons.home), Strings.FEED : Icon(Icons.feedback)};
   int _selectedPage = 0;
 
 
@@ -43,7 +43,7 @@ class _HomePageStutterState extends State<HomePageStutter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: Text(Strings.appName),
+        title: Text(Strings.APP_NAME),
         user: widget.manager.user,
       ),
       drawer: DrawerMenu(

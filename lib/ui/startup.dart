@@ -47,10 +47,10 @@ class _StartUpState extends State<StartUp> {
       SafeArea(
         child: Column(
           children: <Widget>[
-            Text(Strings.startupTitle),
+            Text(Strings.STARTUP_TITLE),
             _choicesWidget(),
             RaisedButton(
-              child: Text(Strings.startupSubmitButton),
+              child: Text(Strings.STARTUP_SUBMIT),
               onPressed: selectedAccount == null ? null :  () {
                 _submitChoice(newCtx);
               },
@@ -93,7 +93,7 @@ class _StartUpState extends State<StartUp> {
         builder: (BuildContext bc) => _appropriateHomePage
       ));
     }else {
-      final snack = SnackBar(content: Text(Strings.startupErrorNoAccountTypeSelected));
+      final snack = SnackBar(content: Text(Strings.STARTUP_ERROR_NO_ACCOUNT_SELECTED));
       Scaffold.of(ctx).showSnackBar(snack);
     }
   }

@@ -36,7 +36,7 @@ class Stutterapy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Strings.appName,
+      title: Strings.APP_NAME,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           brightness: Brightness.light, 

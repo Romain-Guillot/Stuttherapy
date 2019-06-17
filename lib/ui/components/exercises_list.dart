@@ -28,7 +28,7 @@ class ExercisesListView extends StatelessWidget {
           print(snapshotThemes.data.length);
           return Column(
             children: snapshotThemes.data.map(
-              (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme, user: manager.user,)
+              (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme, user: manager.user, manager: manager,)
             ).toList(),
           );
         }
@@ -43,9 +43,10 @@ class ExercisesListView extends StatelessWidget {
 class ExerciseListItem extends StatelessWidget {
 
   final ExerciseTheme theme;
+  final Manager manager;
   final User user;
 
-  ExerciseListItem({Key key, @required this.theme, @required this.user}) : super(key: key);
+  ExerciseListItem({Key key, @required this.manager, @required this.theme, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class ExerciseListItem extends StatelessWidget {
                   child: Text("Train".toUpperCase()),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext ctx) => ExerciseHomepageWidget()
+                      builder: (BuildContext ctx) => ExerciseHomepageWidget(manager: manager, theme: theme,)
                     ));
                   },
                 ),
