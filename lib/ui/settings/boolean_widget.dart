@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stutterapy/ui/settings/settings_item_widget.dart';
 
-class BooleanFieldWidget extends StatefulWidget {
+class BooleanFieldWidget extends SettingsItemWidget {
 
-  final BooleanField field;
 
-  BooleanFieldWidget({Key key, @required this.field}) : super(key: key);
+  BooleanFieldWidget({Key key, BooleanField field}) : super(key: key, field: field);
 
   @override
   _BooleanFieldWidgetState createState() => _BooleanFieldWidgetState();
@@ -24,11 +24,5 @@ class _BooleanFieldWidgetState extends State<BooleanFieldWidget> {
         });
       },
     );
-    // return Checkbox(
-    //   value: widget.field.value,
-    //   onChanged: widget.field.disable ? null : (bool _newValue) {
-    //     
-    //   },
-    // );
   }
 }

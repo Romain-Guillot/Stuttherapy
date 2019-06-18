@@ -1,12 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/ui/settings/boolean_field.dart';
+import 'package:stutterapy/ui/settings/boolean_widget.dart';
 import 'package:stutterapy/ui/settings/combo_box_widget.dart';
-import 'package:stutterapy/ui/settings/integer_slider.dart';
+import 'package:stutterapy/ui/settings/integer_slider_widget.dart';
 
 class SettingsWidgetProvider {
-
-  static Widget getSettingsWidget(ExerciseSettingsItem item) {
+  static Widget getWidget(ExerciseSettingsItem item) {
     switch (item.runtimeType) {
       case BooleanField:
         return BooleanFieldWidget(field: item,);

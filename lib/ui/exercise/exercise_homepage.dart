@@ -4,7 +4,7 @@ import 'package:stutterapy/exercise_library/settings.dart';
 import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/dimen.dart';
-import 'package:stutterapy/ui/settings/settings_widget_provider.dart';
+import 'package:stutterapy/ui/exercise/settings_widget_provider.dart';
 
 class ExerciseHomepageWidget extends StatelessWidget {
   final Manager manager;
@@ -39,7 +39,13 @@ class ExerciseHomepageWidget extends StatelessWidget {
           ),
           RaisedButton(
             child: Text(Strings.EXERCISE_LAUNCH),
-            onPressed: () {},
+            onPressed: () {
+              if(theme.settings.isValid()) {
+                print("ok");
+              }else {
+                print("Not valid");
+              }
+            },
           )
         ],
       ),
@@ -58,7 +64,7 @@ class ExerciseSettingsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: settings.items.values.map((ExerciseSettingsItem _item) {
-        return SettingsWidgetProvider.getSettingsWidget(_item) ?? Text("Error...");
+        return SettingsWidgetProvider.getWidget(_item) ?? Text("Error...");
       }).toList(),
     );
   }

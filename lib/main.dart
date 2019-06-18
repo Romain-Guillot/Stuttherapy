@@ -8,6 +8,15 @@ import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';
 import 'package:stutterapy/ui/startup.dart';
 
+/*
+TODO
+- review ui/settings/
+- review exercises_library/settings.dart
+
+Regroue SettingsItemWidget to one super widget
+
+*/
+
 final Color primaryColor = Color.fromRGBO(255, 172, 82, 1);
 
 void main() async { 

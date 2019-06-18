@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stutterapy/ui/settings/settings_item_widget.dart';
 
-class IntegerSliderWidget extends StatefulWidget {
+class IntegerSliderWidget extends SettingsItemWidget {
 
-  final IntegerSliderField field;
-
-  IntegerSliderWidget({Key key, @required this.field}) : super(key: key);
+  IntegerSliderWidget({Key key, IntegerSliderField field}) : super(key: key, field: field);
 
   @override
   _IntegerSliderWidgetState createState() => _IntegerSliderWidgetState();
@@ -28,8 +27,8 @@ class _IntegerSliderWidgetState extends State<IntegerSliderWidget> {
           Expanded(
             child: Slider(
               value: (widget.field.value as int).toDouble(),
-              min: widget.field.min.toDouble(),
-              max: widget.field.max.toDouble(),      
+              min: (widget.field as IntegerSliderField).min.toDouble(),
+              max: (widget.field as IntegerSliderField).max.toDouble(),      
               onChanged: widget.field.disable ? null : (double value) {
                 setState(() {
                   widget.field.value = value.toInt();
@@ -41,16 +40,17 @@ class _IntegerSliderWidgetState extends State<IntegerSliderWidget> {
           SizedBox(
             width: 30,
             child: TextField(
+              textAlign: TextAlign.center,
               controller: _controller,
               keyboardType: TextInputType.number,
               onSubmitted: (String value) {
                 int _value = widget.field.value;
                 try {
                   _value = int.parse(value);
-                  if(_value < widget.field.min)
-                    _value = widget.field.min;
-                  if(_value > widget.field.max)
-                    _value = widget.field.max;
+                  if(_value < (widget.field as IntegerSliderField).min)
+                    _value = (widget.field as IntegerSliderField).min;
+                  if(_value > (widget.field as IntegerSliderField).max)
+                    _value = (widget.field as IntegerSliderField).max;
                 }catch(e) {
                 }finally {
                   setState(() {

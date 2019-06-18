@@ -9,7 +9,7 @@ class MetronomeExercise extends ExerciseTheme{
     shortDescription: Strings.METRONOME_DESCRIPTION_SHORT,
     longDescription: Strings.METRONOME_DESCRIPTION_LONG,
     exercisesSettings: {
-      'metronome_pulse': IntegerSliderField(label: "Metronome BPM", min: 50, max: 250),
+      'metronome_pulse': IntegerSliderField(label: "Metronome BPM", min: 50, max: 250, initialValue: 100),
       'metronome_signal': BooleanField(label: "Disable audio metronome signal")
     },
   ) {

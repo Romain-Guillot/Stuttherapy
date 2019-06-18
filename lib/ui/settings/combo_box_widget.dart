@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stutterapy/ui/settings/settings_item_widget.dart';
 
-class ComboBoxWidget extends StatefulWidget {
+class ComboBoxWidget extends SettingsItemWidget {
 
-  final ComboBoxField field;
-
-  ComboBoxWidget({Key key, @required this.field}) : super(key: key);
+  ComboBoxWidget({Key key, ComboBoxField field}) : super(key: key, field: field);
 
   @override
   _ComboBoxWidgetState createState() => _ComboBoxWidgetState();
@@ -21,9 +19,9 @@ class _ComboBoxWidgetState extends State<ComboBoxWidget> {
       trailing: DropdownButton(
         isExpanded: false,
         value: widget.field.value ,
-        disabledHint: Text(widget.field.toStringItem == null ? widget.field.value.toString() : widget.field.toStringItem(widget.field.value)),
-        items: widget.field.disable ? null : widget.field.items.map((Object item) => DropdownMenuItem(
-          child: Text(widget.field.toStringItem == null ? item.toString() : widget.field.toStringItem(item)),
+        disabledHint: Text((widget.field as ComboBoxField).toStringItem == null ? widget.field.value.toString() : (widget.field as ComboBoxField).toStringItem(widget.field.value)),
+        items: widget.field.disable ? null : (widget.field as ComboBoxField).items.map((Object item) => DropdownMenuItem(
+          child: Text((widget.field as ComboBoxField).toStringItem == null ? item.toString() : (widget.field as ComboBoxField).toStringItem(item)),
           value: item,
         )).toList(),
         onChanged: widget.field.disable ? null : (selectedValue) {
