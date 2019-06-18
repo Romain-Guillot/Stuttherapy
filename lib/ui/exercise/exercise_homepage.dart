@@ -4,8 +4,12 @@ import 'package:stutterapy/exercise_library/settings.dart';
 import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/dimen.dart';
-import 'package:stutterapy/ui/exercise/settings_widget_provider.dart';
+import 'package:stutterapy/ui/settings/settings_widget_provider.dart';
 
+
+///
+///
+///
 class ExerciseHomepageWidget extends StatelessWidget {
   final Manager manager;
   final ExerciseTheme theme;
@@ -53,11 +57,19 @@ class ExerciseHomepageWidget extends StatelessWidget {
   }
 }
 
-
+///
+///
+///
 class ExerciseSettingsWidget extends StatelessWidget {
+
   final ExerciseSettings settings;
 
-  ExerciseSettingsWidget({Key key, @required this.settings}) : super(key: key);
+  ExerciseSettingsWidget({
+    Key key, 
+    @required this.settings
+  }) : 
+    assert(settings != null, "settings property cannot be null"),
+    super(key: key);
 
   @override
   Widget build(BuildContext context) {
