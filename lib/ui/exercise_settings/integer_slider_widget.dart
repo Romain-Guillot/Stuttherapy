@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/ui/settings/settings_item_widget.dart';
+import 'package:stutterapy/ui/exercise_settings/settings_item_widget.dart';
+
 
 class IntegerSliderWidget extends SettingsItemWidget {
 
@@ -9,6 +10,7 @@ class IntegerSliderWidget extends SettingsItemWidget {
   @override
   _IntegerSliderWidgetState createState() => _IntegerSliderWidgetState();
 }
+
 
 class _IntegerSliderWidgetState extends State<IntegerSliderWidget> {
   TextEditingController _controller;

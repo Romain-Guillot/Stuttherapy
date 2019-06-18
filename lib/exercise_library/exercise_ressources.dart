@@ -4,6 +4,12 @@ enum ResourcePerception {
   AUDIO,
 }
 
+enum ExerciseResourceEnum {
+  TEXT,
+  SENTENCES,
+  WORDS,
+}
+
 class ResourcePerceptionString {
   static getString(Object p) {
     switch (p) {
@@ -13,4 +19,31 @@ class ResourcePerceptionString {
       default: return "Unknown perception";
     }
   }
+}
+
+class ExerciseResourceString {
+  static getString(Object r) {
+    switch (r) {
+      case ExerciseResourceEnum.TEXT: return "Medium / long text";
+      case ExerciseResourceEnum.SENTENCES: return "Short sentences";
+      case ExerciseResourceEnum.WORDS: return "Words";
+      default: return ("Unknown resource");
+    }
+  }
+}
+
+abstract class ExerciseResource {
+
+}
+
+class TextResource extends ExerciseResource {
+
+}
+
+class WordsResource extends ExerciseResource {
+
+}
+
+class SentencesResource extends ExerciseResource {
+  
 }

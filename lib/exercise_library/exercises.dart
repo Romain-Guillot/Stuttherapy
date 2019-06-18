@@ -33,7 +33,7 @@ abstract class ExerciseTheme {
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
         'cover_sentences' : BooleanField(label: "Cover sentences", requiredField: false),
-        'resource' : ComboBoxField(label: "Resources", items: ["dfgfd"]),
+        'resource' : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
         'perception': ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
       },
       ...(exercisesSettings??{})
@@ -47,7 +47,10 @@ abstract class ExerciseTheme {
 ///
 ///
 class Exercise {
+  ExerciseTheme theme;
+  ExerciseResource resource;
 
+  Exercise({@required this.theme, this.resource});
 }
 
 
@@ -55,7 +58,6 @@ class Exercise {
 ///
 ///
 class ExerciseProgression {
-
 }
 
 

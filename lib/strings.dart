@@ -3,6 +3,7 @@ class Strings {
   // GENERAL
   static const APP_NAME = "Stutterapy";
   static const FEED = "My Feed";
+  static const ERROR_UNKNOWN = "Error...";
 
   // EXERCISE
   static const EXERCISES_TITLE = "Exercises";

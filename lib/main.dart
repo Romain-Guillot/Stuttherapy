@@ -52,7 +52,10 @@ class Stutterapy extends StatelessWidget {
           color: Colors.transparent, 
           elevation: 0, 
           iconTheme: IconThemeData(color: Colors.black), 
-          textTheme: TextTheme(title: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold))
+          textTheme: TextTheme(
+            title: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            subtitle: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w300)
+          )
         ),
         primaryColor: Color.fromRGBO(96, 33, 255, 1),
       ),

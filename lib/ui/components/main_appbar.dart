@@ -9,7 +9,7 @@ class MainAppBar extends AppBar {
   }) : super(
     title: title,
     actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
-    centerTitle: true
+    centerTitle: true,
   );
 }
 
