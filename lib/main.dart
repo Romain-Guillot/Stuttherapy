@@ -16,14 +16,30 @@ TODO
 Regroue SettingsItemWidget to one super widget
 
 */
+final MaterialColor primary = MaterialColor(
+  1,
+  {
+    50: Color.fromRGBO(255, 210, 255, 1),
+    100: Color.fromRGBO(189, 156, 255, 1),
+    200: Color.fromRGBO(169, 126, 255, 1),
+    300: Color.fromRGBO(146, 92, 255, 1),
+    400: Color.fromRGBO(122, 56, 255, 1),
+    500: Color.fromRGBO(93, 21, 238, 1),
+    600: Color.fromRGBO(76, 7, 213, 1),
+    700: Color.fromRGBO(58, 6, 164, 1),
+    800: Color.fromRGBO(41, 3, 118, 1),
+  }
+);
 
-final Color primaryColor = Color.fromRGBO(255, 172, 82, 1);
+final Color secondaryColor = Color.fromRGBO(255, 172, 82, 1);
+final Color secondaryColorDarker = Color.fromRGBO(255, 172, 82, 1);
 
 void main() async { 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.white, // navigation bar color
     systemNavigationBarIconBrightness: Brightness.dark,
-    statusBarColor: primaryColor, // status bar color
+    statusBarColor: primary[400], // status bar color
+    statusBarBrightness: Brightness.dark
   ));
   runApp(Stutterapy());
 }
@@ -48,16 +64,60 @@ class Stutterapy extends StatelessWidget {
       title: Strings.APP_NAME,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          brightness: Brightness.light, 
+          brightness: Brightness.dark, 
           color: Colors.transparent, 
           elevation: 0, 
           iconTheme: IconThemeData(color: Colors.black), 
           textTheme: TextTheme(
             title: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-            subtitle: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w300)
+            subtitle: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w300),
+            button: TextStyle(color: primary[400]),
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.black
           )
         ),
-        primaryColor: Color.fromRGBO(96, 33, 255, 1),
+        // primarySwatch: primary,
+        buttonTheme: ButtonThemeData(buttonColor: primary[400], textTheme: ButtonTextTheme.primary),
+        primaryColor: primary[400],
+        primaryColorDark: primary[700],
+        primaryColorLight: primary[200],
+        sliderTheme: SliderThemeData(
+          // thumbColor: primary[700],
+          // activeTrackColor: primary[700],
+          // inactiveTrackColor: primary[200],
+          // overlayColor: primary[400].withAlpha(20)
+          thumbColor: secondaryColorDarker,
+          activeTrackColor: secondaryColorDarker,
+          inactiveTrackColor: secondaryColor.withAlpha(100),
+          overlayColor: secondaryColor.withAlpha(30)
+        ),
+
+        accentColor: secondaryColor,
+        
+        
+        // colorScheme: ColorScheme(
+        //   brightness: Brightness.dark,
+
+        //   primary: primaryColor,
+        //   primaryVariant: primaryColor,
+        //   onPrimary: Colors.blue,
+
+
+        //   secondary: secondaryColor,
+        //   secondaryVariant: secondaryColor,
+        //   onSecondary: Colors.deepOrange,
+
+        //   background: Colors.white,
+        //   onBackground: Colors.white,
+
+        //   error: Colors.red,
+        //   onError: Colors.white,
+        //   onSurface: primaryColor,
+        //   surface: Colors.black
+        // ),
+        
+
       ),
       home:FutureBuilder<User>(
         future: AccountProvider.getSavedUser(),

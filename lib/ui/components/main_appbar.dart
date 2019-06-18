@@ -17,7 +17,7 @@ class LogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: Text("Log in".toUpperCase()),
+      child: Text("Log in".toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor),),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (BuildContext ctx) => AccountLogIn()
