@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/exercise_structure_enum.dart';
 import 'package:stutterapy/exercises_implem/ui/metronome.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 
@@ -24,7 +25,13 @@ class ExerciseInstanceWidget extends StatelessWidget {
           )
         ],
       ),
-      body: MetronomeWidget(bpm: 50),
+      body: exercise.theme.exerciseStructure.keys.length > 0 
+      ? Column(
+        children : exercise.theme.exerciseStructure.keys.map((int id) =>
+          ExerciseStructureProvider.getWidget(id, exercise.theme.settings)
+        ).toList(),
+      )
+      : Text("Nothing to display ...")
     );
   }
 }

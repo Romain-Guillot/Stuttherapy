@@ -43,7 +43,6 @@ class _HomePageStutterState extends State<HomePageStutter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        title: Text(Strings.APP_NAME),
         user: widget.manager.user,
       ),
       drawer: DrawerMenu(

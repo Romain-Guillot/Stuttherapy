@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stutterapy/account/accounts.dart';
 import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/strings.dart';
+import 'package:stutterapy/ui/dimen.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';
 
@@ -43,22 +44,41 @@ class _StartUpState extends State<StartUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Builder(builder: (BuildContext newCtx) =>
-      SafeArea(
-        child: Column(
-          children: <Widget>[
-            Text(Strings.STARTUP_TITLE),
-            _choicesWidget(),
-            RaisedButton(
-              child: Text(Strings.STARTUP_SUBMIT),
-              onPressed: selectedAccount == null ? null :  () {
-                _submitChoice(newCtx);
-              },
+        Padding(
+          padding: const EdgeInsets.all(Dimen.STARTUP_PADDING),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(Strings.STARTUP_TITLE, style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),),
+                SizedBox(height: 20,),
+                Text(Strings.STARTUP_INTRO, style: TextStyle(fontSize: 15, color: Colors.white, height: 1.12)),
+                SizedBox(height: 20,),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: _choicesWidget()
+                  ),
+                ),
+                Expanded(child: SizedBox(),),
+                Center(
+                  child: RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    disabledColor: Theme.of(context).accentColor.withAlpha(100),
+                    child: Text(Strings.STARTUP_SUBMIT),
+                    onPressed: selectedAccount == null ? null :  () {
+                      _submitChoice(newCtx);
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-    ));
+      )
+    );
   }
 
   /// Function called when the user submit his choice
@@ -102,11 +122,9 @@ class _StartUpState extends State<StartUp> {
   /// available (so [TherapistUser] and [StutterUser]). Each account
   /// type is dislayed as a [RaiseButton] and it is selectionnable.
   Widget _choicesWidget() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: choices.length,
-        itemBuilder: (BuildContext ctx, int position) {
-          Type _currentAccount = choices[position];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: choices.map((Type _currentAccount) {
           return RaisedButton(
             child: Text(_getAccountIdentifier(_currentAccount)),
             color: (selectedAccount == _currentAccount) ? Colors.green : Colors.white,
@@ -116,8 +134,7 @@ class _StartUpState extends State<StartUp> {
               });
             },
           );
-        },
-      ),
+        }).toList()
     );
   }
 

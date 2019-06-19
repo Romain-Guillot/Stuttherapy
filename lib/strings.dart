@@ -11,7 +11,8 @@ class Strings {
   static const EXERCISE_SETTINGS = "Exercise settings";
 
   // STARTUP
-  static const STARTUP_TITLE = "Welcome !";
+  static const STARTUP_TITLE = "Hey !";
+  static const STARTUP_INTRO = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut nisi elit. Cras rutrum, quam eu facilisis rhoncus, enim enim aliquam dui, vitae mattis elit est et nulla.\n\n Maecenas et posuere magna. Praesent finibus dignissim dignissim. Vivamus maximus libero turpis, sed posuere est pretium eget. Mauris tincidunt eu odio sit amet efficitur. Maecenas magna sem, bibendum ut semper id, ultricies nec arcu. Aenean id libero viverra, tempus felis non, laoreet ex.";
   static const STARTUP_SUBMIT = "Submit !";
   static const STARTUP_ERROR_NO_ACCOUNT_SELECTED = "You have to select an account type !";
 

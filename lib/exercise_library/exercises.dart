@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
@@ -23,13 +24,21 @@ abstract class ExerciseTheme {
   /// Constructor comment provide helps about the theme settings.
   ExerciseSettings settings;
 
+  Map<int, String> exerciseStructure;
+
 
   /// Exercise share common setting properties (e.g. : which type of resource, 
   /// which type of perception, etc)
   /// Sometime an exercise need also its own properties, this settings items 
   /// can be specified with the [Map] [exercisesSettings] (key : identifiant,
   /// value: the [ExerciseSettingsItem]).
-  ExerciseTheme({@required this.name, @required this.shortDescription, @required this.longDescription, Map<String, ExerciseSettingsItem> exercisesSettings}) {
+  ExerciseTheme({
+    @required this.name, 
+    @required this.shortDescription, 
+    @required this.longDescription, 
+    @required this.exerciseStructure,
+    Map<String, ExerciseSettingsItem> exercisesSettings
+  }) {
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
         'cover_sentences' : BooleanField(label: "Cover sentences", requiredField: false),

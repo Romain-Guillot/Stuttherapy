@@ -5,6 +5,7 @@ class ReadingExercise extends ExerciseTheme {
   ReadingExercise() : super(
     name: Strings.METRONOME_TITLE, 
     shortDescription: Strings.METRONOME_DESCRIPTION_SHORT, 
-    longDescription: Strings.METRONOME_DESCRIPTION_LONG
+    longDescription: Strings.METRONOME_DESCRIPTION_LONG,
+    exerciseStructure: {}
   );
 }

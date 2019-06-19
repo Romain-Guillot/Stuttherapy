@@ -5,6 +5,7 @@ class DAFExercise extends ExerciseTheme {
   DAFExercise() : super(
     name: Strings.DAF_TITLE, 
     shortDescription: Strings.DAF_DESCRIPTION_SHORT, 
-    longDescription: Strings.DAF_DESCRIPTION_LONG
+    longDescription: Strings.DAF_DESCRIPTION_LONG,
+    exerciseStructure: {}
   );
 }

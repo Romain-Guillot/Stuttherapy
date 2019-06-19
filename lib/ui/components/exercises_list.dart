@@ -63,21 +63,23 @@ class ExerciseListItem extends StatelessWidget {
             child: ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  child: Text("Train".toUpperCase()),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext ctx) => ExerciseHomepageWidget(manager: manager, theme: theme,)
-                    ));
-                  },
-                ),
-                FlatButton(
                   child: Text("Progression".toUpperCase()),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (BuildContext ctx) => ExerciseProgressionWidget()
                     ));
                   },
-                )
+                ),
+                RaisedButton(
+                  child: Text("Train".toUpperCase()),
+                  color: Theme.of(context).accentColor,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext ctx) => ExerciseHomepageWidget(manager: manager, theme: theme,)
+                    ));
+                  },
+                ),
               ],
             )
           )

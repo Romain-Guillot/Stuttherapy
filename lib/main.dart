@@ -31,15 +31,16 @@ final MaterialColor primary = MaterialColor(
   }
 );
 
-final Color secondaryColor = Color.fromRGBO(255, 172, 82, 1);
+final Color secondaryColor = Color.fromRGBO(234, 145, 49, 1);
 final Color secondaryColorDarker = Color.fromRGBO(255, 172, 82, 1);
 
 void main() async { 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.white, // navigation bar color
-    systemNavigationBarIconBrightness: Brightness.dark,
-    statusBarColor: primary[400], // status bar color
-    statusBarBrightness: Brightness.dark
+    systemNavigationBarColor: primary[400], // navigation bar color
+    systemNavigationBarIconBrightness: Brightness.light,
+    statusBarColor: Colors.transparent, // status bar color
+    statusBarBrightness: Brightness.light,
+    statusBarIconBrightness: Brightness.light
   ));
   runApp(Stutterapy());
 }
@@ -64,7 +65,7 @@ class Stutterapy extends StatelessWidget {
       title: Strings.APP_NAME,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          brightness: Brightness.dark, 
+          brightness: Brightness.light, 
           color: Colors.transparent, 
           elevation: 0, 
           iconTheme: IconThemeData(color: Colors.black), 
@@ -82,6 +83,7 @@ class Stutterapy extends StatelessWidget {
         primaryColor: primary[400],
         primaryColorDark: primary[700],
         primaryColorLight: primary[200],
+        backgroundColor: Colors.white,
         sliderTheme: SliderThemeData(
           // thumbColor: primary[700],
           // activeTrackColor: primary[700],

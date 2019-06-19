@@ -1,14 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:stutterapy/exercise_library/settings.dart';
 
 class MetronomeWidget extends StatefulWidget {
 
+  static const SETTINGS_BPM = "metronome_bpm"; 
+  
   final int bpm;
   final StreamController timerStream = StreamController<bool>();
 
-  MetronomeWidget({Key key, @required this.bpm}) : super(key: key) {
-  }
+  MetronomeWidget({
+    Key key, 
+    @required ExerciseSettings settings
+  }) : assert(settings.items[SETTINGS_BPM] != null, ""), 
+       this.bpm = settings.items[SETTINGS_BPM].value as int, 
+       super(key: key);
 
   @override
   _MetronomeWidgetState createState() => _MetronomeWidgetState();

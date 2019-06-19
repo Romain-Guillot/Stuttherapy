@@ -4,6 +4,7 @@ class MirroringExercise extends ExerciseTheme{
   MirroringExercise() : super(
     name: "Mirroring", 
     shortDescription: "Watch you while speech, analayse your behavior !", 
-    longDescription: ""
+    longDescription: "",
+    exerciseStructure: {}
   );
 }
