@@ -15,9 +15,9 @@ class ResourceWidget extends StatelessWidget {
   ResourceWidget({
     Key key,
     @required this.exercise
-  }) :  assert(exercise.theme.settings.items[ExerciseTheme.SETTINGS_PERCEPTION] != null && exercise.theme.settings.items[ExerciseTheme.SETTINGS_PERCEPTION].value != null),
-        assert(exercise.theme.settings.items[ExerciseTheme.SETTINGS_RESOURCE] != null && exercise.theme.settings.items[ExerciseTheme.SETTINGS_RESOURCE].value != null),
-        perceptionWay = exercise.theme.settings.items[ExerciseTheme.SETTINGS_PERCEPTION].value,
+  }) :  assert(exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] != null && exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] != null),
+        assert(exercise.theme.settings[ExerciseTheme.SETTINGS_RESOURCE] != null && exercise.theme.settings[ExerciseTheme.SETTINGS_RESOURCE] != null),
+        perceptionWay = exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION],
         // resourceType = settings.items[ExerciseTheme.SETTINGS_RESOURCE].value,
         super(key: key);
 

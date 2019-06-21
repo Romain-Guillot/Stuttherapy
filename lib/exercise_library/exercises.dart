@@ -63,22 +63,22 @@ abstract class ExerciseTheme {
 ///
 ///
 class Exercise {
-  ExerciseTheme theme;
-  CollectionExerciseResource resources;
+  final ExerciseTheme theme;
+  final CollectionExerciseResource resources;
 
-  StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
-  StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
+  final StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
+  final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
 
   Exercise({
     @required this.theme, 
     @required this.resources}
-  ) : assert(resources != null, "Please provide resources.")
+  ) /*: assert(resources != null, "Please provide resources.")*/
   {
     moveNextResource();
   }
 
   moveNextResource() {
-    ExerciseResource _res = resources.nextResource;
+    ExerciseResource _res = resources?.nextResource;
     if(_res != null) {
       currentResource.add(_res);
     } else {

@@ -32,7 +32,6 @@ class _HomePageStutterState extends State<HomePageStutter> {
   @override
   void initState() {
     super.initState();
-    print("init state");
     pages = [
       ExercisesListView(manager: widget.manager), 
       Text("Feed")

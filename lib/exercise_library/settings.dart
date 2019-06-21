@@ -7,21 +7,25 @@ import 'package:flutter/foundation.dart';
 class ExerciseSettings {
 
   ///
-  Map<String, ExerciseSettingsItem> items;
+  Map<String, ExerciseSettingsItem> _items;
 
   ExerciseSettings({
-    @required this.items
-  });
+    @required Map<String, ExerciseSettingsItem> items
+  }) : _items = items;
 
   ///
   ///
   bool isValid() {
-    for(ExerciseSettingsItem item in items.values) {
+    for(ExerciseSettingsItem item in _items.values) {
       if(!item.isValid())
         return false;
     }
     return true;
   }
+
+  operator [](String s) => _items[s].value;
+  Map<String, ExerciseSettingsItem> all() => _items;
+  ExerciseSettingsItem get(String i) => _items[i];
 }
 
 

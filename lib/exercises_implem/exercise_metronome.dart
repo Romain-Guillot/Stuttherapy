@@ -16,9 +16,12 @@ class MetronomeExercise extends ExerciseTheme{
     },
     exerciseStructure: {
       ExerciseStructureEnum.METRONOME: "",
+      ExerciseStructureEnum.AUDIO_RECORDER: "",
+      ExerciseStructureEnum.RESOURCE: "",
+      ExerciseStructureEnum.SUBMIT: ""
     }
   ) {
-    settings.items[ExerciseTheme.SETTINGS_COVER_RES].disable = true;
+    settings.get(ExerciseTheme.SETTINGS_COVER_RES).disable = true;
   }
   
 }

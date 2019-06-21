@@ -25,7 +25,6 @@ class ExercisesListView extends StatelessWidget {
         if(snapshotThemes.data == null) {
           return Text("Loading data...");
         }else {
-          print(snapshotThemes.data.length);
           return Column(
             children: snapshotThemes.data.map(
               (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme, user: manager.user, manager: manager,)

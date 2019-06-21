@@ -61,7 +61,7 @@ class ExerciseHomepageWidget extends StatelessWidget {
                     builder: (BuildContext ctx) => ExerciseInstanceWidget(
                       exercise: Exercise(
                         theme: theme, 
-                        resources: ResourceProvider.getResources(ExerciseResourceEnum.WORDS),
+                        resources: ResourceProvider.getResources(theme.settings[ExerciseTheme.SETTINGS_RESOURCE]),
                       )
                     )
                   ));
@@ -103,7 +103,7 @@ class ExerciseSettingsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: settings.items.values.map((ExerciseSettingsItem _item) {
+      children: settings.all().values.map((ExerciseSettingsItem _item) {
         return SettingsWidgetProvider.getWidget(_item) ?? Text(Strings.ERROR_UNKNOWN);
       }).toList(),
     );

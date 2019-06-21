@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
 class MetronomeWidget extends StatefulWidget {
@@ -12,9 +13,9 @@ class MetronomeWidget extends StatefulWidget {
 
   MetronomeWidget({
     Key key, 
-    @required ExerciseSettings settings
-  }) : assert(settings.items[SETTINGS_BPM] != null, ""), 
-       this.bpm = settings.items[SETTINGS_BPM].value as int, 
+    @required Exercise exercise
+  }) : /*assert(settings.items[SETTINGS_BPM] != null, ""),*/ 
+       this.bpm = exercise.theme.settings[SETTINGS_BPM] as int, 
        super(key: key);
 
   @override
