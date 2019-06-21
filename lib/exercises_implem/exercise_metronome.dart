@@ -1,7 +1,7 @@
 
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/exercises_implem/exercise_structure_enum.dart';
+import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
 import 'package:stutterapy/exercises_implem/ui/metronome.dart';
 import 'package:stutterapy/strings.dart';
 
@@ -16,11 +16,9 @@ class MetronomeExercise extends ExerciseTheme{
     },
     exerciseStructure: {
       ExerciseStructureEnum.METRONOME: "",
-      ExerciseStructureEnum.RESOURCE: "",
-      ExerciseStructureEnum.SUBMIT: "",
     }
   ) {
-    settings.items['cover_sentences'].disable = true;
+    settings.items[ExerciseTheme.SETTINGS_COVER_RES].disable = true;
   }
   
 }

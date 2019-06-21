@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 import 'package:stutterapy/manager.dart';
+import 'package:stutterapy/providers/resource_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/dimen.dart';
 import 'package:stutterapy/ui/exercise/exercise_instance.dart';
 import 'package:stutterapy/ui/exercise_settings/settings_widget_provider.dart';
+import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 
 
 /// Widget to display the [theme] informations in order to
@@ -56,7 +58,12 @@ class ExerciseHomepageWidget extends StatelessWidget {
               onPressed: () {
                 if(theme.settings.isValid()) {
                   Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext ctx) => ExerciseInstanceWidget(exercise: Exercise(theme: theme),)
+                    builder: (BuildContext ctx) => ExerciseInstanceWidget(
+                      exercise: Exercise(
+                        theme: theme, 
+                        resources: ResourceProvider.getResources(ExerciseResourceEnum.WORDS),
+                      )
+                    )
                   ));
                 }else {
                   Scaffold.of(context).showSnackBar(

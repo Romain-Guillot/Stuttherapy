@@ -9,12 +9,11 @@ class ExerciseStructureEnum {
 }
 
 class ExerciseStructureProvider {
+
   static Widget getWidget(int id, ExerciseSettings settings) {
     switch (id) {
-      case ExerciseStructureEnum.METRONOME: 
-        return MetronomeWidget(settings: settings,);
-      default:
-        return Text("Not implemented ...");
+      case ExerciseStructureEnum.METRONOME: return MetronomeWidget(settings: settings,);
+      default: return Text("Not implemented ...");
     }
   }
 }

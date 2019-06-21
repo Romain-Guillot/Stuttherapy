@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
@@ -7,6 +10,10 @@ import 'package:stutterapy/exercise_library/settings.dart';
 ///
 ///
 abstract class ExerciseTheme {
+
+  static const SETTINGS_PERCEPTION = "perception";
+  static const SETTINGS_RESOURCE = "resource";
+  static const SETTINGS_COVER_RES = "cover_res";
   
   /// Title that describe the theme (has to be short)
   final String name;
@@ -41,9 +48,9 @@ abstract class ExerciseTheme {
   }) {
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
-        'cover_sentences' : BooleanField(label: "Cover sentences", requiredField: false),
-        'resource' : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
-        'perception': ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
+        SETTINGS_COVER_RES : BooleanField(label: "Cover sentences", requiredField: false),
+        SETTINGS_RESOURCE : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
+        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
       },
       ...(exercisesSettings??{})
     };
@@ -57,9 +64,27 @@ abstract class ExerciseTheme {
 ///
 class Exercise {
   ExerciseTheme theme;
-  ExerciseResource resource;
+  CollectionExerciseResource resources;
 
-  Exercise({@required this.theme, this.resource});
+  StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
+  StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
+
+  Exercise({
+    @required this.theme, 
+    @required this.resources}
+  ) : assert(resources != null, "Please provide resources.")
+  {
+    moveNextResource();
+  }
+
+  moveNextResource() {
+    ExerciseResource _res = resources.nextResource;
+    if(_res != null) {
+      currentResource.add(_res);
+    } else {
+      flagEndOfExercise.add(true);
+    }
+  }
 }
 
 

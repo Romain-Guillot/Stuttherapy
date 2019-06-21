@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:stutterapy/exercise_library/exercises.dart';
+
 enum ResourcePerception {
   TEXT_COVER,
   TEXT_UNCOVER,
@@ -32,18 +35,20 @@ class ExerciseResourceString {
   }
 }
 
-abstract class ExerciseResource {
+class ExerciseResource {
+  final String resource;
+  final ExerciseResourceEnum resourceType;
 
+  ExerciseResource({@required this.resource, @required this.resourceType});
 }
 
-class TextResource extends ExerciseResource {
 
-}
+class CollectionExerciseResource {
+  final List<ExerciseResource> resources;
+  final Iterator _iterator;
 
-class WordsResource extends ExerciseResource {
+  CollectionExerciseResource({@required this.resources}) : _iterator = resources.iterator;
 
-}
+  ExerciseResource get nextResource => _iterator.moveNext() ? _iterator.current : null;
 
-class SentencesResource extends ExerciseResource {
-  
 }
