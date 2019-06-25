@@ -11,7 +11,7 @@ class ResourceProvider {
         ]);
       case ExerciseResourceEnum.SENTENCES:
         return CollectionExerciseResource(resources: [
-          ExerciseResource(resource: "Please wait outside of the house.", resourceType: ExerciseResourceEnum.SENTENCES), 
+          ExerciseResource(resource: "Please wait outside of the house wait.", resourceType: ExerciseResourceEnum.SENTENCES), 
           ExerciseResource(resource: "Abstraction is often one floor above you.", resourceType: ExerciseResourceEnum.SENTENCES), 
           ExerciseResource(resource: "The body may perhaps compensates for the loss of a true metaphysics.", resourceType: ExerciseResourceEnum.SENTENCES), 
 

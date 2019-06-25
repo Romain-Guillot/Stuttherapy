@@ -49,7 +49,7 @@ abstract class ExerciseTheme {
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
         SETTINGS_RESOURCE : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
-        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString),
+        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_UNCOVER, toStringItem: ResourcePerceptionString.getString),
         SETTINGS_MANUALLY_CHECK: BooleanField(label: "Manually check your pronuncation", initialValue: true)
       },
       ...(exercisesSettings??{})

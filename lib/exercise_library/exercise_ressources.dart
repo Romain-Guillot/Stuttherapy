@@ -40,6 +40,11 @@ class ExerciseResource {
   final ExerciseResourceEnum resourceType;
 
   ExerciseResource({@required this.resource, @required this.resourceType});
+
+  /// TODO : To improve to handle more complexe structure (punctuation, etc...)
+  List<String> getWords() {
+    return resource.replaceAll(".", "").replaceAll(",", "").split(" ");
+  }
 }
 
 
