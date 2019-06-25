@@ -13,7 +13,7 @@ abstract class ExerciseTheme {
 
   static const SETTINGS_PERCEPTION = "perception";
   static const SETTINGS_RESOURCE = "resource";
-  static const SETTINGS_COVER_RES = "cover_res";
+  static const SETTINGS_MANUALLY_CHECK = "pronuncation";
   
   /// Title that describe the theme (has to be short)
   final String name;
@@ -48,9 +48,9 @@ abstract class ExerciseTheme {
   }) {
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
-        SETTINGS_COVER_RES : BooleanField(label: "Cover sentences", requiredField: false),
         SETTINGS_RESOURCE : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
-        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString)
+        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_COVER, toStringItem: ResourcePerceptionString.getString),
+        SETTINGS_MANUALLY_CHECK: BooleanField(label: "Manually check your pronuncation", initialValue: true)
       },
       ...(exercisesSettings??{})
     };

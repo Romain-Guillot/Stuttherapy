@@ -20,8 +20,6 @@ class MetronomeExercise extends ExerciseTheme{
       ExerciseStructureEnum.RESOURCE: "",
       ExerciseStructureEnum.SUBMIT: ""
     }
-  ) {
-    settings.get(ExerciseTheme.SETTINGS_COVER_RES).disable = true;
-  }
+  );
   
 }

@@ -5,15 +5,28 @@ import 'package:stutterapy/exercise_library/exercises.dart';
 class SubmitWidget extends StatelessWidget {
 
   final Exercise exercise;
+  final bool manuallyCheck;
 
   final double _iconSize = 40.0;
 
-  SubmitWidget({Key key, @required this.exercise}) : super(key: key);
+  SubmitWidget({
+    Key key, 
+    @required this.exercise
+  }) :  manuallyCheck = exercise.theme.settings[ExerciseTheme.SETTINGS_MANUALLY_CHECK],
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Wrap(
+      child: (!manuallyCheck)
+      ? IconButton(
+          icon: Icon(Icons.navigate_next, color: Colors.blue,),
+          iconSize: _iconSize,
+          onPressed: () {
+            exercise.moveNextResource();
+          },
+        )
+      : Wrap(
         spacing: 15,
         children: [
           IconButton(

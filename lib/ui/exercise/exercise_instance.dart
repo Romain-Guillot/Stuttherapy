@@ -24,7 +24,7 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
     super.initState();
     widget.exercise.flagEndOfExercise.stream.listen((bool data) {
       if(data) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => Text("OK")));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => Text("Exercise result page")));
       }
     });
   }
