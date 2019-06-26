@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/providers/account_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
@@ -96,44 +94,20 @@ class Stutterapy extends StatelessWidget {
         ),
 
         accentColor: secondaryColor,
-        
-        
-        // colorScheme: ColorScheme(
-        //   brightness: Brightness.dark,
-
-        //   primary: primaryColor,
-        //   primaryVariant: primaryColor,
-        //   onPrimary: Colors.blue,
-
-
-        //   secondary: secondaryColor,
-        //   secondaryVariant: secondaryColor,
-        //   onSecondary: Colors.deepOrange,
-
-        //   background: Colors.white,
-        //   onBackground: Colors.white,
-
-        //   error: Colors.red,
-        //   onError: Colors.white,
-        //   onSurface: primaryColor,
-        //   surface: Colors.black
-        // ),
-        
 
       ),
-      home:FutureBuilder<User>(
+      home:FutureBuilder<bool>(
         future: AccountProvider.getSavedUser(),
-        builder: (BuildContext ctx, AsyncSnapshot<User> _userSnapshot) {
+        builder: (BuildContext ctx, AsyncSnapshot<bool> _userSnapshot) {
           if(_userSnapshot.data == null) {
             return LoadingScreen();
           } else {
-            if(_userSnapshot.data.runtimeType == UninitializeUser) {
+            if(_userSnapshot.data == false) {
               return StartUp();
             } else {
-              Manager _manager = Manager(user: _userSnapshot.data);
-              return _userSnapshot.data.runtimeType == StutterUser ? 
-                        HomePageStutter(manager: _manager) : 
-                        HomePageTherapist(manager: _manager);
+              return _userSnapshot.data == true ? 
+                        HomePageStutter() : 
+                        HomePageTherapist();
             }
           }
         },

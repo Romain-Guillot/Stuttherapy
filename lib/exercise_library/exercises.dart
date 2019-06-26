@@ -65,6 +65,7 @@ abstract class ExerciseTheme {
 class Exercise {
   final ExerciseTheme theme;
   final CollectionExerciseResource resources;
+  Set<String> savedWords = {};
 
   final StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
   final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
@@ -85,6 +86,10 @@ class Exercise {
       flagEndOfExercise.add(true);
     }
   }
+
+  addSavedWord(Iterable<String> _words) {
+    savedWords.addAll(_words);
+  }
 }
 
 
@@ -92,6 +97,12 @@ class Exercise {
 ///
 ///
 class ExerciseProgression {
+  final Exercise exercise;
+  final DateTime date;
+
+  ExerciseProgression({@required this.exercise}) : date = DateTime.now();
+
+  ExerciseProgression.restore({@required this.exercise, @required this.date});
 }
 
 

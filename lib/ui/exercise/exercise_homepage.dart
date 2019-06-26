@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/manager.dart';
 import 'package:stutterapy/providers/resource_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
@@ -17,7 +16,6 @@ import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 /// For the body content, it display the [theme.longDescription] and
 /// the [theme.settings] (Settings dislaying is handled by [ExerciseSettingsWidget])
 class ExerciseHomepageWidget extends StatelessWidget {
-  final Manager manager;
 
   /// the primary theme of the widget to display its informations
   /// and launch an exercise.
@@ -26,10 +24,8 @@ class ExerciseHomepageWidget extends StatelessWidget {
 
   ExerciseHomepageWidget({
     Key key, 
-    @required this.manager, 
     @required this.theme
-  }) : assert(manager != null, "manager cannot be null"),
-       assert(theme != null, "theme cannot be null"),
+  }) : assert(theme != null, "theme cannot be null"),
        super(key: key);
 
   @override

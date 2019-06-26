@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/manager.dart';
+import 'package:stutterapy/providers/account_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/components/drawer_menu.dart';
 import 'package:stutterapy/ui/components/exercises_list.dart';
@@ -13,9 +13,6 @@ import 'package:stutterapy/ui/dimen.dart';
 ///
 class HomePageStutter extends StatefulWidget {
 
-  final Manager manager;
-
-  HomePageStutter({Key key, @required this.manager}) : super(key: key);
 
   @override
   _HomePageStutterState createState() => _HomePageStutterState();
@@ -33,7 +30,7 @@ class _HomePageStutterState extends State<HomePageStutter> {
   void initState() {
     super.initState();
     pages = [
-      ExercisesListView(manager: widget.manager), 
+      ExercisesListView(), 
       Text("Feed")
     ];
   }
@@ -42,10 +39,10 @@ class _HomePageStutterState extends State<HomePageStutter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainAppBar(
-        user: widget.manager.user,
+        user: AccountProvider.user,
       ),
       drawer: DrawerMenu(
-
+        context
       ),
       body: ListView(
         children: [

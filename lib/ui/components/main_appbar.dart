@@ -6,11 +6,12 @@ class MainAppBar extends AppBar {
   MainAppBar({
     Widget title,
     @required User user,
-  }) : super(
-    title: title??Image.asset("assets/logo.png", width: 140,),
-    actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
-    centerTitle: true,
-  );
+  }) :  assert(user != null),
+        super(
+          title: title??Image.asset("assets/logo.png", width: 140,),
+          actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
+          centerTitle: true,
+        );
 }
 
 class LogIn extends StatelessWidget {

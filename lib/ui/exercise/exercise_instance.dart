@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
+import 'package:stutterapy/ui/exercise/exercise_progression_item.dart';
 
 class ExerciseInstanceWidget extends StatefulWidget {
   
@@ -24,7 +25,9 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
     super.initState();
     widget.exercise.flagEndOfExercise.stream.listen((bool data) {
       if(data) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => Text("Exercise result page")));
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (ctx) => ExerciseProgressionItemWidget(exercise: widget.exercise)
+        ));
       }
     });
   }

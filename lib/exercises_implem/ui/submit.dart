@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/providers/saved_word_provider.dart';
 
 class SubmitWidget extends StatefulWidget {
 
@@ -33,6 +31,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
   void initState() {
     super.initState();
     widget.exercise.currentResource.stream.listen((ExerciseResource res) {
+      checkedWords = {};
       for(String word in res.getWords()) {
         checkedWords[word] = false;
       }
@@ -72,11 +71,17 @@ class _SubmitWidgetState extends State<SubmitWidget> {
                     padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
                     child: Text(
                       word + " ", 
-                      style: TextStyle(fontSize: 18, color: checkedWords[word] != null && checkedWords[word] ? Colors.red : Colors.grey),
+                      style: TextStyle(
+                        fontSize: 18, 
+                        color: checkedWords[word] != null && checkedWords[word] ? Colors.red : Colors.grey,
+                        fontWeight: checkedWords[word] != null && checkedWords[word] ? FontWeight.bold : FontWeight.normal
+                      ),
                     ),      
                   ),
                   onTap: () {
-                    setState(() => checkedWords[word] = !checkedWords[word]);
+                    setState(
+                      () => checkedWords[word] = !checkedWords[word]
+                    );
                   },
                 )
               ).toList(),
@@ -89,6 +94,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
           onPressed: () {
             setState(() {
               isChecking = false;
+              addCheckedWordsToExercise();
               widget.exercise.moveNextResource();
             });
           } 
@@ -130,5 +136,10 @@ class _SubmitWidgetState extends State<SubmitWidget> {
           )
         ]
       );
+  }
+
+  addCheckedWordsToExercise() {
+    checkedWords.removeWhere((String _, bool checked) => !checked);
+    SavedWordsProvider.addSavedWord(widget.exercise, checkedWords.keys);
   }
 }

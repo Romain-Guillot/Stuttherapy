@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/manager.dart';
+import 'package:stutterapy/providers/account_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/dimen.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
@@ -94,18 +94,19 @@ class _StartUpState extends State<StartUp> {
 
     switch (selectedAccount) {
       case TherapistUser: 
-        _user = TherapistUser();
-        _appropriateHomePage = HomePageTherapist(
-          manager: Manager(user: _user)
-        );   
+        _user = TherapistUser.create();
+        _appropriateHomePage = HomePageTherapist();   
         break;
       case StutterUser:
-        _user = StutterUser();
-        _appropriateHomePage = HomePageStutter(
-          manager: Manager(user: _user)
-        );
+        _user = StutterUser.create();
+        _appropriateHomePage = HomePageStutter();
         break;
+      default:
+        _user = StutterUser.create();
+        _appropriateHomePage = HomePageStutter();
     }
+
+    AccountProvider.setUser(_user);
 
     if(_appropriateHomePage != null) {
       // SharedPrefProvider.setSavedUser(_user);
