@@ -7,6 +7,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
+
 /// Type of exercises, theme have a [name] two type of descri$tion,
 /// one short ([shortDescription]) and a longer one to provide more
 /// informations [longDescription].
@@ -51,7 +52,6 @@ abstract class ExerciseTheme {
   ///         modify or read this properties
   Map<int, String> exerciseStructure;
 
-
   /// Exercise share common setting properties (e.g. : which type of resource, 
   /// which type of perception, etc)
   /// Sometime an exercise need also its own properties, this settings items 
@@ -74,14 +74,14 @@ abstract class ExerciseTheme {
         SETTINGS_RESOURCE : ComboBoxField(
           label: "Resources", 
           items: ExerciseResourceEnum.values, 
-          toStringItem: ExerciseResourceString.getString, 
+          toStringItem: ExerciseResourceString(), 
           initialValue: ExerciseResourceEnum.SENTENCES
         ),
         SETTINGS_PERCEPTION : ComboBoxField(
           label: "Perception", 
           items: ResourcePerception.values, 
           initialValue: ResourcePerception.TEXT_UNCOVER, 
-          toStringItem: ResourcePerceptionString.getString
+          toStringItem: ResourcePerceptionString()
         ),
         SETTINGS_MANUALLY_CHECK: BooleanField(
           label: "Manually check your pronuncation", 
@@ -135,27 +135,34 @@ class Exercise implements Comparable {
 
    /// Stream that typically can be read by widgets to display informations
    /// 
-   /// stream filled with current resource used by the exercise
+   /// stream filled with current resource used by the exercise.
+   /// This streams can be modifify with [moveNextResource] function to add a new resource inside 
+   /// the stream.
   final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
 
-  ///
+  /// Main constructor to ceate an [Exercise] instance for the first
+  /// time. [currentResource] is init with a resource..
   Exercise({
     @required this.theme, 
     @required this.resources
   }) : this.date = MyDateTime.now() /*: assert(resources != null, "Please provide resources.")*/
   {
-    moveNextResource();
+    moveNextResource(); // init [currentResource] stream with a resource
   }
 
-  ///
+  /// Constructor useful to restore an [Exercise] object. Typically
+  /// to reconstruct an object from a file.
   Exercise.restore({
     @required this.theme,
     @required this.resources,
     @required this.date,
-    @required this.savedWords
+    @required this.savedWords,
+    this.feedback
   });
 
-  ///
+  /// Load next resource in the stream if a resoruce is available
+  /// to be add. If not, set the [flagEndOfExercise] to false to indicate
+  /// the end of the exercise.
   moveNextResource() {
     ExerciseResource _res = resources?.nextResource;
     if(_res != null) {
@@ -165,8 +172,9 @@ class Exercise implements Comparable {
     }
   }
 
-  ///
-  addSavedWord(Iterable<String> _words) {
+  /// Add a list of words to the current [savedWords] set.
+  /// Words and lowercased before to be added.
+  addSavedWords(Iterable<String> _words) {
     List<String> words = [];
     for(String word in _words) {
       words.add(word.toLowerCase());
@@ -174,33 +182,36 @@ class Exercise implements Comparable {
     savedWords.addAll(words);
   }
 
-  ///
-  stop() {
-    flagEndOfExercise.add(true);
-  }
+  /// Set the flag [flagEndOfExercise] to true.
+  /// (fill the stream with true boolean object)
+  stop() => flagEndOfExercise.add(true);
 
+  /// Exercise are compared with their date
+  /// (override the compare method with the date compare methode)
   @override
   int compareTo(other) => other.runtimeType == Exercise ? (other as Exercise).date.compareTo(date) : 0;
 }
 
 
-
 ///
-///
+/// TODO
 ///
 class ExerciseFeedback {
   String message;
-
 }
 
-/// Just to redifined toString method with a date format
+
+/// Encapsulation of [DateTime] object to redefined the
+/// [toString] method to return a String representation
+/// that follow the following format : yyyy-MM-dd
 class MyDateTime extends DateTime {
 
-  final _formatter = DateFormat('yyyy-MM-dd');
+  static DateFormat _formatter =  DateFormat('yyyy-MM-dd');
 
   MyDateTime.now() : super.now();
   
-  /// dsf
+  /// String representation of the date with the following format :
+  /// yyyy-MM-dd
   @override
   String toString() {
     return _formatter.format(this);

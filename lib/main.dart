@@ -33,6 +33,7 @@ final Color secondaryColor = Color.fromRGBO(234, 145, 49, 1);
 final Color secondaryColorDarker = Color.fromRGBO(255, 172, 82, 1);
 
 void main() async { 
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: primary[400], // navigation bar color
     systemNavigationBarIconBrightness: Brightness.light,

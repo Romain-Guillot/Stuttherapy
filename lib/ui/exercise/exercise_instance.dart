@@ -46,7 +46,7 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
             icon: Icon(Icons.check, color: Colors.green), 
             label: Text("Finish".toUpperCase(), 
             style: TextStyle(color: Colors.green),), 
-            onPressed: () {},
+            onPressed: () => widget.exercise.stop(),
           )
         ],
       ),
