@@ -11,7 +11,8 @@ abstract class User {
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
 
-  Map<ExerciseTheme, List<Exercise>> progression = {}; 
+  BehaviorSubject<Map<ExerciseTheme, List<Exercise>>> progression = BehaviorSubject<Map<ExerciseTheme, List<Exercise>>>();
+  Map<ExerciseTheme, List<Exercise>> _progression = {}; 
 
   User.create();
 
@@ -31,10 +32,12 @@ abstract class User {
   }
 
   addProgression(Exercise exercise) {
-    progression[exercise.theme] = [
-      ...progression[exercise.theme]??[], 
+    _progression[exercise.theme] = [
+      ..._progression[exercise.theme]??[], 
       exercise
     ];
+    progression.add(_progression);
+    print("Progression added");
   }
 }
 

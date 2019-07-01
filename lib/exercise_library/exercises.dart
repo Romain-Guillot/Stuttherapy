@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,22 @@ import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
-///
-///
-///
+/// Type of exercises, theme have a [name] two type of descri$tion,
+/// one short ([shortDescription]) and a longer one to provide more
+/// informations [longDescription].
+/// 
+/// [ExerciseTheme] defined the structure of an exercise with two 
+/// important properties :
+/// - [settings] : describe the exerises parameters (e.g. cover / uncover resource,
+///     audio / textual resource perception, etc)
+/// - [exerciseStructure] : describe the widget stucture of the exercise (which widget
+///     used by the exercise, e.g. recorder, metronome, etc.)
+/// 
+/// Note : This whole package is a library, it has to come with an library implementation
+/// to defined concrete exercises' themes (eg: DAF, metronome, etc.)
 abstract class ExerciseTheme {
 
+  /// Constants to characterized settings
   static const SETTINGS_PERCEPTION = "perception";
   static const SETTINGS_RESOURCE = "resource";
   static const SETTINGS_MANUALLY_CHECK = "pronuncation";
@@ -31,6 +43,12 @@ abstract class ExerciseTheme {
   /// Constructor comment provide helps about the theme settings.
   ExerciseSettings settings;
 
+  /// {widget id (int) : description (string)} Map to describe which 
+  /// widget used to display the exercise. 
+  /// NOTE : Widgets IDs are defined by the exercise library implementation
+  ///         e.g : a providers that associate widget with IDs.
+  ///        Typically an Widget have access to the [Exercise] instance to
+  ///         modify or read this properties
   Map<int, String> exerciseStructure;
 
 
@@ -45,41 +63,91 @@ abstract class ExerciseTheme {
     @required this.longDescription, 
     @required this.exerciseStructure,
     Map<String, ExerciseSettingsItem> exercisesSettings
-  }) {
+  }) :  assert(name != null, "name property cannot be null."),
+        assert(shortDescription != null, "shortDescription cannot be null"),
+        assert(longDescription != null, "longDescription cannot be null"),
+        assert(exerciseStructure != null, "exerciseStructure cannot be null")
+  {
+    // Definied initial settings common to all exercises, can be modified by exercise implementation of course
     Map<String, ExerciseSettingsItem> _settings = {
       ...{
-        SETTINGS_RESOURCE : ComboBoxField(label: "Resources", items: ExerciseResourceEnum.values, toStringItem: ExerciseResourceString.getString, initialValue: ExerciseResourceEnum.SENTENCES),
-        SETTINGS_PERCEPTION : ComboBoxField(label: "Perception", items: ResourcePerception.values, initialValue: ResourcePerception.TEXT_UNCOVER, toStringItem: ResourcePerceptionString.getString),
-        SETTINGS_MANUALLY_CHECK: BooleanField(label: "Manually check your pronuncation", initialValue: true)
+        SETTINGS_RESOURCE : ComboBoxField(
+          label: "Resources", 
+          items: ExerciseResourceEnum.values, 
+          toStringItem: ExerciseResourceString.getString, 
+          initialValue: ExerciseResourceEnum.SENTENCES
+        ),
+        SETTINGS_PERCEPTION : ComboBoxField(
+          label: "Perception", 
+          items: ResourcePerception.values, 
+          initialValue: ResourcePerception.TEXT_UNCOVER, 
+          toStringItem: ResourcePerceptionString.getString
+        ),
+        SETTINGS_MANUALLY_CHECK: BooleanField(
+          label: "Manually check your pronuncation", 
+          initialValue: true
+        )
       },
-      ...(exercisesSettings??{})
+      ...(exercisesSettings??{}) // list concatenation
     };
     settings = ExerciseSettings(items: _settings);
   }
 }
 
 
-///
-///
-///
-class Exercise {
+/// Class that defined a training of the [theme].
+/// An exercise is associated with [resources] basically text.
+/// Some words can be added to the  [savedWords] set if needed.
+/// 
+/// An [Exercise] not only live in the training mode, it can be 
+/// visualize in reading mode when it is finished. It's why it can
+/// contain a [feedback].
+/// 
+/// NOTE : This extends [Comparable] to sort [Exercise]s by their [date].
+class Exercise implements Comparable {
+
+  ///Theme of the exercise
   final ExerciseTheme theme;
+
+  /// Defined resources used by the exercise,it's
+  /// the exercise content
   final CollectionExerciseResource resources;
-  final DateTime date;
+
+  /// When the exercise has been started.
+  final MyDateTime date;
+
+  /// Set of words that have to be saved (e.g. : difficult words)
   Set<String> savedWords = {};
+
+  /// Feedback provide for this training to keep information or
+  /// correction about this exercise and data.
   ExerciseFeedback feedback;
 
+  /// Stream that typically can be read by widgets to display informations
+  /// 
+  /// stream seeded with the false value, when the exercise has
+  /// to be finished (e.g. : no resources available, finished button) true boolean object is
+  /// added to this stream to indicate widgets that is the end of the training
+  /// 
+  /// This streams can be modify with the [stop] function to indicate it's the end of the
+  /// exercise (fill the stream with true)
   final StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
+
+   /// Stream that typically can be read by widgets to display informations
+   /// 
+   /// stream filled with current resource used by the exercise
   final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
 
+  ///
   Exercise({
     @required this.theme, 
     @required this.resources
-    }) : this.date = DateTime.now() /*: assert(resources != null, "Please provide resources.")*/
+  }) : this.date = MyDateTime.now() /*: assert(resources != null, "Please provide resources.")*/
   {
     moveNextResource();
   }
 
+  ///
   Exercise.restore({
     @required this.theme,
     @required this.resources,
@@ -87,6 +155,7 @@ class Exercise {
     @required this.savedWords
   });
 
+  ///
   moveNextResource() {
     ExerciseResource _res = resources?.nextResource;
     if(_res != null) {
@@ -96,6 +165,7 @@ class Exercise {
     }
   }
 
+  ///
   addSavedWord(Iterable<String> _words) {
     List<String> words = [];
     for(String word in _words) {
@@ -103,6 +173,14 @@ class Exercise {
     }
     savedWords.addAll(words);
   }
+
+  ///
+  stop() {
+    flagEndOfExercise.add(true);
+  }
+
+  @override
+  int compareTo(other) => other.runtimeType == Exercise ? (other as Exercise).date.compareTo(date) : 0;
 }
 
 
@@ -113,4 +191,18 @@ class Exercise {
 class ExerciseFeedback {
   String message;
 
+}
+
+/// Just to redifined toString method with a date format
+class MyDateTime extends DateTime {
+
+  final _formatter = DateFormat('yyyy-MM-dd');
+
+  MyDateTime.now() : super.now();
+  
+  /// dsf
+  @override
+  String toString() {
+    return _formatter.format(this);
+  }
 }

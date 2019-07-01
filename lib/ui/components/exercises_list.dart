@@ -63,7 +63,7 @@ class ExerciseListItem extends StatelessWidget {
                   child: Text("Progression".toUpperCase()),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext ctx) => ExerciseProgressionWidget()
+                      builder: (BuildContext ctx) => ExerciseProgressionWidget(theme: theme,)
                     ));
                   },
                 ),
