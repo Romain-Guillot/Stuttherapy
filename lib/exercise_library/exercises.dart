@@ -65,18 +65,27 @@ abstract class ExerciseTheme {
 class Exercise {
   final ExerciseTheme theme;
   final CollectionExerciseResource resources;
+  final DateTime date;
   Set<String> savedWords = {};
+  ExerciseFeedback feedback;
 
   final StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
   final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
 
   Exercise({
     @required this.theme, 
-    @required this.resources}
-  ) /*: assert(resources != null, "Please provide resources.")*/
+    @required this.resources
+    }) : this.date = DateTime.now() /*: assert(resources != null, "Please provide resources.")*/
   {
     moveNextResource();
   }
+
+  Exercise.restore({
+    @required this.theme,
+    @required this.resources,
+    @required this.date,
+    @required this.savedWords
+  });
 
   moveNextResource() {
     ExerciseResource _res = resources?.nextResource;
@@ -88,27 +97,20 @@ class Exercise {
   }
 
   addSavedWord(Iterable<String> _words) {
-    savedWords.addAll(_words);
+    List<String> words = [];
+    for(String word in _words) {
+      words.add(word.toLowerCase());
+    }
+    savedWords.addAll(words);
   }
 }
 
-
-///
-///
-///
-class ExerciseProgression {
-  final Exercise exercise;
-  final DateTime date;
-
-  ExerciseProgression({@required this.exercise}) : date = DateTime.now();
-
-  ExerciseProgression.restore({@required this.exercise, @required this.date});
-}
 
 
 ///
 ///
 ///
 class ExerciseFeedback {
+  String message;
 
 }

@@ -8,23 +8,33 @@ import 'package:stutterapy/exercise_library/exercises.dart';
 abstract class User {
   static const String userIdentifier = "";
 
-  BehaviorSubject<Set<String>> savedWords = BehaviorSubject<Set<String>>(seedValue: {});
+  BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
 
-  HashMap<ExerciseTheme, List<ExerciseProgression>> progression; 
+  Map<ExerciseTheme, List<Exercise>> progression = {}; 
 
   User.create();
 
-  User.restore({@required Set<String> userSavedWord, @required this.progression}) : _savedWords = userSavedWord {
-    savedWords.add(_savedWords);
+  User.restore({@required Set<String> userSavedWord, @required this.progression}) {
+    addSavedWords(userSavedWord);
   }
 
   bool isLogged = false;
   String pseudo;
 
   addSavedWords(Iterable<String> words) {
-    _savedWords.addAll(words);
-    savedWords.add(_savedWords);
+    for(String w in words)
+      _savedWords.add(w.toLowerCase());
+    List<String> wordsSorted = _savedWords.toList();
+    wordsSorted.sort();
+    savedWords.add(wordsSorted);
+  }
+
+  addProgression(Exercise exercise) {
+    progression[exercise.theme] = [
+      ...progression[exercise.theme]??[], 
+      exercise
+    ];
   }
 }
 
@@ -39,8 +49,6 @@ class TherapistUser extends User {
     @required Set<String> userSavedWord, 
     @required progression}
   ) : super.restore(userSavedWord: userSavedWord, progression: progression);
-
-  // List<StutterUser> patients = [];
 }
 
 class StutterUser extends User {
@@ -53,8 +61,5 @@ class StutterUser extends User {
     @required progression}
   ) : super.restore(userSavedWord: userSavedWord, progression: progression);
 
-
-  // TherapistUser therapist;
-  // Feed feed;
 }
 

@@ -10,9 +10,9 @@ class SavedWordsWidget extends StatelessWidget {
         context: context,
         title: "Saved words",
       ),
-      body: StreamBuilder<Set<String>>(
+      body: StreamBuilder<List<String>>(
         stream: AccountProvider.user.savedWords.stream,
-        builder: (BuildContext context, AsyncSnapshot<Set<String>> snapWords) {
+        builder: (BuildContext context, AsyncSnapshot<List<String>> snapWords) {
           if(!snapWords.hasData)
             return Text("Loading...");
         

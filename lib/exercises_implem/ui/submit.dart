@@ -130,6 +130,8 @@ class _SubmitWidgetState extends State<SubmitWidget> {
               if(widget.resourceTye != ExerciseResourceEnum.WORDS) {
                 setState(() => isChecking = true);
               }else {
+                checkedWords.updateAll((String _, bool checked) => checked = true); // We checked to true the only words of checkedWords
+                addCheckedWordsToExercise();
                 widget.exercise.moveNextResource();
               }
             }, 

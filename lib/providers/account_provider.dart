@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stutterapy/account/accounts.dart';
+import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/providers/shared_pref_provider.dart';
 
 class AccountProvider {
@@ -47,5 +48,6 @@ class AccountProvider {
         break;
     }
   }
+
     
 }

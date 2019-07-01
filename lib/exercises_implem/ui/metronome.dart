@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
@@ -9,7 +10,7 @@ class MetronomeWidget extends StatefulWidget {
   static const SETTINGS_BPM = "metronome_bpm"; 
   
   final int bpm;
-  final StreamController timerStream = StreamController<bool>();
+  final StreamController timerStream = BehaviorSubject<bool>();
 
   MetronomeWidget({
     Key key, 
