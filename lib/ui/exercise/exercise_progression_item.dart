@@ -1,11 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/ui/components/secondary_appbar.dart';
+import 'package:stutterapy/ui/dimen.dart';
 
 class ExerciseProgressionItemWidget extends StatelessWidget {
+
+  final Exercise exercise;
+  static const SizedBox padding = SizedBox(height: Dimen.PADDING,);
+
+  ExerciseProgressionItemWidget({Key key, @required this.exercise}) : assert(exercise != null), super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Exercise progression item"),
+      appBar: SecondaryAppBar(
+        context: context,
+        title: exercise.theme.name,
+        subtitle: "Progression : " + exercise.date.toString(),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(Dimen.PADDING),
+        children: <Widget>[
+          _FeedbackWidget(feedback: exercise.feedback),
+          padding,
+          Text("Theme : " + exercise.theme.name),
+          padding,
+          Text("Date : " + exercise.date.toString()),
+          padding,
+          Text("Recording resource : No recording resource"),
+          padding,
+          Text("Saved words :"),
+          Column(
+            children: exercise.savedWords.map((String word) => 
+              Text(word)
+            ).toList(),
+          )
+        ],
+      ),
+      
+      
+    );
+  }
+}
+
+
+// Feedback can be null
+class _FeedbackWidget extends StatelessWidget {
+
+  final ExerciseFeedback feedback;
+
+  _FeedbackWidget({Key key, @required this.feedback}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(Dimen.PADDING),
+      color: Theme.of(context).accentColor,
+      child: Text(
+        (feedback?.message)??"No feedback"
       ),
     );
   }

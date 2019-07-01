@@ -4,19 +4,22 @@ import 'package:stutterapy/ui/account/account_log_in.dart';
 
 class MainAppBar extends AppBar {
   MainAppBar({
-    @required Widget title,
+    Widget title,
     @required User user,
-  }) : super(
-    title: title,
-    actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)]
-  );
+  }) :  assert(user != null),
+        super(
+          title: title??Image.asset("assets/logo.png", width: 140,),
+          actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
+          centerTitle: true,
+        );
 }
 
 class LogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      child: Text("Log in".toUpperCase()),
+    return IconButton(
+      // child: Text("Log in".toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor),),
+      icon: Icon(Icons.account_circle, color: Colors.black,),
       onPressed: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (BuildContext ctx) => AccountLogIn()
