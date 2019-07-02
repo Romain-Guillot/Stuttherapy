@@ -10,24 +10,13 @@ import 'package:stutterapy/exercises_implem/exercise_reading.dart';
 
 class ExercisesLoader {
 
-  static BehaviorSubject<UnmodifiableListView<ExerciseTheme>> _themes;
-
-  static BehaviorSubject<UnmodifiableListView<ExerciseTheme>> get  themes {
-    if(_themes == null) {
-      _getThemes();
-    }
-    return _themes;
-  }
-
-
-  static Stream<UnmodifiableListView<ExerciseTheme>> _getThemes() {
-    print("ok");
-    _themes = BehaviorSubject<UnmodifiableListView<ExerciseTheme>>();
+  Stream<UnmodifiableListView<ExerciseTheme>> getThemes() {
+    final _themes = BehaviorSubject<UnmodifiableListView<ExerciseTheme>>();
     _themes.add(UnmodifiableListView([
       MetronomeExercise(),
       DAFExercise(),
       MirroringExercise(),
-      ReadingExercise(),
+      ReadingExercise()
     ]));
     return _themes.stream;
   }

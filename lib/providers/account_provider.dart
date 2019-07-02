@@ -1,39 +1,23 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/providers/shared_pref_provider.dart';
 
 class AccountProvider {
-  static User user;
-
   static const existingAccount = "existingAccount";
-
   
-  static setUser(User _user) {
-    user = _user;
-  }
-
   
-  static Future<bool> getSavedUser() async {
+  static Future<User> getSavedUser() async {
     SharedPreferences _prefs = await SharedPrefProvider.prefs;
     String accountType = _prefs.getString(existingAccount);
     if(accountType == null)
-      return false;
+      return UninitializeUser();
     switch (accountType) {
       case StutterUser.userIdentifier:
-        user = StutterUser.restore(
-          progression: {},
-          userSavedWord: {}
-        );
-        return true;
+        return StutterUser();
       case TherapistUser.userIdentifier:
-        user = TherapistUser.restore(
-          progression: {},
-          userSavedWord: {}
-        );
-        return true;
+        return TherapistUser();
       default:
-        return false;
+        return UninitializeUser();
     }
   }
 
@@ -48,6 +32,5 @@ class AccountProvider {
         break;
     }
   }
-
     
 }
