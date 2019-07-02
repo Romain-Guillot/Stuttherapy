@@ -7,7 +7,6 @@ class AudioRecorder extends StatelessWidget {
   
   AudioRecorder({Key key, @required this.exercise}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Wrap(

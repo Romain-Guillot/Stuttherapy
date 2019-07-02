@@ -1,10 +1,9 @@
-import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 
 
+///
 abstract class User {
   static const String userIdentifier = "";
 
@@ -42,7 +41,7 @@ abstract class User {
 }
 
 
-
+///
 class TherapistUser extends User {
   static const String userIdentifier = "Therapist";
 
@@ -54,6 +53,8 @@ class TherapistUser extends User {
   ) : super.restore(userSavedWord: userSavedWord, progression: progression);
 }
 
+
+///
 class StutterUser extends User {
   static const String userIdentifier = "Stutter";
 
