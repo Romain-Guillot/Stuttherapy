@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -26,6 +26,9 @@ dependencies:
 
   shared_preferences: 0.5.3+1
   rxdart: ^0.18.1
+  intl: ^0.15.8
+  test: ^1.6.3
+  flutter_sound: ^1.4.2
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +45,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/logo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
