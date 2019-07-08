@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';

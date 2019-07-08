@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'exercise_ressources.g.dart';
 
 /// Enum that lists all resoruce perception way
 /// available
@@ -70,6 +72,7 @@ class ExerciseResourceString implements EnumToString {
 /// Resource used by [Exercise], basically it contain the 
 /// [resource] a String value. Its type is characterized by 
 /// the [resourceType] propertie (e.g. [ExerciseResourceEnum.TEXT])
+@JsonSerializable()
 class ExerciseResource {
 
   /// maincontent of the resource
@@ -99,12 +102,17 @@ class ExerciseResource {
 /// of [ExerciseResource]. This encapsulation used a [List]
 /// object to handle the resources. It provide an iterator 
 /// to iterate over [ExerciseResource]
+@JsonSerializable()
 class CollectionExerciseResource {
   final Iterator<ExerciseResource> _iterator;
 
   CollectionExerciseResource({
     @required Iterable<ExerciseResource> resources
   }) : _iterator = resources.iterator;
+
+  factory CollectionExerciseResource.fromJson(Map<String, dynamic> json) => _$CollectionExerciseResourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CollectionExerciseResourceToJson(this);
 
   /// return the next [ExerciseResource] or null if no
   /// resource is available

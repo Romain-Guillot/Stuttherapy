@@ -7,6 +7,9 @@ import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/recording_resources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'exercises.g.dart';
 
 
 /// Type of exercises, theme have a [name] two type of descri$tion,
@@ -22,7 +25,8 @@ import 'package:stutterapy/exercise_library/settings.dart';
 /// 
 /// Note : This whole package is a library, it has to come with an library implementation
 /// to defined concrete exercises' themes (eg: DAF, metronome, etc.)
-abstract class ExerciseTheme {
+@JsonSerializable()
+class ExerciseTheme {
 
   /// Constants to characterized settings
   static const SETTINGS_PERCEPTION = "perception";
@@ -44,6 +48,7 @@ abstract class ExerciseTheme {
 
   /// Theme settings, refer to the constructor to see basic settings
   /// Constructor comment provide helps about the theme settings.
+  @JsonKey(ignore: true)
   ExerciseSettings settings;
 
   /// {widget id (int) : description (string)} Map to describe which 
@@ -52,6 +57,7 @@ abstract class ExerciseTheme {
   ///         e.g : a providers that associate widget with IDs.
   ///        Typically an Widget have access to the [Exercise] instance to
   ///         modify or read this properties
+  @JsonKey(ignore: true)
   Map<int, String> exerciseStructure;
 
   /// Exercise share common setting properties (e.g. : which type of resource, 
@@ -63,7 +69,7 @@ abstract class ExerciseTheme {
     @required this.name, 
     @required this.shortDescription, 
     @required this.longDescription, 
-    @required this.exerciseStructure,
+    this.exerciseStructure,
     Map<String, ExerciseSettingsItem> exercisesSettings
   }) :  assert(name != null, "name property cannot be null."),
         assert(shortDescription != null, "shortDescription cannot be null"),
@@ -98,6 +104,11 @@ abstract class ExerciseTheme {
     };
     settings = ExerciseSettings(items: _settings);
   }
+
+  factory ExerciseTheme.fromJson(Map<String, dynamic> json) => _$ExerciseThemeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExerciseThemeToJson(this);
+
 }
 
 
@@ -110,6 +121,7 @@ abstract class ExerciseTheme {
 /// contain a [feedback].
 /// 
 /// NOTE : This extends [Comparable] to sort [Exercise]s by their [date].
+@JsonSerializable()
 class Exercise implements Comparable {
 
   ///Theme of the exercise
@@ -140,6 +152,7 @@ class Exercise implements Comparable {
   /// 
   /// This streams can be modify with the [stop] function to indicate it's the end of the
   /// exercise (fill the stream with true)
+  @JsonKey(ignore: true)
   final StreamController<bool> flagEndOfExercise = BehaviorSubject<bool>(seedValue: false);
 
    /// Stream that typically can be read by widgets to display informations
@@ -147,6 +160,7 @@ class Exercise implements Comparable {
    /// stream filled with current resource used by the exercise.
    /// This streams can be modifify with [moveNextResource] function to add a new resource inside 
    /// the stream.
+  @JsonKey(ignore: true)
   final StreamController<ExerciseResource> currentResource = BehaviorSubject<ExerciseResource>();
 
   /// Main constructor to ceate an [Exercise] instance for the first
@@ -159,18 +173,22 @@ class Exercise implements Comparable {
     moveNextResource(); // init [currentResource] stream with a resource
   }
 
-  /// Constructor useful to restore an [Exercise] object. Typically
-  /// to reconstruct an object from a file.
-  /// 
-  /// All fields are required, even if there are provided with null value.
-  Exercise.restore({
-    @required this.theme,
-    @required this.resources,
-    @required this.date,
-    @required this.savedWords,
-    @required this.recordingResource,
-    @required this.feedback
-  });
+  // /// Constructor useful to restore an [Exercise] object. Typically
+  // /// to reconstruct an object from a file.
+  // /// 
+  // /// All fields are required, even if there are provided with null value.
+  // Exercise.restore({
+  //   @required this.theme,
+  //   @required this.resources,
+  //   @required this.date,
+  //   @required this.savedWords,
+  //   @required this.recordingResource,
+  //   @required this.feedback
+  // });
+
+  factory Exercise.fromJson(Map<String, dynamic> json) => _$ExerciseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExerciseToJson(this);
 
   /// Load next resource in the stream if a resoruce is available
   /// to be add. If not, set the [flagEndOfExercise] to false to indicate
@@ -208,8 +226,15 @@ class Exercise implements Comparable {
 ///
 /// TODO
 ///
+@JsonSerializable()
 class ExerciseFeedback {
   String message;
+
+  ExerciseFeedback({@required this.message});
+
+  factory ExerciseFeedback.fromJson(Map<String, dynamic> json) => _$ExerciseFeedbackFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExerciseFeedbackToJson(this);
 }
 
 
