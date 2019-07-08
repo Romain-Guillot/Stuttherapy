@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercise_library/recording_resources.dart';
+import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/dimen.dart';
 
@@ -8,7 +10,11 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
   final Exercise exercise;
   static const SizedBox padding = SizedBox(height: Dimen.PADDING,);
 
-  ExerciseProgressionItemWidget({Key key, @required this.exercise}) : assert(exercise != null), super(key: key);
+  ExerciseProgressionItemWidget({
+    Key key, 
+    @required this.exercise
+  }) : assert(exercise != null), 
+       super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,8 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
           padding,
           Text("Date : " + exercise.date.toString()),
           padding,
-          Text("Recording resource : No recording resource"),
+          Text("Recording resource"),
+          getRecorginWidget(),
           padding,
           Text("Saved words :"),
           Column(
@@ -41,6 +48,21 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
       
     );
   }
+
+  Widget getRecorginWidget() {
+    if(exercise?.recordingResource != null) {
+      switch (exercise.recordingResource.type) {
+        case RecordingType.AUDIO:
+          return AudioPlayer(uri: exercise.recordingResource.uri,);
+        case RecordingType.VIDEO:
+          return Placeholder(fallbackHeight: 200,);
+        default:
+          return Text("Recording type not supported.");
+      }
+    } else {
+      return Text("No recording data.");
+    }
+  }
 }
 
 
@@ -53,12 +75,12 @@ class _FeedbackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(Dimen.PADDING),
-      color: Theme.of(context).accentColor,
-      child: Text(
-        (feedback?.message)??"No feedback"
-      ),
-    );
+    return feedback?.message == null 
+    ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic),)
+    : Container(
+        padding: const EdgeInsets.all(Dimen.PADDING),
+        color: Theme.of(context).accentColor,
+        child: Text(feedback?.message)
+      );
   }
 }
