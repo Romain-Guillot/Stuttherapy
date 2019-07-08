@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercise_library/recording_resources.dart';
 import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/dimen.dart';
@@ -29,11 +30,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
           Text("Date : " + exercise.date.toString()),
           padding,
           Text("Recording resource"),
-          (
-            exercise?.recordingResource?.uri != null
-              ? AudioPlayer(uri: exercise.recordingResource.uri,)
-              : Text("No recording data.")
-          ),
+          getRecorginWidget(),
           padding,
           Text("Saved words :"),
           Column(
@@ -46,6 +43,22 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
       
       
     );
+  }
+
+  Widget getRecorginWidget() {
+    if(exercise?.recordingResource != null) {
+      switch (exercise.recordingResource.type) {
+        case RecordingType.AUDIO:
+          return AudioPlayer(uri: exercise.recordingResource.uri,);
+        case RecordingType.VIDEO:
+          return Placeholder(fallbackHeight: 200,);
+        default:
+          return Text("Recording type not supported.");
+      }
+    } else {
+      return Text("No recording data.");
+    }
+    return AudioPlayer(uri: exercise.recordingResource.uri,);
   }
 }
 

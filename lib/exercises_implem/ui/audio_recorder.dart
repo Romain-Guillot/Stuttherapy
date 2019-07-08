@@ -34,7 +34,8 @@ class _AudioRecorderState extends State<AudioRecorder> {
   @override
   void initState() {
     super.initState();
-    start();
+    if(widget.recordingEnable)
+      start();
   }
 
   start() async {
