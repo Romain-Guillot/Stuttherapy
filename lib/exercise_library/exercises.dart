@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
+import 'package:stutterapy/exercise_library/recording_resources.dart';
 import 'package:stutterapy/exercise_library/settings.dart';
 
 
@@ -27,6 +28,7 @@ abstract class ExerciseTheme {
   static const SETTINGS_PERCEPTION = "perception";
   static const SETTINGS_RESOURCE = "resource";
   static const SETTINGS_MANUALLY_CHECK = "pronuncation";
+  static const SETTINGS_RECORD = "recording";
   
   /// Title that describe the theme (has to be short)
   final String name;
@@ -86,6 +88,10 @@ abstract class ExerciseTheme {
         SETTINGS_MANUALLY_CHECK: BooleanField(
           label: "Manually check your pronuncation", 
           initialValue: true
+        ),
+        SETTINGS_RECORD : BooleanField(
+          label: "Enable recording",
+          initialValue: true
         )
       },
       ...(exercisesSettings??{}) // list concatenation
@@ -112,6 +118,9 @@ class Exercise implements Comparable {
   /// Defined resources used by the exercise,it's
   /// the exercise content
   final CollectionExerciseResource resources;
+
+  /// Recording resource associated with this training
+  RecordingResource recordingResource;
 
   /// When the exercise has been started.
   final MyDateTime date;
@@ -152,12 +161,15 @@ class Exercise implements Comparable {
 
   /// Constructor useful to restore an [Exercise] object. Typically
   /// to reconstruct an object from a file.
+  /// 
+  /// All fields are required, even if there are provided with null value.
   Exercise.restore({
     @required this.theme,
     @required this.resources,
     @required this.date,
     @required this.savedWords,
-    this.feedback
+    @required this.recordingResource,
+    @required this.feedback
   });
 
   /// Load next resource in the stream if a resoruce is available

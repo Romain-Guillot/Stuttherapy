@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/dimen.dart';
 
@@ -27,7 +28,12 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
           padding,
           Text("Date : " + exercise.date.toString()),
           padding,
-          Text("Recording resource : No recording resource"),
+          Text("Recording resource"),
+          (
+            exercise?.recordingResource?.uri != null
+              ? AudioPlayer(uri: exercise.recordingResource.uri,)
+              : Text("No recording data.")
+          ),
           padding,
           Text("Saved words :"),
           Column(
