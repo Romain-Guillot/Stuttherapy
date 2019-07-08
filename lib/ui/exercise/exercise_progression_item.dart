@@ -10,7 +10,11 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
   final Exercise exercise;
   static const SizedBox padding = SizedBox(height: Dimen.PADDING,);
 
-  ExerciseProgressionItemWidget({Key key, @required this.exercise}) : assert(exercise != null), super(key: key);
+  ExerciseProgressionItemWidget({
+    Key key, 
+    @required this.exercise
+  }) : assert(exercise != null), 
+       super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +62,6 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
     } else {
       return Text("No recording data.");
     }
-    return AudioPlayer(uri: exercise.recordingResource.uri,);
   }
 }
 
@@ -72,12 +75,12 @@ class _FeedbackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(Dimen.PADDING),
-      color: Theme.of(context).accentColor,
-      child: Text(
-        (feedback?.message)??"No feedback"
-      ),
-    );
+    return feedback?.message == null 
+    ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic),)
+    : Container(
+        padding: const EdgeInsets.all(Dimen.PADDING),
+        color: Theme.of(context).accentColor,
+        child: Text(feedback?.message)
+      );
   }
 }
