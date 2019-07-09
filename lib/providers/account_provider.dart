@@ -5,7 +5,6 @@ import 'package:stutterapy/account/accounts.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/providers/exercise_local_storage.dart';
 import 'package:stutterapy/providers/exercises_loader.dart';
-import 'package:stutterapy/providers/exercises_loader.dart' as prefix0;
 import 'package:stutterapy/providers/shared_pref_provider.dart';
 
 
@@ -39,8 +38,6 @@ class AccountProvider {
       default:
         return false;
     }
-    
-
   }
 
   static restore() {

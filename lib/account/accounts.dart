@@ -26,12 +26,12 @@ abstract class User {
 
 
 
-  addSavedWords(Iterable<String> words) {
-    for(String w in words)
-      _savedWords.add(w.toLowerCase());
+  Set<String> addSavedWords(Iterable<String> words) {
+    _savedWords.addAll(words);
     List<String> wordsSorted = _savedWords.toList();
     wordsSorted.sort();
     savedWords.add(wordsSorted);
+    return _savedWords;
   }
 
   initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {

@@ -54,7 +54,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
   }
 
   
-  stop() async {
+  stop({updateUI=true}) async {
     print("try stop recorder ...");
     if(isRecording) {
       try {
@@ -68,10 +68,17 @@ class _AudioRecorderState extends State<AudioRecorder> {
         print("Unable to stop the recorder ... (not normal !)");
         print("err" + err.toString());
       }
-      setState(() => isRecording = false);
+      if(updateUI)
+        setState(() => isRecording = false);
     } else {
       print("Not in recording status.");
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    stop(updateUI: false);
   }
 
 
