@@ -41,7 +41,7 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
   @override
   void dispose() {
     super.dispose();
-    timer.toString();
+    timer.cancel();
     widget.close();
   }
 
