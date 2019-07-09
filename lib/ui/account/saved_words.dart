@@ -24,7 +24,7 @@ class SavedWordsWidget extends StatelessWidget {
                     title: RaisedButton(
                       child: Text("Remove all"), 
                       color: Theme.of(context).errorColor,
-                      onPressed: () => AccountProvider.wipeSavedwords()
+                      onPressed: () => showAlertWipeSavedWords(context)
                     ),
                   ),
                   ListView.separated(
@@ -47,4 +47,25 @@ class SavedWordsWidget extends StatelessWidget {
       )
     );
   }
+
+  showAlertWipeSavedWords(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+        AlertDialog(
+          title: Text("Delete saved words ?"),
+          content: Text("Saved words will be deleted permanently."),
+          actions: <Widget>[
+            FlatButton(child: Text("No."), textColor: Colors.grey, onPressed: () {
+              Navigator.pop(context);
+            },),
+            FlatButton(child: Text("Yes, delete."), textColor: Theme.of(context).errorColor, onPressed: () {
+              Navigator.pop(context);
+              AccountProvider.wipeSavedwords();
+            },),
+          ],
+        )
+    ); 
+  }
 }
+
