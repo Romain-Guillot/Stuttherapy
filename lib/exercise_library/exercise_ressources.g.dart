@@ -47,9 +47,12 @@ const _$ExerciseResourceEnumEnumMap = <ExerciseResourceEnum, dynamic>{
 
 CollectionExerciseResource _$CollectionExerciseResourceFromJson(
     Map<String, dynamic> json) {
-  return CollectionExerciseResource();
+  return CollectionExerciseResource(
+      resources: (json['resources'] as List)?.map((e) => e == null
+          ? null
+          : ExerciseResource.fromJson(e as Map<String, dynamic>)));
 }
 
 Map<String, dynamic> _$CollectionExerciseResourceToJson(
         CollectionExerciseResource instance) =>
-    <String, dynamic>{};
+    <String, dynamic>{'resources': instance.resources?.toList()};

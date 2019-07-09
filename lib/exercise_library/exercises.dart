@@ -73,8 +73,7 @@ class ExerciseTheme {
     Map<String, ExerciseSettingsItem> exercisesSettings
   }) :  assert(name != null, "name property cannot be null."),
         assert(shortDescription != null, "shortDescription cannot be null"),
-        assert(longDescription != null, "longDescription cannot be null"),
-        assert(exerciseStructure != null, "exerciseStructure cannot be null")
+        assert(longDescription != null, "longDescription cannot be null")
   {
     // Definied initial settings common to all exercises, can be modified by exercise implementation of course
     Map<String, ExerciseSettingsItem> _settings = {

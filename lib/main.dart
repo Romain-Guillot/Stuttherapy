@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/exercise_metronome.dart';
 import 'package:stutterapy/providers/account_provider.dart';
+import 'package:stutterapy/providers/exercise_local_storage.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';

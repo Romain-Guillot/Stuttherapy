@@ -5,6 +5,7 @@ import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
 import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stutterapy/providers/account_provider.dart';
+import 'package:stutterapy/providers/exercise_local_storage.dart';
 import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/exercise/exercise_progression_item.dart';
 

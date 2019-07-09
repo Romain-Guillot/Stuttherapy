@@ -87,6 +87,10 @@ class ExerciseResource {
   }) :  assert(resource != null && resource.length > 0, "resource cannot be empty or null"),
         assert(resourceType != null, "Resource type has to be specified, it cannot be null");
 
+  factory ExerciseResource.fromJson(Map<String, dynamic> json) => _$ExerciseResourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExerciseResourceToJson(this);
+
   /// Return the list of words that composed the
   /// [resource]
   List<String> getWords() {
@@ -104,10 +108,13 @@ class ExerciseResource {
 /// to iterate over [ExerciseResource]
 @JsonSerializable()
 class CollectionExerciseResource {
+  final Iterable<ExerciseResource> resources;
+
+  @JsonKey(ignore: true)
   final Iterator<ExerciseResource> _iterator;
 
   CollectionExerciseResource({
-    @required Iterable<ExerciseResource> resources
+    @required this.resources
   }) : _iterator = resources.iterator;
 
   factory CollectionExerciseResource.fromJson(Map<String, dynamic> json) => _$CollectionExerciseResourceFromJson(json);

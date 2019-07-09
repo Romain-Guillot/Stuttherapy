@@ -21,7 +21,6 @@ class ExercisesLoader {
 
 
   static Stream<UnmodifiableListView<ExerciseTheme>> _getThemes() {
-    print("ok");
     _themes = BehaviorSubject<UnmodifiableListView<ExerciseTheme>>();
     _themes.add(UnmodifiableListView([
       MetronomeExercise(),

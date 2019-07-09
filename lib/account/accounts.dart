@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/providers/exercise_local_storage.dart';
 
 
 ///
@@ -36,6 +37,7 @@ abstract class User {
       exercise
     ];
     progression.add(_progression);
+    ExerciseLocalStorageProvider.insert(exercise);
     print("Progression added");
   }
 }
