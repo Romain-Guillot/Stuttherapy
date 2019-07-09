@@ -15,19 +15,34 @@ class SavedWordsWidget extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<List<String>> snapWords) {
           if(!snapWords.hasData)
             return Text("Loading...");
-        
-          return ListView.separated(
-            itemCount: snapWords.data.length,
-            separatorBuilder: (context, index) => Divider(),
-            itemBuilder: (context, index) =>
-              ListTile(
-                title: Text(snapWords.data.elementAt(index)),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete_forever, color: Colors.red),
-                  onPressed: () {},
-                )
-              )
-          );
+
+          return snapWords.data.length == 0
+            ? ListTile(title: Text("No saved words.", style: TextStyle(fontStyle: FontStyle.italic),),)
+            : ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: RaisedButton(
+                      child: Text("Remove all"), 
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => AccountProvider.wipeSavedwords()
+                    ),
+                  ),
+                  ListView.separated(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapWords.data.length,
+                    separatorBuilder: (context, index) => Divider(),
+                    itemBuilder: (context, index) =>
+                      ListTile(
+                        title: Text(snapWords.data.elementAt(index)),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete_forever, color: Colors.red),
+                          onPressed: () {},
+                        )
+                      )
+                  ),
+                ],
+              );
         }
       )
     );

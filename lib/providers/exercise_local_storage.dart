@@ -12,106 +12,52 @@ const int VERSION = 1;
 final DatabaseHandler dbHandler = DatabaseHandlerImplem();
 
 
-class ExerciseLocalStorageProvider {
-  static const String DATABASE_NAME = "stuttherapy.db";
-  static const int DATABASE_VERSION = VERSION;
-
-  static const String TABLE_EXERCISE = "exercise";
-  static const String TABLE_EXERCISE_ID_COLUMN = "id";
-  static const String TABLE_EXERCISE_CONTENT_COLUMN = "content";
-
-  static const String TABLE_SAVED_WORD = "savedword";
-  static const String TABLE_SAVED_WORD_CONTENT_COLUMN = "content";
-
-  static Database db;
-  
-
-  static Future open() async {
-    if(db == null)
-      db = await dbHandler.open();
-  }
-
-  static Future<int> insert(Exercise exercise) async {
-    if(db == null)
-      await open();
-    
-    String exerciseJson = jsonEncode(exercise.toJson());
-    int id = await db.insert(TABLE_EXERCISE, {TABLE_EXERCISE_CONTENT_COLUMN: exerciseJson});
-    return id;
-    
-  }
-
-  static Future<Map<ExerciseTheme, List<Exercise>>> all(Map<String, ExerciseTheme> themes) async {
-    if(db == null)
-      await open();
-    
-    List<Map<String, dynamic>> progressions = await db.query(TABLE_EXERCISE, columns: [TABLE_EXERCISE_CONTENT_COLUMN]);
-    if(progressions != null) {
-      Map<ExerciseTheme, List<Exercise>> exercises = {};
-      themes.values.forEach((ExerciseTheme theme) => exercises[theme] = []);
-
-      for(Map<String, dynamic> row in progressions) {
-        Map json = jsonDecode(row[TABLE_EXERCISE_CONTENT_COLUMN]);
-        Exercise exercise = Exercise.fromJson(json);
-        try {
-          exercises[themes[exercise.theme.name]].add(exercise);
-        } catch(e) {
-          print("Unable to add exercise to ${exercise.theme.name}.");
-        }
-      }
-      return exercises;
-    }else {
-      return null;
-    }
-  }
-
-  static Future wipe() async {
-    if(db == null)
-      await open();
-
-    await db.delete(TABLE_EXERCISE);
-  }
-}
 
 abstract class DatabaseHandler {
   Future<Database> open();
 }
 
 
-abstract class TableHelper<T> {
 
+abstract class TableHelper {
+
+  static Database _db;
   DatabaseHandler handler;
-  Database db;
   final String tableName;
-
+  
   TableHelper({@required this.tableName, @required this.handler});
 
-  open() async {
-    db = await handler.open();
+  _open() async {
+    _db = await handler.open();
   }
 
-  Future insert<T>(T object) async {
-    if(db == null)
-      await open();
+  @mustCallSuper
+  Future insert(dynamic object) async {
+    if(_db == null)
+      await _open();
   }
 
-  Future insertAll<T>(Set<T> list) async {
-    if(db == null)
-      await open();
+  @mustCallSuper
+  Future insertAll(Set<dynamic> list) async {
+    if(_db == null)
+      await _open();
   }
 
-  Future<T> all() async {
-    if(db == null)
-      await open();
-    return null;
+  @mustCallSuper
+  Future all() async {
+    if(_db == null)
+      await _open();
   }
-
+  
   Future wipe() async {
-    if(db == null)
-      await open();
-    await db.delete(tableName);
+    if(_db == null)
+      await _open();
+    await _db.delete(tableName);
   }
+
+  Database get db => _db;
 }
+
 
 
 class DatabaseHandlerImplem implements DatabaseHandler {
@@ -138,7 +84,8 @@ class DatabaseHandlerImplem implements DatabaseHandler {
 }
 
 
-class SavedWordsLocalStorageProvider<String> extends TableHelper {
+
+class SavedWordsLocalStorageProvider extends TableHelper {
 
   static const TABLE_NAME = "savedword";
   static const COLUMN_CONTENT = "content";
@@ -146,13 +93,13 @@ class SavedWordsLocalStorageProvider<String> extends TableHelper {
   SavedWordsLocalStorageProvider() : super(tableName: TABLE_NAME, handler: dbHandler);
   
   @override
-  Future insert<String>(String object) async {
+  Future insert(dynamic object) async {
     await super.insert(null); 
     await db.insert(tableName, {COLUMN_CONTENT: object});
   }
 
   @override
-  Future insertAll<String>(Set<String> list) async {
+  Future insertAll(Set<dynamic> list) async {
     await super.insertAll(null);
     Batch batch = db.batch();
     list.forEach( (s) =>
@@ -162,15 +109,58 @@ class SavedWordsLocalStorageProvider<String> extends TableHelper {
   }
 
   @override
-  Future<Set> all() async {
+  Future<Set<String>> all() async {
     await super.all();
-    var queries = await db.query(tableName);
-    Set results = queries.map((var row) => row[COLUMN_CONTENT]).toSet();
+    List<Map<String, dynamic>> queries = await db.query(tableName);
+    Set<String> results = queries.map((Map<String, dynamic> row) => row[COLUMN_CONTENT] as String).toSet();
     return results;
   }
-
-
-
-  
 }
 
+
+
+class ExerciseLocalStorageProvider extends TableHelper {
+
+  static const TABLE_EXERCISE = "exercise";
+  static const TABLE_EXERCISE_ID_COLUMN = "id";
+  static const TABLE_EXERCISE_CONTENT_COLUMN = "content";
+  
+  ExerciseLocalStorageProvider() : super(handler: dbHandler, tableName: TABLE_EXERCISE);
+
+  @override
+  Future<int> insert(dynamic exercise) async {
+    await super.insert(null);
+
+    String exerciseJson = jsonEncode(exercise.toJson());
+    int id = await db.insert(TABLE_EXERCISE, {TABLE_EXERCISE_CONTENT_COLUMN: exerciseJson});
+    return id;
+  }
+
+  @override
+  Future insertAll(Set<dynamic> list) async {
+    await super.insertAll(null);
+  }
+
+  Future<Map<ExerciseTheme, List<Exercise>>> all({@required Map<String, ExerciseTheme> themes}) async {
+    await super.all();
+    
+    List<Map<String, dynamic>> progressions = await db.query(TABLE_EXERCISE, columns: [TABLE_EXERCISE_CONTENT_COLUMN]);
+    if(progressions != null) {
+      Map<ExerciseTheme, List<Exercise>> exercises = {};
+      themes.values.forEach((ExerciseTheme theme) => exercises[theme] = []);
+
+      for(Map<String, dynamic> row in progressions) {
+        Map json = jsonDecode(row[TABLE_EXERCISE_CONTENT_COLUMN]);
+        Exercise exercise = Exercise.fromJson(json);
+        try {
+          exercises[themes[exercise.theme.name]].add(exercise);
+        } catch(e) {
+          print("Unable to add exercise to ${exercise.theme.name}.");
+        }
+      }
+      return exercises;
+    }else {
+      return null;
+    }
+  }
+}

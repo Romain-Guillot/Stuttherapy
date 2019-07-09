@@ -44,13 +44,18 @@ abstract class User {
     progression.add(_progression);
   }
 
+  wipeSavedwords() {
+    _savedWords = {};
+    savedWords.add([]);
+  }
+
   addProgression(Exercise exercise) {
     _progression[exercise.theme] = [
       ..._progression[exercise.theme]??[], 
       exercise
     ];
     progression.add(_progression);
-    ExerciseLocalStorageProvider.insert(exercise);
+    ExerciseLocalStorageProvider().insert(exercise);
     print("Progression added");
   }
 }

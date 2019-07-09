@@ -20,19 +20,29 @@ class MetronomeWidget extends StatefulWidget {
 
   @override
   _MetronomeWidgetState createState() => _MetronomeWidgetState();
+
+  close() => timerStream.close();
 }
 
 class _MetronomeWidgetState extends State<MetronomeWidget> {
 
   bool _state = true;
+  Timer timer;
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(milliseconds: 60000 ~/ widget.bpm), (Timer timer) {
+    timer = Timer.periodic(Duration(milliseconds: 60000 ~/ widget.bpm), (Timer timer) {
       _state = !_state;
       widget.timerStream.add(_state);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.toString();
+    widget.close();
   }
 
   @override

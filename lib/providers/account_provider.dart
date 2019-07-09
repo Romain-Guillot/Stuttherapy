@@ -45,8 +45,9 @@ class AccountProvider {
     subscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
       Map<String, ExerciseTheme> themesMap = {};
       themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
-      Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider.all(themesMap);
-      user.restore(userProgression: progressions, userSavedWord: {});
+      Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
+      Set<String> savedWords = await SavedWordsLocalStorageProvider().all();
+      user.restore(userProgression: progressions, userSavedWord: savedWords);
       subscr.cancel();
     });
   }
@@ -64,8 +65,13 @@ class AccountProvider {
   }
 
   static Future wipeProgressions() async {
-    await ExerciseLocalStorageProvider.wipe();
+    await ExerciseLocalStorageProvider().wipe();
     user.wipeProgressions();
+  }
+
+  static wipeSavedwords() async {
+    await SavedWordsLocalStorageProvider().wipe();
+    user.wipeSavedwords();
   }
 
     

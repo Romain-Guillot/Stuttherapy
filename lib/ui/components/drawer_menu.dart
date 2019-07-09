@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/providers/exercise_local_storage.dart';
 import 'package:stutterapy/ui/account/saved_words.dart';
 
 class DrawerMenu extends Drawer {

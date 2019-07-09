@@ -1,6 +1,5 @@
 import 'package:rxdart/rxdart.dart';
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercises_implem/exercise_daf.dart';
