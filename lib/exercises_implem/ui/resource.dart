@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
@@ -45,7 +43,7 @@ class _ResourceWidgetState extends State<ResourceWidget> {
         setState(() => isCover = true);
       },
       onTapDown: !widget.coverEnable ? null : (_) {
-        setState(() => isCover = false);; 
+        setState(() => isCover = false);
       },
       enableFeedback: false,
       highlightColor: Colors.transparent,

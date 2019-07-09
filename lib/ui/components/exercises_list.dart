@@ -18,9 +18,9 @@ class ExercisesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UnmodifiableListView<ExerciseTheme>>(
+    return StreamBuilder<List<ExerciseTheme>>(
       stream: ExercisesLoader.themes,
-      builder: (BuildContext ctx, AsyncSnapshot<UnmodifiableListView<ExerciseTheme>> snapshotThemes) {
+      builder: (BuildContext ctx, AsyncSnapshot<List<ExerciseTheme>> snapshotThemes) {
         if(snapshotThemes.data == null) {
           return Text("Loading data...");
         }else {

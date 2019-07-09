@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:stutterapy/providers/account_provider.dart';
 import 'package:stutterapy/providers/exercise_local_storage.dart';
 import 'package:stutterapy/ui/account/saved_words.dart';
 
@@ -30,15 +31,15 @@ class DrawerMenu extends Drawer {
               title: Text("Wipe my progressions"),
               onTap: () {
                 Navigator.pop(context);
-                ExerciseLocalStorageProvider.wipe().then(
+                AccountProvider.wipeProgressions().then(
                   (_) =>
                     Scaffold.of(newContext).showSnackBar(
                       SnackBar(content: Text("Progression wiped !"), behavior: SnackBarBehavior.floating)
                     ),
                   onError: (e) => 
                     Scaffold.of(newContext).showSnackBar(
-                      SnackBar(content: Text("Something went wrong ..."), behavior: SnackBarBehavior.floating)
-                  )
+                        SnackBar(content: Text("Something went wrong ..."), behavior: SnackBarBehavior.floating)
+                    )
                 );
               },
             ),

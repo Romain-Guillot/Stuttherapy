@@ -27,6 +27,16 @@ class Strings {
   static const DAF_DESCRIPTION_SHORT = "Heard your speech flow with a little delay.";
   static const DAF_DESCRIPTION_LONG = "";
 
+  // EXERCISE - Reading
+  static const READING_TITLE = "Reading";
+  static const READING_DESCRIPTION_SHORT = "Heard your speech flow with a little delay.";
+  static const READING_DESCRIPTION_LONG = "";
+
+  // EXERCISE - Mirroring
+  static const MIRRORING_TITLE = "Mirorring";
+  static const MIRORRING_DESCRIPTION_SHORT = "Watch you while speech, analayse your behavior !";
+  static const MIRORRNG_DESCRIPTION_LONG = "";
+
 }
 
 /*

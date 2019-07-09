@@ -223,7 +223,7 @@ class Exercise implements Comparable {
 
 
 ///
-/// TODO
+/// 
 ///
 @JsonSerializable()
 class ExerciseFeedback {

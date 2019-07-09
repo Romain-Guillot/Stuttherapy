@@ -53,10 +53,13 @@ class ExerciseLocalStorageProvider {
       for(Map<String, dynamic> row in progressions) {
         Map json = jsonDecode(row[TABLE_EXERCISE_CONTENT_COLUMN]);
         Exercise exercise = Exercise.fromJson(json);
-        exercises[themes[exercise.theme.name]].add(exercise);
+        try {
+          exercises[themes[exercise.theme.name]].add(exercise);
+        } catch(e) {
+          print("Unable to add exercise to ${exercise.theme.name}.");
+        }
       }
-
-      return Map<ExerciseTheme, List<Exercise>>();
+      return exercises;
     }else {
       return null;
     }

@@ -3,9 +3,9 @@ import 'package:stutterapy/strings.dart';
 
 class ReadingExercise extends ExerciseTheme {
   ReadingExercise() : super(
-    name: Strings.METRONOME_TITLE, 
-    shortDescription: Strings.METRONOME_DESCRIPTION_SHORT, 
-    longDescription: Strings.METRONOME_DESCRIPTION_LONG,
+    name: Strings.READING_TITLE, 
+    shortDescription: Strings.READING_DESCRIPTION_SHORT, 
+    longDescription: Strings.READING_DESCRIPTION_SHORT,
     exerciseStructure: {}
   );
 }
