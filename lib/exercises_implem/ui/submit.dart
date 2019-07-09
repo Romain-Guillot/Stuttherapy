@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
 import 'package:stutterapy/providers/saved_word_provider.dart';
 
-class SubmitWidget extends StatefulWidget {
+class SubmitWidget extends StatefulWidget implements ExerciseWidget {
 
   final Exercise exercise;
   final ExerciseResourceEnum resourceTye;

@@ -3,29 +3,29 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
 
-class MetronomeWidget extends StatefulWidget {
+class MetronomeWidget extends StatefulWidget implements ExerciseWidget {
 
   static const SETTINGS_BPM = "metronome_bpm"; 
   
-  final int bpm;
-  final StreamController timerStream = BehaviorSubject<bool>();
+  final Exercise exercise;
 
   MetronomeWidget({
     Key key, 
-    @required Exercise exercise
-  }) : /*assert(settings.items[SETTINGS_BPM] != null, ""),*/ 
-       this.bpm = exercise.theme.settings[SETTINGS_BPM] as int, 
+    @required this.exercise
+  }) : assert(exercise.theme.settings[SETTINGS_BPM] != null, ""), 
        super(key: key);
 
   @override
   _MetronomeWidgetState createState() => _MetronomeWidgetState();
 
-  close() => timerStream.close();
+  int get bpm => exercise.theme.settings[SETTINGS_BPM] as int;
 }
 
 class _MetronomeWidgetState extends State<MetronomeWidget> {
 
+  final StreamController timerStream = BehaviorSubject<bool>();
   bool _state = true;
   Timer timer;
 
@@ -34,7 +34,7 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
     super.initState();
     timer = Timer.periodic(Duration(milliseconds: 60000 ~/ widget.bpm), (Timer timer) {
       _state = !_state;
-      widget.timerStream.add(_state);
+      timerStream.add(_state);
     });
   }
 
@@ -42,7 +42,7 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
   void dispose() {
     super.dispose();
     timer.cancel();
-    widget.close();
+    timerStream.close();
   }
 
   @override
@@ -52,7 +52,7 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
         width: 80,
         height: 80,
         child: StreamBuilder<bool>(
-          stream: widget.timerStream.stream,
+          stream: timerStream.stream,
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             Color _color;
             switch (snapshot.data) {

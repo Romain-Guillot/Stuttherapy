@@ -6,18 +6,19 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercise_library/recording_resources.dart';
+import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
 
 
-class AudioRecorder extends StatefulWidget {
+class AudioRecorder extends StatefulWidget implements ExerciseWidget {
 
   final Exercise exercise;
-  final bool recordingEnable; 
   
   AudioRecorder({
     Key key, 
     @required this.exercise
-    }) :  recordingEnable = exercise.theme.settings[ExerciseTheme.SETTINGS_RECORD],
-          super(key: key);
+    }) :  super(key: key);
+
+  bool get recordingEnable => exercise.theme.settings[ExerciseTheme.SETTINGS_RECORD];
 
   @override
   _AudioRecorderState createState() => _AudioRecorderState();

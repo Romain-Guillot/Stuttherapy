@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
 
-class ResourceWidget extends StatefulWidget {
+class ResourceWidget extends StatefulWidget implements ExerciseWidget {
 
   final Exercise exercise;
-  // final bool coverEnable;
-  final ResourcePerception perceptionWay;
-  // final ExerciseResourceEnum resourceType;
-  // final StreamController<ExerciseResource> _resource = StreamController<ExerciseResource>();
-
-  bool get coverEnable => perceptionWay == ResourcePerception.TEXT_COVER;
-
 
   ResourceWidget({
     Key key,
     @required this.exercise
-  }) :  assert(exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] != null && exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] != null),
-        assert(exercise.theme.settings[ExerciseTheme.SETTINGS_RESOURCE] != null && exercise.theme.settings[ExerciseTheme.SETTINGS_RESOURCE] != null),
-        perceptionWay = exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION],
-        // coverEnable = exercise.theme.settings[ExerciseTheme.SETTINGS_COVER_RES],
-        // resourceType = settings.items[ExerciseTheme.SETTINGS_RESOURCE].value,
+  }) :  assert(exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] != null),
+        assert(exercise.theme.settings[ExerciseTheme.SETTINGS_RESOURCE] != null),
         super(key: key);
 
   @override
   _ResourceWidgetState createState() => _ResourceWidgetState(isCover: coverEnable);
+
+  bool get coverEnable => exercise.theme.settings[ExerciseTheme.SETTINGS_PERCEPTION] == ResourcePerception.TEXT_COVER;
+
 
 }
 

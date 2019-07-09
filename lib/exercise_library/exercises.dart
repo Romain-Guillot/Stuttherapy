@@ -28,10 +28,13 @@ part 'exercises.g.dart';
 @JsonSerializable()
 class ExerciseTheme {
 
-  /// Constants to characterized settings
+  /// Which methde of perception
   static const SETTINGS_PERCEPTION = "perception";
+  /// Which type of resources
   static const SETTINGS_RESOURCE = "resource";
+  /// Ability to check or not words to cocnlude each training
   static const SETTINGS_MANUALLY_CHECK = "pronuncation";
+  /// If exercise have to be recorded
   static const SETTINGS_RECORD = "recording";
   
   /// Title that describe the theme (has to be short)
