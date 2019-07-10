@@ -41,15 +41,25 @@ class AccountProvider {
   }
 
   static restore() {
+    _restoreSavedWords();
+    _restoreProgression();
+  }
+
+  static _restoreSavedWords() async {
+    Set<String> savedWords = await SavedWordsLocalStorageProvider().all();
+    user.initSavedWords(savedWords);
+  }
+
+  static _restoreProgression() async {
     StreamSubscription subscr;
     subscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
       Map<String, ExerciseTheme> themesMap = {};
       themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
       Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
-      Set<String> savedWords = await SavedWordsLocalStorageProvider().all();
-      user.restore(userProgression: progressions, userSavedWord: savedWords);
+      user.initProgressions(progressions);
       subscr.cancel();
     });
+    
   }
 
   static setSavedUser(User _user) async {
@@ -72,6 +82,11 @@ class AccountProvider {
   static wipeSavedwords() async {
     await SavedWordsLocalStorageProvider().wipe();
     user.wipeSavedwords();
+  }
+
+  static deleteSavedWord(String word) async {
+    await SavedWordsLocalStorageProvider().delete(word);
+    _restoreSavedWords();
   }
 
     

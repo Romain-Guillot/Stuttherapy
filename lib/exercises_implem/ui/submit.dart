@@ -33,9 +33,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
     super.initState();
     widget.exercise.currentResource.stream.listen((ExerciseResource res) {
       checkedWords = {};
-      for(String word in res.getWords()) {
-        checkedWords[word] = false;
-      }
+      res.getWords().forEach((String word) => checkedWords[word] = false);
     });
   }
 
@@ -142,7 +140,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
   }
 
   addCheckedWordsToExercise() {
-    checkedWords.removeWhere((String _, bool checked) => !checked);
+    checkedWords.removeWhere((_, bool checked) => !checked);
     SavedWordsProvider.addSavedWord(widget.exercise, checkedWords.keys);
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stutterapy/log_printer.dart';
 import 'package:stutterapy/providers/account_provider.dart';
 import 'package:stutterapy/strings.dart';
 import 'package:stutterapy/ui/homepage_stutter.dart';
 import 'package:stutterapy/ui/homepage_therapist.dart';
 import 'package:stutterapy/ui/startup.dart';
+
 
 /*
 Regroue SettingsItemWidget to one super widget

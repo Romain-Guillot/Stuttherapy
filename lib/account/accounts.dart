@@ -19,12 +19,13 @@ abstract class User {
 
   User.create();
 
-  restore({@required Set<String> userSavedWord, Map<ExerciseTheme, List<Exercise>> userProgression}) {
-    addSavedWords(userSavedWord);
-    initProgressions(userProgression);
+
+
+  initSavedWords(Iterable<String> words) {
+    List<String> wordsSorted = words.toList();
+    wordsSorted.sort();
+    savedWords.add(wordsSorted);
   }
-
-
 
   Set<String> addSavedWords(Iterable<String> words) {
     _savedWords.addAll(words);
@@ -34,19 +35,15 @@ abstract class User {
     return _savedWords;
   }
 
-  initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {
-    _progression = restoredProgression;
-    progression.add(_progression);
-  }
-
-  wipeProgressions() {
-    _progression = {};
-    progression.add(_progression);
-  }
-
   wipeSavedwords() {
     _savedWords = {};
     savedWords.add([]);
+  }
+
+
+  initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {
+    _progression = restoredProgression;
+    progression.add(_progression);
   }
 
   addProgression(Exercise exercise) {
@@ -58,6 +55,11 @@ abstract class User {
     ExerciseLocalStorageProvider().insert(exercise);
     print("Progression added");
   }
+
+  wipeProgressions() {
+    _progression = {};
+    progression.add(_progression);
+  }  
 }
 
 
