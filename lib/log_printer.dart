@@ -1,5 +1,7 @@
 import 'package:logger/logger.dart';
 
+/// Custom [LogPrinter] to print logs on a single line
+/// (except for exception and stacktrace)
 class MyPrinter extends LogPrinter {
 
   final String name;
