@@ -26,7 +26,7 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
     super.initState();
     widget.exercise.flagEndOfExercise.stream.listen((bool data) {
       if(data) {
-        AccountProvider.user.addProgression(widget.exercise);
+        AccountProvider.addProgression(widget.exercise);
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (ctx) => ExerciseProgressionItemWidget(exercise: widget.exercise)
         ));

@@ -40,28 +40,6 @@ class AccountProvider {
     }
   }
 
-  static restore() {
-    _restoreSavedWords();
-    _restoreProgression();
-  }
-
-  static _restoreSavedWords() async {
-    Set<String> savedWords = await SavedWordsLocalStorageProvider().all();
-    user.initSavedWords(savedWords);
-  }
-
-  static _restoreProgression() async {
-    StreamSubscription subscr;
-    subscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
-      Map<String, ExerciseTheme> themesMap = {};
-      themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
-      Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
-      user.initProgressions(progressions);
-      subscr.cancel();
-    });
-    
-  }
-
   static setSavedUser(User _user) async {
     SharedPreferences _prefs = await SharedPrefProvider.prefs;
     switch (_user.runtimeType) {
@@ -74,9 +52,14 @@ class AccountProvider {
     }
   }
 
-  static Future wipeProgressions() async {
-    await ExerciseLocalStorageProvider().wipe();
-    user.wipeProgressions();
+  static restore() {
+    _restoreSavedWords();
+    _restoreProgression();
+  }
+
+  static _restoreSavedWords() async {
+    Set<String> savedWords = await SavedWordsLocalStorageProvider().all();
+    user.initSavedWords(savedWords);
   }
 
   static wipeSavedwords() async {
@@ -88,6 +71,38 @@ class AccountProvider {
     await SavedWordsLocalStorageProvider().delete(word);
     _restoreSavedWords();
   }
+
+  static addSavedWords(Iterable<String> words) async {
+    words = words.map((String w) => w.toLowerCase());
+    user.addSavedWords(words);
+    SavedWordsLocalStorageProvider().insertAll(words.toSet());
+  }
+
+
+  static _restoreProgression() async {
+    StreamSubscription subscr;
+    subscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
+      Map<String, ExerciseTheme> themesMap = {};
+      themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
+      Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
+      user.initProgressions(progressions);
+      subscr.cancel();
+    });
+  }
+
+  static Future wipeProgressions() async {
+    ExerciseLocalStorageProvider().wipe();
+    user.wipeProgressions();
+  }
+
+  static addProgression(Exercise exercise) async {
+    user.addProgression(exercise);
+    ExerciseLocalStorageProvider().insert(exercise);
+  }
+
+
+
+
 
     
 }

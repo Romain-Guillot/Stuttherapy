@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
-import 'package:stutterapy/providers/saved_word_provider.dart';
+import 'package:stutterapy/providers/account_provider.dart';
+
 
 class SubmitWidget extends StatefulWidget implements ExerciseWidget {
 
@@ -141,6 +142,8 @@ class _SubmitWidgetState extends State<SubmitWidget> {
 
   addCheckedWordsToExercise() {
     checkedWords.removeWhere((_, bool checked) => !checked);
-    SavedWordsProvider.addSavedWord(widget.exercise, checkedWords.keys);
+    Iterable<String> words = checkedWords.keys;
+    widget.exercise.addSavedWords(words);
+    AccountProvider.addSavedWords(words);
   }
 }

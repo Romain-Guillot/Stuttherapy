@@ -4,6 +4,11 @@
 /// Find more detail about it in :
 /// * official documentation : https://pub.dev/packages/sqflite 
 /// * get started flutter guide : https://flutter.dev/docs/cookbook/persistence/sqlite
+/// 
+/// NOTE : Database is useful for larger data, is you just want
+/// to store single element, settings, or other small data consider
+/// user [SharedPreference] see the file "shared_pref_provider.dart" to
+/// use it.
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
