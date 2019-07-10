@@ -7,7 +7,6 @@ import 'package:stutterapy/ui/components/secondary_appbar.dart';
 import 'package:stutterapy/ui/dimen.dart';
 import 'package:stutterapy/ui/exercise/exercise_instance.dart';
 import 'package:stutterapy/ui/exercise_settings/settings_widget_provider.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
 
 
 /// Widget to display the [theme] informations in order to

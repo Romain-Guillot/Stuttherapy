@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
 import 'package:stutterapy/providers/account_provider.dart';
@@ -25,9 +23,8 @@ class ExerciseProgressionWidget extends StatelessWidget {
         stream: AccountProvider.user.progression,
         builder: (BuildContext context, AsyncSnapshot<Map<ExerciseTheme, List<Exercise>>> progressionsSnap) {
           if(!progressionsSnap.hasData || progressionsSnap.data[theme] == null || progressionsSnap.data[theme].length == 0) {
-            return Padding(
-              padding: const EdgeInsets.all(Dimen.PADDING),
-              child: Text("No progression available ..."),
+            return ListTile(
+              title: Text("No progression available ...", style: TextStyle(fontStyle: FontStyle.italic),),
             );
           }else {
             final List<Exercise> progressions = progressionsSnap.data[theme];

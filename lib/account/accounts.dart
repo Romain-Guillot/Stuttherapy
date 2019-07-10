@@ -1,11 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stutterapy/providers/exercise_local_storage.dart';
 
 
 ///
 abstract class User {
   static const String userIdentifier = "";
+
+  bool isLogged = false;
+  String pseudo;
 
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
@@ -15,19 +19,34 @@ abstract class User {
 
   User.create();
 
-  User.restore({@required Set<String> userSavedWord, @required this.progression}) {
+  restore({@required Set<String> userSavedWord, Map<ExerciseTheme, List<Exercise>> userProgression}) {
     addSavedWords(userSavedWord);
+    initProgressions(userProgression);
   }
 
-  bool isLogged = false;
-  String pseudo;
 
-  addSavedWords(Iterable<String> words) {
-    for(String w in words)
-      _savedWords.add(w.toLowerCase());
+
+  Set<String> addSavedWords(Iterable<String> words) {
+    _savedWords.addAll(words);
     List<String> wordsSorted = _savedWords.toList();
     wordsSorted.sort();
     savedWords.add(wordsSorted);
+    return _savedWords;
+  }
+
+  initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {
+    _progression = restoredProgression;
+    progression.add(_progression);
+  }
+
+  wipeProgressions() {
+    _progression = {};
+    progression.add(_progression);
+  }
+
+  wipeSavedwords() {
+    _savedWords = {};
+    savedWords.add([]);
   }
 
   addProgression(Exercise exercise) {
@@ -36,6 +55,7 @@ abstract class User {
       exercise
     ];
     progression.add(_progression);
+    ExerciseLocalStorageProvider().insert(exercise);
     print("Progression added");
   }
 }
@@ -47,10 +67,6 @@ class TherapistUser extends User {
 
   TherapistUser.create() : super.create();
 
-  TherapistUser.restore({
-    @required Set<String> userSavedWord, 
-    @required progression}
-  ) : super.restore(userSavedWord: userSavedWord, progression: progression);
 }
 
 
@@ -60,10 +76,6 @@ class StutterUser extends User {
 
   StutterUser.create() : super.create();
 
-  StutterUser.restore({
-    @required Set<String> userSavedWord, 
-    @required progression}
-  ) : super.restore(userSavedWord: userSavedWord, progression: progression);
 
 }
 

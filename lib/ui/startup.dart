@@ -109,7 +109,7 @@ class _StartUpState extends State<StartUp> {
     AccountProvider.setUser(_user);
 
     if(_appropriateHomePage != null) {
-      // SharedPrefProvider.setSavedUser(_user);
+      AccountProvider.setSavedUser(_user);
       Navigator.pushReplacement(ctx, MaterialPageRoute(
         builder: (BuildContext bc) => _appropriateHomePage
       ));

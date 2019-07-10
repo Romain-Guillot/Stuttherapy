@@ -7,12 +7,7 @@ import 'package:stutterapy/ui/homepage_therapist.dart';
 import 'package:stutterapy/ui/startup.dart';
 
 /*
-TODO
-- review ui/settings/
-- review exercises_library/settings.dart
-
 Regroue SettingsItemWidget to one super widget
-
 */
 final MaterialColor primary = MaterialColor(
   1,
@@ -124,7 +119,7 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: CircularProgressIndicator(value: null,), // undetermine circular progress
+      body: Center(child: CircularProgressIndicator(value: null,)), // undetermine circular progress
     );
   }
 }
