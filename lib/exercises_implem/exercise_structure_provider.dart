@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
-import 'package:stutterapy/exercises_implem/ui/metronome.dart';
-import 'package:stutterapy/exercises_implem/ui/resource.dart';
-import 'package:stutterapy/exercises_implem/ui/submit.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
+import 'package:stuttherapy/exercises_implem/ui/metronome.dart';
+import 'package:stuttherapy/exercises_implem/ui/resource.dart';
+import 'package:stuttherapy/exercises_implem/ui/submit.dart';
 
 class ExerciseStructureEnum {
   static const RESOURCE = 1;

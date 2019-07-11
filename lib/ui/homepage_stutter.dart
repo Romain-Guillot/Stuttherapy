@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/components/drawer_menu.dart';
-import 'package:stutterapy/ui/components/exercises_list.dart';
-import 'package:stutterapy/ui/components/main_appbar.dart';
-import 'package:stutterapy/ui/dimen.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/components/drawer_menu.dart';
+import 'package:stuttherapy/ui/components/exercises_list.dart';
+import 'package:stuttherapy/ui/components/main_appbar.dart';
+import 'package:stuttherapy/ui/dimen.dart';
 
 
 

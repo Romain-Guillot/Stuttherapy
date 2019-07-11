@@ -14,9 +14,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:logger/logger.dart';
-import 'package:stutterapy/log_printer.dart';
+import 'package:stuttherapy/log_printer.dart';
 
 /// Name of the database used to store data for this application
 const String DATABASE = "stuttherapy.db";

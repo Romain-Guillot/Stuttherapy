@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/ui/account/account_log_in.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/ui/account/account_log_in.dart';
 
 class MainAppBar extends AppBar {
   MainAppBar({
@@ -9,7 +9,7 @@ class MainAppBar extends AppBar {
   }) :  assert(user != null),
         super(
           title: title??Image.asset("assets/logo.png", width: 140,),
-          actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
+          // actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],
           centerTitle: true,
         );
 }
@@ -29,16 +29,16 @@ class LogIn extends StatelessWidget {
   }
 }
 
-class AccountInfo extends StatelessWidget {
+// class AccountInfo extends StatelessWidget {
 
-  final User user;
+//   final User user;
 
-  AccountInfo({Key key, @required this.user}) : super(key: key);
+//   AccountInfo({Key key, @required this.user}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      user.pseudo
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       user.pseudo
+//     );
+//   }
+// }

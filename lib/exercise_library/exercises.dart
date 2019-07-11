@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
-import 'package:stutterapy/exercise_library/recording_resources.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/recording_resources.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'exercises.g.dart';

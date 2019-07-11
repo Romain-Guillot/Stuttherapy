@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercise_library/recording_resources.dart';
-import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/recording_resources.dart';
+import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
 
 
 class AudioRecorder extends StatefulWidget implements ExerciseWidget {

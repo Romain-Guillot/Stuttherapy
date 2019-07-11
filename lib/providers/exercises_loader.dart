@@ -1,11 +1,11 @@
 import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/exercise_daf.dart';
-import 'package:stutterapy/exercises_implem/exercise_metronome.dart';
-import 'package:stutterapy/exercises_implem/exercise_mirroring.dart';
-import 'package:stutterapy/exercises_implem/exercise_reading.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/exercise_daf.dart';
+import 'package:stuttherapy/exercises_implem/exercise_metronome.dart';
+import 'package:stuttherapy/exercises_implem/exercise_mirroring.dart';
+import 'package:stuttherapy/exercises_implem/exercise_reading.dart';
 
 /// Provider that handle the [ExerciseTheme] of the application
 /// ExerciseThemes are available when there are ready into the

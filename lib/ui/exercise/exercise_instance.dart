@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
-import 'package:stutterapy/ui/exercise/exercise_progression_item.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/exercise_structure_provider.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/ui/exercise/exercise_progression_item.dart';
 
 class ExerciseInstanceWidget extends StatefulWidget {
   

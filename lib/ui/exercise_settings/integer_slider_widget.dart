@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/ui/exercise_settings/settings_item_widget.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
+import 'package:stuttherapy/ui/exercise_settings/settings_item_widget.dart';
 
 
 class IntegerSliderWidget extends SettingsItemWidget {

@@ -1,5 +1,5 @@
 import 'package:rxdart/subjects.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
 
 
 ///

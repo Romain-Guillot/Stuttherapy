@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/dimen.dart';
-import 'package:stutterapy/ui/homepage_stutter.dart';
-import 'package:stutterapy/ui/homepage_therapist.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/dimen.dart';
+import 'package:stuttherapy/ui/homepage_stutter.dart';
+import 'package:stuttherapy/ui/homepage_therapist.dart';
 
 /// Start-up page, display when it's the first application launch (or first 
 /// launch without go further).

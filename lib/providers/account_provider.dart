@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/providers/exercise_local_storage.dart';
-import 'package:stutterapy/providers/exercises_loader.dart';
-import 'package:stutterapy/providers/shared_pref_provider.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/exercise_local_storage.dart';
+import 'package:stuttherapy/providers/exercises_loader.dart';
+import 'package:stuttherapy/providers/shared_pref_provider.dart';
 
 
 class AccountProvider {

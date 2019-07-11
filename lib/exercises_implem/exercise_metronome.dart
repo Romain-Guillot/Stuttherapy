@@ -1,9 +1,9 @@
 
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
-import 'package:stutterapy/exercises_implem/ui/metronome.dart';
-import 'package:stutterapy/strings.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
+import 'package:stuttherapy/exercises_implem/exercise_structure_provider.dart';
+import 'package:stuttherapy/exercises_implem/ui/metronome.dart';
+import 'package:stuttherapy/strings.dart';
 
 class MetronomeExercise extends ExerciseTheme{
   MetronomeExercise() : super(

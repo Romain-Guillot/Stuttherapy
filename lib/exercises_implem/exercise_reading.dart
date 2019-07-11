@@ -1,5 +1,5 @@
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/strings.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/strings.dart';
 
 class ReadingExercise extends ExerciseTheme {
   ReadingExercise() : super(

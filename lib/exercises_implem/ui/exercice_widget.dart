@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
 
 abstract class ExerciseWidget {
   final Exercise exercise;

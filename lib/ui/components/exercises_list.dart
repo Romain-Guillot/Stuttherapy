@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/providers/exercises_loader.dart';
-import 'package:stutterapy/ui/exercise/exercise_progression.dart';
-import 'package:stutterapy/ui/exercise/exercise_homepage.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/exercises_loader.dart';
+import 'package:stuttherapy/ui/exercise/exercise_progression.dart';
+import 'package:stuttherapy/ui/exercise/exercise_homepage.dart';
 
 
 ///

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercise_library/recording_resources.dart';
-import 'package:stutterapy/exercises_implem/ui/audio_recorder.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
-import 'package:stutterapy/ui/dimen.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/recording_resources.dart';
+import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/ui/dimen.dart';
 
 class ExerciseProgressionItemWidget extends StatelessWidget {
 

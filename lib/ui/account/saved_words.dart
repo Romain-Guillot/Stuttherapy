@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 
 class SavedWordsWidget extends StatelessWidget {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/homepage_stutter.dart';
-import 'package:stutterapy/ui/homepage_therapist.dart';
-import 'package:stutterapy/ui/startup.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/homepage_stutter.dart';
+import 'package:stuttherapy/ui/homepage_therapist.dart';
+import 'package:stuttherapy/ui/startup.dart';
 
 
 /*
@@ -73,11 +73,17 @@ class Stutterapy extends StatelessWidget {
             color: Colors.black
           )
         ),
+        
         // primarySwatch: primary,
-        buttonTheme: ButtonThemeData(buttonColor: primary[400], textTheme: ButtonTextTheme.primary),
+        buttonTheme: ButtonThemeData(
+          buttonColor: primary[400], 
+          textTheme: ButtonTextTheme.primary,
+        ),
         primaryColor: primary[400],
         primaryColorDark: primary[700],
         primaryColorLight: primary[200],
+
+        
         backgroundColor: Colors.white,
         sliderTheme: SliderThemeData(
           // thumbColor: primary[700],
