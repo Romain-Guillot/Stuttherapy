@@ -1,13 +1,19 @@
 import 'package:rxdart/subjects.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 
+
+class RequiredAuthentification implements Exception {
+  @override
+  String toString() => "This action required user authentification. Please log in.";
+}
 
 ///
 abstract class User {
   static const String userIdentifier = "";
 
-  bool isLogged = false;
-  String pseudo;
+  LoggedUser _loggedUser;
+  BehaviorSubject<LoggedUser> loggedUser = BehaviorSubject<LoggedUser>();
 
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
@@ -17,6 +23,12 @@ abstract class User {
 
   User.create();
 
+  bool get isLogged => _loggedUser != null;
+
+  removeLoggedUsed() {
+    _loggedUser = null;
+    loggedUser.add(null);
+  }
 
 
   initSavedWords(Iterable<String> words) {
@@ -55,7 +67,12 @@ abstract class User {
   wipeProgressions() {
     _progression = {};
     progression.add(_progression);
-  }  
+  }
+
+  setLoggedUser(LoggedUser user) {
+    _loggedUser = user;
+    loggedUser.add(_loggedUser);
+  }
 }
 
 

@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_local_storage.dart';
 import 'package:stuttherapy/providers/exercises_loader.dart';
 import 'package:stuttherapy/providers/shared_pref_provider.dart';
@@ -18,9 +20,20 @@ class AccountProvider {
     user = _user;
   }
 
+  static setLoggedUser(LoggedUser loggedUser) {
+    user.setLoggedUser(loggedUser);
+    // add to sharedPref
+  }
+
+  static logOutUser() {
+    AuthentificationProvider.logout();
+    user.removeLoggedUsed();
+  }
+
   /// Retreive user date (progressions, etc.)
   ///  
   static Future<bool> getSavedUser() async {
+
     SharedPreferences _prefs = await SharedPrefProvider.prefs;
     String accountType = _prefs.getString(existingAccount);
     if(accountType == null)
@@ -30,14 +43,18 @@ class AccountProvider {
       case StutterUser.userIdentifier:
         user = StutterUser.create();
         restore();
-        return true;
+        break;
       case TherapistUser.userIdentifier:
         user = TherapistUser.create();
         restore();
-        return true;
+        break;
       default:
         return false;
     }
+    AuthentificationProvider.currentUser().then((LoggedUser loggedUser) {
+        user.setLoggedUser(loggedUser);
+    });
+    return true;
   }
 
   static setSavedUser(User _user) async {

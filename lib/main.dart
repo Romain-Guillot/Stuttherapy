@@ -96,6 +96,10 @@ class Stutterapy extends StatelessWidget {
           overlayColor: secondaryColor.withAlpha(30)
         ),
 
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderSide: BorderSide(width: 1))
+        ),
+
         accentColor: secondaryColor,
 
       ),

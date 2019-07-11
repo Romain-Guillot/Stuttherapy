@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/ui/account/account_homepage.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/account/saved_words.dart';
-import 'package:stuttherapy/ui/components/main_appbar.dart';
+
 
 class DrawerMenu extends Drawer {
 
@@ -25,12 +27,8 @@ class DrawerMenu extends Drawer {
             //   accountEmail: Text("kjndksf"),
             //   currentAccountPicture: CircleAvatar(backgroundColor: Colors.red,),
             // ),
-            ListTile(
-              title: RaisedButton(child:Text("Log-in"), onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn()));
-              },),
-              subtitle: FlatButton(child:Text("Sign-up"),textColor: Theme.of(context).primaryColor, onPressed: () {},),
-            ),
+            accountInformation(),
+            
             ListTile(
               title: Text("Saved words"),
               onTap: () => Navigator.push(context, MaterialPageRoute(
@@ -38,7 +36,7 @@ class DrawerMenu extends Drawer {
               )),
             ),
             ListTile(
-              title: Text("Synchronisation"),
+              title: Text("Exercises synchronisation"),
               onTap: () {},
             ),
             ListTile(
@@ -60,6 +58,61 @@ class DrawerMenu extends Drawer {
           ],
         ),
       ),
+    );
+  }
+
+  accountInformation() {
+    return StreamBuilder(
+      stream: AccountProvider.user.loggedUser,
+      builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapUser) {
+        if(!snapUser.hasData) {
+          return ListTile(
+            title: RaisedButton(
+              child:Text("Log-in"), 
+              onPressed: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,)))
+            ),
+            subtitle: FlatButton(
+              child:Text("Sign-up"),
+              textColor: Theme.of(context).primaryColor, 
+              onPressed: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SINGUP,)))
+            ),
+          );
+        } else {
+          LoggedUser user = snapUser.data;
+          // return UserAccountsDrawerHeader(
+          //   accountEmail: Text(user.email),
+          //   accountName: Text(user.name??""),
+          //   currentAccountPicture: CircleAvatar(backgroundColor: Color.fromRGBO(0, 0, 0, 0.2), child: Text(user.email[0].toUpperCase()),),
+          // );
+          return Container( // Container inside an InkWell inside a Material inside a Container to handle ripple effect and background color ...
+            color: Theme.of(context).primaryColor,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                child: Container(
+                  child: ListTileTheme(
+                    textColor: Colors.white,
+                    iconColor: Colors.white,
+                    child: ListTile(
+                      leading: Icon(Icons.account_circle),
+                      title: Text("Your profile", style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(user.email, style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.7))),
+                      
+                    ),
+                  ),
+                ),
+                onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => AccountHomePage()
+                  ));
+                },
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 

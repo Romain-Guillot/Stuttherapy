@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/account/accounts.dart';
-import 'package:stuttherapy/ui/account/account_log_in.dart';
+
 
 class MainAppBar extends AppBar {
   MainAppBar({
@@ -14,20 +14,20 @@ class MainAppBar extends AppBar {
         );
 }
 
-class LogIn extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      // child: Text("Log in".toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor),),
-      icon: Icon(Icons.account_circle, color: Colors.black,),
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (BuildContext ctx) => AccountLogIn()
-        ));
-      },
-    );
-  }
-}
+// class LogIn extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return IconButton(
+//       // child: Text("Log in".toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor),),
+//       icon: Icon(Icons.account_circle, color: Colors.black,),
+//       onPressed: () {
+//         Navigator.push(context, MaterialPageRoute(
+//           builder: (BuildContext ctx) => AccountLogIn()
+//         ));
+//       },
+//     );
+//   }
+// }
 
 // class AccountInfo extends StatelessWidget {
 
