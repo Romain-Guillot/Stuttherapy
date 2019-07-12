@@ -23,8 +23,8 @@ class AuthentificationProvider {
     } catch(e) {
       throw AuthentificationError("Something went wrong ...");
     }
-
   }
+
 
   static Future<LoggedUser> classicSignUp(String email, String password) async {
     try {
@@ -62,6 +62,7 @@ class LoggedUser {
 
   LoggedUser(this.user) ;
 
-  String get email => user.email;
-  String get name => user.displayName;
+  String get email => user?.email;
+  String get name => user?.displayName;
+  String get uid => user?.uid;
 }

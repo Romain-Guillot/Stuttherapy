@@ -12,8 +12,8 @@ class RequiredAuthentification implements Exception {
 abstract class User {
   static const String userIdentifier = "";
 
-  LoggedUser _loggedUser;
-  BehaviorSubject<LoggedUser> loggedUser = BehaviorSubject<LoggedUser>();
+  LoggedUser loggedUser;
+  BehaviorSubject<LoggedUser> loggedUserStream = BehaviorSubject<LoggedUser>();
 
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
@@ -23,11 +23,11 @@ abstract class User {
 
   User.create();
 
-  bool get isLogged => _loggedUser != null;
+  bool get isLogged => loggedUser != null && loggedUser.uid != null;
 
   removeLoggedUsed() {
-    _loggedUser = null;
-    loggedUser.add(null);
+    loggedUser = null;
+    loggedUserStream.add(null);
   }
 
 
@@ -70,8 +70,8 @@ abstract class User {
   }
 
   setLoggedUser(LoggedUser user) {
-    _loggedUser = user;
-    loggedUser.add(_loggedUser);
+    loggedUser = user;
+    loggedUserStream.add(loggedUser);
   }
 }
 

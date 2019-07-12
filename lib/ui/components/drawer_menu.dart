@@ -63,9 +63,9 @@ class DrawerMenu extends Drawer {
 
   accountInformation() {
     return StreamBuilder(
-      stream: AccountProvider.user.loggedUser,
+      stream: AccountProvider.user.loggedUserStream,
       builder: (BuildContext context, AsyncSnapshot<LoggedUser> snapUser) {
-        if(!snapUser.hasData) {
+        if(!snapUser.hasData || snapUser.data.user == null) {
           return ListTile(
             title: RaisedButton(
               child:Text("Log-in"), 
@@ -76,7 +76,7 @@ class DrawerMenu extends Drawer {
               child:Text("Sign-up"),
               textColor: Theme.of(context).primaryColor, 
               onPressed: () =>
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SINGUP,)))
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNUP,)))
             ),
           );
         } else {

@@ -5,7 +5,7 @@ import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 
-enum FormMode { SIGNIN , SINGUP }
+enum FormMode { SIGNIN , SIGNUP }
 
 class AccountLogIn extends StatefulWidget {
 
@@ -46,7 +46,7 @@ class _AccountLogInState extends State<AccountLogIn> {
                         textColor: Theme.of(context).primaryColor,
                         child: Text(isSignIn ? "Sign up" : "Sign in"),
                         onPressed: () {
-                          setState(() => mode = (isSignIn ? FormMode.SINGUP : FormMode.SIGNIN));
+                          setState(() => mode = (isSignIn ? FormMode.SIGNUP : FormMode.SIGNIN));
                         },
                       ),
                     ],

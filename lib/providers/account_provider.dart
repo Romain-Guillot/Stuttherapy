@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
 import 'package:stuttherapy/providers/exercise_local_storage.dart';
 import 'package:stuttherapy/providers/exercises_loader.dart';
 import 'package:stuttherapy/providers/shared_pref_provider.dart';
@@ -115,11 +117,21 @@ class AccountProvider {
   static addProgression(Exercise exercise) async {
     user.addProgression(exercise);
     ExerciseLocalStorageProvider().insert(exercise);
+    // if(user.isLogged)
+      // FirebaseCloudStorageProvider().uploadExercise(exercise, user.loggedUser);
   }
 
+  static syncProgression(Exercise exercise) {
+    if(user.isLogged) 
+      FirebaseCloudStorageProvider().uploadExercise(exercise, user.loggedUser);
+    else throw RequiredLoggedUserException();
+  }
 
-
-
-
+  static Future unsyncProgression(Exercise exercise) async {
+    if(user.isLogged) FirebaseCloudStorageProvider().deleteExercise(exercise, user.loggedUser);
+    else throw RequiredLoggedUserException();
     
+  }
 }
+
+class RequiredLoggedUserException implements Exception {}

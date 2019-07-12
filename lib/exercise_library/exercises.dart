@@ -137,7 +137,7 @@ class Exercise implements Comparable {
   RecordingResource recordingResource;
 
   /// When the exercise has been started.
-  final MyDateTime date;
+  MyDateTime date;
 
   /// Set of words that have to be saved (e.g. : difficult words)
   Set<String> savedWords = {};
@@ -167,11 +167,15 @@ class Exercise implements Comparable {
 
   /// Main constructor to ceate an [Exercise] instance for the first
   /// time. [currentResource] is init with a resource..
+  /// If [createdAt] is null, [date] will be the current time, else
+  /// [date] will be [createAt]
   Exercise({
     @required this.theme, 
-    @required this.resources
-  }) : this.date = MyDateTime.now() /*: assert(resources != null, "Please provide resources.")*/
+    @required this.resources,
+    DateTime createdAt,
+  })
   {
+    date = MyDateTime(createdAt??DateTime.now() );
     moveNextResource(); // init [currentResource] stream with a resource
   }
 
@@ -222,6 +226,9 @@ class Exercise implements Comparable {
   /// (override the compare method with the date compare methode)
   @override
   int compareTo(other) => other.runtimeType == Exercise ? (other as Exercise).date.compareTo(date) : 0;
+
+  /// Return an identifiant for the exercise
+  int get key => date.date.microsecondsSinceEpoch;
 }
 
 
@@ -243,16 +250,29 @@ class ExerciseFeedback {
 /// Encapsulation of [DateTime] object to redefined the
 /// [toString] method to return a String representation
 /// that follow the following format : yyyy-MM-dd
-class MyDateTime extends DateTime {
+@JsonSerializable()
+class MyDateTime implements Comparable {
 
-  static DateFormat _formatter =  DateFormat('yyyy-MM-dd');
+  DateTime date;
 
-  MyDateTime.now() : super.now();
+  @JsonKey(ignore: true)
+  static DateFormat _formatter =  DateFormat('yyyy-MM-dd HH:mm');
+
+  MyDateTime(this.date);
+
+  factory MyDateTime.fromJson(Map<String, dynamic> json) => _$MyDateTimeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MyDateTimeToJson(this);
   
   /// String representation of the date with the following format :
   /// yyyy-MM-dd
   @override
   String toString() {
-    return _formatter.format(this);
+    return _formatter.format(date);
+  }
+
+  @override
+  int compareTo(other) {
+    return other.runtimeType == MyDateTime ? (date.compareTo((other as MyDateTime).date)) : 0;
   }
 }
