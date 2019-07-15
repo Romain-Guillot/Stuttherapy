@@ -127,7 +127,7 @@ class ExerciseTheme {
 class Exercise implements Comparable {
 
   ///Theme of the exercise
-  final ExerciseTheme theme;
+  ExerciseTheme theme;
 
   /// Defined resources used by the exercise,it's
   /// the exercise content

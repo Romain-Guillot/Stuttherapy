@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
@@ -103,8 +101,8 @@ class AccountProvider {
     subscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
       Map<String, ExerciseTheme> themesMap = {};
       themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
-      Map<ExerciseTheme, List<Exercise>> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
-      user.initProgressions(progressions);
+      List<Exercise> progressions = await ExerciseLocalStorageProvider().all(themes:themesMap);
+      user.addProgressions(progressions);
       subscr.cancel();
     });
   }
@@ -117,8 +115,6 @@ class AccountProvider {
   static addProgression(Exercise exercise) async {
     user.addProgression(exercise);
     ExerciseLocalStorageProvider().insert(exercise);
-    // if(user.isLogged)
-      // FirebaseCloudStorageProvider().uploadExercise(exercise, user.loggedUser);
   }
 
   static syncProgression(Exercise exercise) {
@@ -130,8 +126,27 @@ class AccountProvider {
   static Future unsyncProgression(Exercise exercise) async {
     if(user.isLogged) FirebaseCloudStorageProvider().deleteExercise(exercise, user.loggedUser);
     else throw RequiredLoggedUserException();
-    
+  }
+
+  static Future backupProgression() async {
+    if(user.isLogged) {
+      StreamSubscription themeSubscr;
+      themeSubscr = ExercisesLoader.themes.listen((List<ExerciseTheme> themes) {
+        StreamSubscription exerciseSubscr;
+        Map<String, ExerciseTheme> themesMap = {};
+        themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
+        exerciseSubscr = FirebaseCloudStorageProvider().all(user.loggedUser, themesMap).listen((List<Exercise> exercises) {
+          user.addProgressions(exercises);
+          exercises.forEach((Exercise ex) => addProgression(ex));
+          exerciseSubscr.cancel();
+          themeSubscr.cancel();
+        });
+      });
+    } else throw RequiredLoggedUserException();
   }
 }
 
-class RequiredLoggedUserException implements Exception {}
+class RequiredLoggedUserException implements Exception {
+  @override
+  String toString() => "This action required to be logged";
+}

@@ -57,6 +57,24 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
     }
   }
 
+  BehaviorSubject<List<Exercise>> all(LoggedUser user, Map<String, ExerciseTheme> themes) {
+    if(isLogged(user)) {
+      String userUID = user.uid;
+      Stream<QuerySnapshot> exerciseDocumentStream = Firestore.instance
+        .collection(usersCollection)
+        .document(userUID)
+        .collection(exercisesCollection).snapshots();
+      
+      BehaviorSubject<List<Exercise>> exercises = BehaviorSubject<List<Exercise>>();
+      exerciseDocumentStream.listen((QuerySnapshot snap) {
+        exercises.add(
+          snap.documents.map((DocumentSnapshot doc) => fromDocument_1(doc, themes)).toList()
+        );
+      });
+      return exercises;
+    } else throw ExerciseCloudStorageException("Invalid user to get all exercises");
+  }
+
   BehaviorSubject<bool> isSync(Exercise exercise, LoggedUser user) {
     BehaviorSubject<bool> isSyncStream = new BehaviorSubject<bool>();
     if(isLogged(user)) {
@@ -81,8 +99,16 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
     };
   }
 
-  Exercise fromDocument_1(DocumentSnapshot document ) {
-    return Exercise.fromJson(document["serialized"]);
+  Exercise fromDocument_1(DocumentSnapshot document, Map<String, ExerciseTheme> themes) {
+    try {
+      Exercise ex = Exercise.fromJson(jsonDecode(document.data["serialized"]));
+      ex.theme = themes[ex.theme.name];
+      return ex;
+    } catch(err, stack) {
+      logger.e("Unable to create Exercise instance from document ${document?.data}", err, stack);
+      throw ExerciseCloudStorageException("Unbale to dezerialize exercise");
+    }
+    
   }
 
   bool isLogged(LoggedUser user) => user != null && user.uid != null;

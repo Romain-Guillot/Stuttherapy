@@ -127,7 +127,7 @@ class DatabaseHandlerImplem implements DatabaseHandler {
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE ${ExerciseLocalStorageProvider.TABLE_EXERCISE} (
-            ${ExerciseLocalStorageProvider.TABLE_EXERCISE_ID_COLUMN} INTEGER PRIMARY KEY AUTOINCREMENT,
+            ${ExerciseLocalStorageProvider.TABLE_EXERCISE_KEY_COLUMN} INTEGER PRIMARY KEY,
             ${ExerciseLocalStorageProvider.TABLE_EXERCISE_CONTENT_COLUMN} TEXT NOT NULL
           )
           ''');
@@ -228,7 +228,7 @@ class SavedWordsLocalStorageProvider extends TableHelper {
 class ExerciseLocalStorageProvider extends TableHelper {
 
   static const TABLE_EXERCISE = "exercise";
-  static const TABLE_EXERCISE_ID_COLUMN = "id";
+  static const TABLE_EXERCISE_KEY_COLUMN = "key";
   static const TABLE_EXERCISE_CONTENT_COLUMN = "content";
   
   ExerciseLocalStorageProvider() : super(handler: dbHandler, tableName: TABLE_EXERCISE);
@@ -239,7 +239,11 @@ class ExerciseLocalStorageProvider extends TableHelper {
     try {
       await super.insert(null);
       String exerciseJson = jsonEncode(exercise.toJson());
-      int id = await db.insert(TABLE_EXERCISE, {TABLE_EXERCISE_CONTENT_COLUMN: exerciseJson}, conflictAlgorithm: ConflictAlgorithm.replace);
+      int id = await db.insert(
+        TABLE_EXERCISE, 
+        {TABLE_EXERCISE_CONTENT_COLUMN: exerciseJson, TABLE_EXERCISE_KEY_COLUMN: exercise.key}, 
+        conflictAlgorithm: ConflictAlgorithm.replace
+      );
       DatabaseLogger.insert(success: true, tableName: tableName, object: exercise);
       return id;
     } catch(err, stack) {
@@ -263,20 +267,19 @@ class ExerciseLocalStorageProvider extends TableHelper {
   /// is a [Map] with the [ExerciseTheme.name] as key and the theme as value.
   /// The [Map] returned by this function is a map with themes as keys and a list
   /// of exercises for each themes.
-  Future<Map<ExerciseTheme, List<Exercise>>> all({@required Map<String, ExerciseTheme> themes}) async {
+  Future<List<Exercise>> all({@required Map<String, ExerciseTheme> themes}) async {
     try {
       await super.all();
       
       List<Map<String, dynamic>> progressions = await db.query(TABLE_EXERCISE, columns: [TABLE_EXERCISE_CONTENT_COLUMN]);
-      Map<ExerciseTheme, List<Exercise>> exercises = {};
+      List<Exercise> exercises = [];
       if(progressions != null) {
-        themes.values.forEach((ExerciseTheme theme) => exercises[theme] = []);
-
         for(Map<String, dynamic> row in progressions) {
           Map json = jsonDecode(row[TABLE_EXERCISE_CONTENT_COLUMN]);
           Exercise exercise = Exercise.fromJson(json);
+          exercise.theme = themes[exercise.theme.name];
           try {
-            exercises[themes[exercise.theme.name]].add(exercise);
+            exercises.add(exercise);
           } catch(e) {
             DatabaseLogger.log(message: "Unable to add exercise to ${exercise.theme.name}.");
           }
@@ -286,7 +289,7 @@ class ExerciseLocalStorageProvider extends TableHelper {
       return exercises;
     } catch(err, stack) {
       DatabaseLogger.all(success: false, error: err, stacktrace: stack, tableName: tableName);
-      return {};
+      return [];
     }
   }
 }

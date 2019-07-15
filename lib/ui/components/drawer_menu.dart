@@ -31,16 +31,14 @@ class DrawerMenu extends Drawer {
             
             ListTile(
               title: Text("Saved words"),
+              subtitle: Text("All your words saved during your trainings."),
               onTap: () => Navigator.push(context, MaterialPageRoute(
                 builder: (context) => SavedWordsWidget()
               )),
             ),
             ListTile(
-              title: Text("Exercises synchronisation"),
-              onTap: () {},
-            ),
-            ListTile(
-              title: Text("Wipe my progressions"),
+              title: Text("Wipe local progressions"),
+              subtitle: Text("Deleted progressions saved on your device. It will not affect your cloud progressions."),
               onTap: () {
                 Navigator.pop(context);
                 AccountProvider.wipeProgressions().then(
@@ -55,10 +53,39 @@ class DrawerMenu extends Drawer {
                 );
               },
             ),
+            ListTile(
+              title: Text("Backup cloud progression"),
+              subtitle: Text("Exercises progression synchronise in the cloud will be downladed on your device."),
+              onTap: () => backupProgression(newContext)
+            ),
           ],
         ),
       ),
     );
+  }
+
+  backupProgression(BuildContext context) async {
+    Navigator.pop(context);
+    try {
+      if(AccountProvider.user.isLogged) {
+        await AccountProvider.backupProgression();
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text("Progressions downloaded !"), behavior: SnackBarBehavior.floating,)
+        );
+      } else {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,)
+        ));
+      }
+    } catch(err) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(err.toString()),
+          backgroundColor: Theme.of(context).errorColor,
+          behavior: SnackBarBehavior.floating,
+        )
+      );
+    }
   }
 
   accountInformation() {

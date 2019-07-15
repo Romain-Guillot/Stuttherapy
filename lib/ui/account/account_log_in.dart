@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';

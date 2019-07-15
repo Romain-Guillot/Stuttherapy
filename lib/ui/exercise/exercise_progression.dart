@@ -20,13 +20,13 @@ class ExerciseProgressionWidget extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: AccountProvider.user.progression,
-        builder: (BuildContext context, AsyncSnapshot<Map<ExerciseTheme, List<Exercise>>> progressionsSnap) {
+        builder: (BuildContext context, AsyncSnapshot<Map<ExerciseTheme, Map<int, Exercise>>> progressionsSnap) {
           if(!progressionsSnap.hasData || progressionsSnap.data[theme] == null || progressionsSnap.data[theme].length == 0) {
             return ListTile(
               title: Text("No progression available ...", style: TextStyle(fontStyle: FontStyle.italic),),
             );
           }else {
-            final List<Exercise> progressions = progressionsSnap.data[theme];
+            final List<Exercise> progressions = progressionsSnap.data[theme].values.toList();
             progressions.sort();
             return ListView.builder(
               itemCount: progressions.length,

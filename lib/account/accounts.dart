@@ -18,8 +18,8 @@ abstract class User {
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
 
-  BehaviorSubject<Map<ExerciseTheme, List<Exercise>>> progression = BehaviorSubject<Map<ExerciseTheme, List<Exercise>>>();
-  Map<ExerciseTheme, List<Exercise>> _progression = {}; 
+  BehaviorSubject<Map<ExerciseTheme, Map<int, Exercise>>> progression = BehaviorSubject<Map<ExerciseTheme, Map<int, Exercise>>>();
+  Map<ExerciseTheme, Map<int, Exercise>> _progression = {}; 
 
   User.create();
 
@@ -51,16 +51,21 @@ abstract class User {
   }
 
 
-  initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {
-    _progression = restoredProgression;
-    progression.add(_progression);
+  addProgressions(List<Exercise> restoredProgression) {
+    restoredProgression.forEach((Exercise ex) => addProgression(ex));
+    // Map<ExerciseTheme, Map<int, Exercise>> exercises = {};
+    // restoredProgression.keys.forEach((ExerciseTheme t) {
+    //   Map<int, Exercise> themeExercises = {};
+    //   restoredProgression[t].forEach((Exercise ex) => themeExercises[ex.key] = ex);
+    //   exercises[t] = themeExercises;
+    // });
+    // _progression.addAll(exercises);
+    // progression.add(_progression);
   }
 
   addProgression(Exercise exercise) {
-    _progression[exercise.theme] = [
-      ..._progression[exercise.theme]??[], 
-      exercise
-    ];
+    if(_progression[exercise.theme] == null) _progression[exercise.theme] = {};
+    _progression[exercise.theme][exercise.key] = exercise;
     progression.add(_progression);
   }
 
