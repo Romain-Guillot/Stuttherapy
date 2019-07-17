@@ -1,4 +1,5 @@
 import 'package:rxdart/subjects.dart';
+import 'package:stuttherapy/account/feed.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 
@@ -78,6 +79,8 @@ abstract class User {
     loggedUser = user;
     loggedUserStream.add(loggedUser);
   }
+
+  String get identifier;
 }
 
 
@@ -85,7 +88,16 @@ abstract class User {
 class TherapistUser extends User {
   static const String userIdentifier = "Therapist";
 
+  BehaviorSubject<List<LoggedUserMeta>> patients = BehaviorSubject<List<LoggedUserMeta>>();
+
   TherapistUser.create() : super.create();
+
+  initPatient(List<LoggedUserMeta> _patients) {
+    patients.add(_patients);
+  }
+
+  @override
+  String get identifier => userIdentifier;
 
 }
 
@@ -94,8 +106,12 @@ class TherapistUser extends User {
 class StutterUser extends User {
   static const String userIdentifier = "Stutter";
 
+  LoggedUserMeta idTherapist;
+
   StutterUser.create() : super.create();
 
+  @override
+  String get identifier => userIdentifier;
 
 }
 

@@ -5,8 +5,7 @@ import 'package:stuttherapy/account/accounts.dart';
 class MainAppBar extends AppBar {
   MainAppBar({
     Widget title,
-    @required User user,
-  }) :  assert(user != null),
+  }) :
         super(
           title: title??Image.asset("assets/logo.png", width: 140,),
           // actions: !user.isLogged ? [LogIn()] : [AccountInfo(user: user)],

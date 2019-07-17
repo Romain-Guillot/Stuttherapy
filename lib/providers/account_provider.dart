@@ -1,13 +1,18 @@
 import 'dart:async';
 
+import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/account/feed.dart';
+import 'package:stuttherapy/exercise_library/date.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
 import 'package:stuttherapy/providers/exercise_local_storage.dart';
 import 'package:stuttherapy/providers/exercises_loader.dart';
+import 'package:stuttherapy/providers/feed_provider.dart';
 import 'package:stuttherapy/providers/shared_pref_provider.dart';
+import 'package:stuttherapy/providers/therapist_provider.dart';
 
 
 class AccountProvider {
@@ -22,7 +27,6 @@ class AccountProvider {
 
   static setLoggedUser(LoggedUser loggedUser) {
     user.setLoggedUser(loggedUser);
-    // add to sharedPref
   }
 
   static logOutUser() {
@@ -52,7 +56,14 @@ class AccountProvider {
         return false;
     }
     AuthentificationProvider.currentUser().then((LoggedUser loggedUser) {
+      if(loggedUser != null) {
         user.setLoggedUser(loggedUser);
+        if(user is StutterUser)
+          FeedProvider.initFeed(loggedUser, user.loggedUser.uid);
+        if(user is TherapistUser)
+          initPatients();
+      }
+
     });
     return true;
   }
@@ -143,6 +154,14 @@ class AccountProvider {
         });
       });
     } else throw RequiredLoggedUserException();
+  }
+
+  static initPatients() {
+    if(user is TherapistUser && user.isLogged) {
+      FirebaseCloudTherapistProvider().allPatients(user.loggedUser).listen((List<LoggedUserMeta> patients) {
+        (user as TherapistUser).initPatient(patients);
+      });
+    }
   }
 }
 

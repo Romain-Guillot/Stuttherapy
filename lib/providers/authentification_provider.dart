@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 
 
 class AuthentificationError implements Exception {
@@ -44,15 +45,15 @@ class AuthentificationProvider {
 
   static Future<LoggedUser> currentUser() async {
     FirebaseUser user = await auth.currentUser();
-    return LoggedUser(user);
+    return user == null ? null : LoggedUser(user);
   }
 
   static googleSignIn() {
-
+    // TODO
   }
 
   static googleSignUp() {
-
+    // TODO
   }
   
 }
@@ -65,4 +66,12 @@ class LoggedUser {
   String get email => user?.email;
   String get name => user?.displayName;
   String get uid => user?.uid;
+}
+
+class LoggedUserMeta {
+  final String name;
+  final String uid;
+  final String email;
+
+  LoggedUserMeta({@required this.name, @required this.uid, @required this.email});
 }

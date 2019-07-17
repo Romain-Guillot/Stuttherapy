@@ -58,11 +58,3 @@ ExerciseFeedback _$ExerciseFeedbackFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ExerciseFeedbackToJson(ExerciseFeedback instance) =>
     <String, dynamic>{'message': instance.message};
-
-MyDateTime _$MyDateTimeFromJson(Map<String, dynamic> json) {
-  return MyDateTime(
-      json['date'] == null ? null : DateTime.parse(json['date'] as String));
-}
-
-Map<String, dynamic> _$MyDateTimeToJson(MyDateTime instance) =>
-    <String, dynamic>{'date': instance.date?.toIso8601String()};

@@ -31,7 +31,7 @@ class ExerciseProgressionWidget extends StatelessWidget {
             return ListView.builder(
               itemCount: progressions.length,
               itemBuilder: (BuildContext ctx, int position) 
-                => _ExerciseProgressionListItem(exercise: progressions.elementAt(position),),
+                => ExerciseProgressionListItem(exercise: progressions.elementAt(position),),
             );
           }
         },
@@ -40,10 +40,10 @@ class ExerciseProgressionWidget extends StatelessWidget {
   }
 }
 
-class _ExerciseProgressionListItem extends StatelessWidget {
+class ExerciseProgressionListItem extends StatelessWidget {
   final Exercise exercise;
 
-  _ExerciseProgressionListItem({Key key, @required this.exercise}) : super(key: key);
+  ExerciseProgressionListItem({Key key, @required this.exercise}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

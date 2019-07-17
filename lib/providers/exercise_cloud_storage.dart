@@ -9,9 +9,10 @@ import 'package:logger/logger.dart';
 import 'package:stuttherapy/log_printer.dart';
 
 abstract class BaseExerciseCloudStorage {
-
   uploadExercise(Exercise exercise, LoggedUser user);
   deleteExercise(Exercise exercise, LoggedUser user);
+  all(LoggedUser user, Map<String, ExerciseTheme> themes);
+  isSync(Exercise exercise, LoggedUser user);
 }
 
 
@@ -36,6 +37,7 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
         logger.i("Document added : ${exercise.key}");
       } catch(err, stack) {
         logger.e("Unable to add document into Firestore database.", err, stack);
+        throw ExerciseCloudStorageException("Unable to sync exercise");
       }
     } else {
       logger.e("Invalid user to add the document");
@@ -45,6 +47,7 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
 
   deleteExercise(Exercise exercise, LoggedUser user) async {
     if(isLogged(user)) {
+      try {
        String userUID = user.uid;
        await Firestore.instance
         .collection(usersCollection)
@@ -52,12 +55,17 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
         .collection(exercisesCollection)
         .document(exercise.key.toString())
         .delete();
+      } catch(err, stack) {
+        logger.e("Unable to delete exercise ${exercise?.key}", err, stack);
+        throw ExerciseCloudStorageException("Unable to delete exercise");
+      }
     } else {
       throw ExerciseCloudStorageException("Invalid user to delete the exercise");
     }
   }
 
   BehaviorSubject<List<Exercise>> all(LoggedUser user, Map<String, ExerciseTheme> themes) {
+    BehaviorSubject<List<Exercise>> exercises = BehaviorSubject<List<Exercise>>();
     if(isLogged(user)) {
       String userUID = user.uid;
       Stream<QuerySnapshot> exerciseDocumentStream = Firestore.instance
@@ -65,14 +73,16 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
         .document(userUID)
         .collection(exercisesCollection).snapshots();
       
-      BehaviorSubject<List<Exercise>> exercises = BehaviorSubject<List<Exercise>>();
       exerciseDocumentStream.listen((QuerySnapshot snap) {
         exercises.add(
           snap.documents.map((DocumentSnapshot doc) => fromDocument_1(doc, themes)).toList()
         );
       });
-      return exercises;
-    } else throw ExerciseCloudStorageException("Invalid user to get all exercises");
+    } else{
+      logger.e("Invalid user to get all exercise");
+      exercises.addError(null);
+    }
+    return exercises;
   }
 
   BehaviorSubject<bool> isSync(Exercise exercise, LoggedUser user) {
@@ -108,7 +118,6 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
       logger.e("Unable to create Exercise instance from document ${document?.data}", err, stack);
       throw ExerciseCloudStorageException("Unbale to dezerialize exercise");
     }
-    
   }
 
   bool isLogged(LoggedUser user) => user != null && user.uid != null;

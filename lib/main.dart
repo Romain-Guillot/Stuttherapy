@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/homepage_stutter.dart';
@@ -112,9 +113,14 @@ class Stutterapy extends StatelessWidget {
             if(_userSnapshot.data == false) {
               return StartUp();
             } else {
-              return _userSnapshot.data == true ? 
-                        HomePageStutter() : 
-                        HomePageTherapist();
+              switch (AccountProvider.user.runtimeType) {
+                case StutterUser:
+                  return HomePageStutter();
+                case TherapistUser:
+                  return HomePageTherapist();
+                default:
+                  return Text("Critical error !");
+              }
             }
           }
         },

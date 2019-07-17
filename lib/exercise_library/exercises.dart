@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
+import 'package:stuttherapy/account/feed.dart';
+import 'package:stuttherapy/exercise_library/date.dart';
 import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
 import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercise_library/settings.dart';
@@ -124,7 +126,10 @@ class ExerciseTheme {
 /// 
 /// NOTE : This extends [Comparable] to sort [Exercise]s by their [date].
 @JsonSerializable()
-class Exercise implements Comparable {
+class Exercise implements FeedItem {
+
+  @JsonKey(ignore: true)
+  String label = "Exercise";
 
   ///Theme of the exercise
   ExerciseTheme theme;
@@ -222,13 +227,15 @@ class Exercise implements Comparable {
   /// (fill the stream with true boolean object)
   stop() => flagEndOfExercise.add(true);
 
-  /// Exercise are compared with their date
-  /// (override the compare method with the date compare methode)
-  @override
-  int compareTo(other) => other.runtimeType == Exercise ? (other as Exercise).date.compareTo(date) : 0;
-
   /// Return an identifiant for the exercise
   int get key => date.date.microsecondsSinceEpoch;
+
+  @override
+  int compareTo(other) => (other.date?.compareTo(date))??0;
+
+  @override
+  String toString() => "${theme.name} exercise done the $date";
+
 }
 
 
@@ -247,32 +254,3 @@ class ExerciseFeedback {
 }
 
 
-/// Encapsulation of [DateTime] object to redefined the
-/// [toString] method to return a String representation
-/// that follow the following format : yyyy-MM-dd
-@JsonSerializable()
-class MyDateTime implements Comparable {
-
-  DateTime date;
-
-  @JsonKey(ignore: true)
-  static DateFormat _formatter =  DateFormat('yyyy-MM-dd HH:mm');
-
-  MyDateTime(this.date);
-
-  factory MyDateTime.fromJson(Map<String, dynamic> json) => _$MyDateTimeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MyDateTimeToJson(this);
-  
-  /// String representation of the date with the following format :
-  /// yyyy-MM-dd
-  @override
-  String toString() {
-    return _formatter.format(date);
-  }
-
-  @override
-  int compareTo(other) {
-    return other.runtimeType == MyDateTime ? (date.compareTo((other as MyDateTime).date)) : 0;
-  }
-}
