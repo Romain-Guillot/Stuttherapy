@@ -58,12 +58,15 @@ class AccountProvider {
     AuthentificationProvider.currentUser().then((LoggedUser loggedUser) {
       if(loggedUser != null) {
         user.setLoggedUser(loggedUser);
-        if(user is StutterUser)
-          FeedProvider.initFeed(loggedUser, user.loggedUser.uid);
-        if(user is TherapistUser)
-          initPatients();
+        
       }
 
+    });
+    user.loggedUserStream.listen((LoggedUser loggedUser) {
+      if(user is StutterUser)
+        FeedProvider.initFeed(loggedUser, loggedUser.uid);
+      if(user is TherapistUser)
+        initPatients();
     });
     return true;
   }
@@ -162,6 +165,10 @@ class AccountProvider {
         (user as TherapistUser).initPatient(patients);
       });
     }
+  }
+
+  static Future<void> addTherapist(String uid) {
+    return FirebaseCloudTherapistProvider().addTherapist(user.loggedUser, uid);
   }
 }
 

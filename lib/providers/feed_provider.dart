@@ -13,7 +13,7 @@ class FeedProvider {
 
   static BehaviorSubject<Feed> feed = BehaviorSubject<Feed>();
 
-  static  initFeed(LoggedUser user, String uid, ) {
+  static initFeed(LoggedUser user, String uid, ) {
     //StreamSubscription subscr;
     /*subscr = */ExercisesLoader.themes.listen((List<ExerciseTheme> themes) async {
       Map<String, ExerciseTheme> themesMap = {};

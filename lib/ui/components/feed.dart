@@ -36,19 +36,7 @@ class _FeedWidgetState extends State<FeedWidget> {
           return ListView(
             shrinkWrap: true,
             children: [
-              Container(
-                color: Theme.of(context).primaryColor,
-                child: ListTile(
-                  title: Text("You have a therapist !", style: TextStyle(color: Colors.white),),
-                  subtitle: Text("id : 56556", style: TextStyle(color: Colors.white.withAlpha(150)),),
-                  trailing: OutlineButton(
-                    borderSide: BorderSide(color: Colors.white.withAlpha(110)),
-                    highlightedBorderColor: Colors.white,
-                    textColor: Colors.white,
-                    child: Text("Revoque"), 
-                    onPressed: () {}),
-                )
-              ),
+              therapistInfo(context),
               SizedBox(height: Dimen.PADDING,),
               ListView.builder(
                 shrinkWrap: true,
@@ -74,4 +62,81 @@ class _FeedWidgetState extends State<FeedWidget> {
       }
     );
   }
+
+  Widget therapistInfo(context) {
+    if(AccountProvider.user is StutterUser) {
+      bool therapistExists = (AccountProvider.user as StutterUser).idTherapist != null;
+      
+      return Container(
+        color: Theme.of(context).primaryColor,
+        child: ListTile(
+          title: Text(
+            therapistExists? "You have a therapist !" : "You don't have a therapist", 
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            therapistExists ? "id : 56556" : "Ask your therpist his ID.", 
+            style: TextStyle(color: Colors.white.withAlpha(150)),
+          ),
+          trailing: OutlineButton(
+            borderSide: BorderSide(color: Colors.white.withAlpha(110)),
+            highlightedBorderColor: Colors.white,
+            textColor: Colors.white,
+            child: Text(
+              therapistExists ? "Revoque" : "Add"
+            ), 
+            onPressed: () {
+              if(!therapistExists) {
+                showDialogAddTherapist(context);
+              }
+            }
+          ),
+        )
+      );
+    } else {
+      return SizedBox(); // empty widget
+    }
+  }
+
+  showDialogAddTherapist(context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add a therapist"),
+        content: ListView(
+          shrinkWrap: true,
+          children:<Widget>[
+            Text(
+              "Therapist will have access to your synchronised exercises and will be able to give you feedback about these exercises and share some comments with you.",
+              style: TextStyle(color: Colors.black.withAlpha(150)),  
+            ),
+            SizedBox(height: Dimen.PADDING,),
+            TextFormField(
+              decoration: InputDecoration(labelText: "Therapist ID"),
+            )
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Add"),
+            onPressed: () {
+              Navigator.pop(context);
+              var uid = AccountProvider.user.loggedUser.uid; //temp
+              AccountProvider.addTherapist(uid).then((_) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text("Therapist add !"), behavior: SnackBarBehavior.floating,)
+                );
+              },
+              onError: (_) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(content: Text("Error occured !"), backgroundColor: Theme.of(context).errorColor, behavior: SnackBarBehavior.floating,)
+                );
+              });
+            },
+          )
+        ],
+      )
+    );
+  }
+
 }

@@ -14,12 +14,12 @@ class FirebaseCloudTherapistProvider {
     return patients;
   }
 
-  addPatient(LoggedUserMeta therapist, LoggedUser patient) {
-    if(isLogged(patient)) {
-      Firestore.instance
+  Future<void> addTherapist(LoggedUser user, String uidTherapist) async {
+    if(isLogged(user)) {
+      return await Firestore.instance
         .collection(usersCollection)
-        .document(therapist.uid)
-        .updateData({"therapist": therapist.uid});
+        .document(user.uid)
+        .updateData({"therapist": uidTherapist});
     }
   }
 
