@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
@@ -31,7 +32,7 @@ class ExerciseProgressionWidget extends StatelessWidget {
             return ListView.builder(
               itemCount: progressions.length,
               itemBuilder: (BuildContext ctx, int position) 
-                => ExerciseProgressionListItem(exercise: progressions.elementAt(position),),
+                => ExerciseProgressionListItem(exercise: progressions.elementAt(position)),
             );
           }
         },
@@ -50,11 +51,9 @@ class ExerciseProgressionListItem extends StatelessWidget {
     return ListTile(
       title: Text(exercise.theme.name),
       subtitle: Text(exercise.date.toString()),
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (BuildContext ctx) => ExerciseProgressionItemWidget(exercise: exercise,)
-        ));
-      },
+      onTap: () => Navigator.push(context, MaterialPageRoute(
+        builder: (context) => ExerciseProgressionItemWidget(exercise: exercise,)
+      )),
     );
   }
 }

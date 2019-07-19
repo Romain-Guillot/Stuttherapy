@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:stuttherapy/exercise_library/date.dart';
-import 'package:stuttherapy/exercise_library/exercises.dart';
 
 class Feed {
   List<FeedItem> items = [];

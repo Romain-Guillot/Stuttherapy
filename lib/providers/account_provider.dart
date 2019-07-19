@@ -4,7 +4,6 @@ import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/account/feed.dart';
-import 'package:stuttherapy/exercise_library/date.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
@@ -55,19 +54,7 @@ class AccountProvider {
       default:
         return false;
     }
-    AuthentificationProvider.currentUser().then((LoggedUser loggedUser) {
-      if(loggedUser != null) {
-        user.setLoggedUser(loggedUser);
-        
-      }
-
-    });
-    user.loggedUserStream.listen((LoggedUser loggedUser) {
-      if(user is StutterUser)
-        FeedProvider.initFeed(loggedUser, loggedUser.uid);
-      if(user is TherapistUser)
-        initPatients();
-    });
+    initLoggedUser();
     return true;
   }
 
@@ -81,6 +68,22 @@ class AccountProvider {
         _prefs.setString(existingAccount, TherapistUser.userIdentifier);
         break;
     }
+    initLoggedUser();
+  }
+
+  static initLoggedUser() {
+    AuthentificationProvider.currentUser().then((LoggedUser loggedUser) {
+      if(loggedUser != null) {
+        user.setLoggedUser(loggedUser);
+      }
+
+    });
+    user.loggedUserStream.listen((LoggedUser loggedUser) {
+      if(user is StutterUser)
+        initTherapist();
+      if(user is TherapistUser)
+        initPatients();
+    });
   }
 
   static restore() {
@@ -133,12 +136,12 @@ class AccountProvider {
 
   static syncProgression(Exercise exercise) {
     if(user.isLogged) 
-      FirebaseCloudStorageProvider().uploadExercise(exercise, user.loggedUser);
+      FirebaseCloudStorageProvider().uploadExercise(user.loggedUser, exercise);
     else throw RequiredLoggedUserException();
   }
 
   static Future unsyncProgression(Exercise exercise) async {
-    if(user.isLogged) FirebaseCloudStorageProvider().deleteExercise(exercise, user.loggedUser);
+    if(user.isLogged) FirebaseCloudStorageProvider().deleteExercise(user.loggedUser, exercise);
     else throw RequiredLoggedUserException();
   }
 
@@ -167,8 +170,40 @@ class AccountProvider {
     }
   }
 
-  static Future<void> addTherapist(String uid) {
+  static initTherapist() {
+    if(user is StutterUser && user.isLogged) {
+      FirebaseCloudTherapistProvider().getTherapist(user.loggedUser).listen((LoggedUserMeta therapist) {
+        (user as StutterUser).addTherapist(therapist);
+      });
+    }
+  }
+
+  static Future<void> addTherapist(String uid) async {
     return FirebaseCloudTherapistProvider().addTherapist(user.loggedUser, uid);
+  }
+
+  static Future<void> revoqueTherapist() async {
+    return FirebaseCloudTherapistProvider().deleteTherapist(user.loggedUser, user.loggedUser.uid);
+  }
+
+  static Future<void> removePatient(patientUID) {
+    return FirebaseCloudTherapistProvider().deleteTherapist(user.loggedUser, patientUID);
+  }
+
+
+  static BehaviorSubject<Feed> getUserFeed({userUID}) {
+    BehaviorSubject<Feed> feed = BehaviorSubject<Feed>();
+    if(userUID == null) {
+      user.loggedUserStream.listen((LoggedUser user) {
+        FeedProvider.getUserFeed(user, user.uid).listen((Feed _feed) {
+          feed.add(_feed);
+        });
+      });
+      return feed;
+    } else {
+      return FeedProvider.getUserFeed(user.loggedUser, userUID);
+    }
+    
   }
 }
 

@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
@@ -9,10 +11,11 @@ import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 
+const SizedBox padding = SizedBox(height: Dimen.PADDING,);
+
 class ExerciseProgressionItemWidget extends StatelessWidget {
 
   final Exercise exercise;
-  static const SizedBox padding = SizedBox(height: Dimen.PADDING,);
 
   ExerciseProgressionItemWidget({
     Key key, 
@@ -29,27 +32,17 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
         subtitle: "Progression : " + exercise.date.toString(),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(Dimen.PADDING),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            getSyncStatus(context),
-            padding,
-            _FeedbackWidget(feedback: exercise.feedback),
-            padding,
-            Text("Theme : " + exercise.theme.name),
-            padding,
-            Text("Date : " + exercise.date.toString()),
-            padding,
-            Text("Recording resource"),
-            getRecorginWidget(),
-            padding,
-            Text("Saved words :"),
-            Column(
-              children: exercise.savedWords.map((String word) => 
-                Text(word)
-              ).toList(),
-            )
+            (AccountProvider.user is StutterUser // Not really good verification ...
+              ? Padding(
+                  padding: const EdgeInsets.all(Dimen.PADDING),
+                  child: getSyncStatus(context),
+                )
+              : SizedBox()
+            ),
+            ExerciseProgressionItemContent(exercise: exercise,),
           ],
         ),
       ),
@@ -58,20 +51,6 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
     );
   }
 
-  Widget getRecorginWidget() {
-    if(exercise?.recordingResource != null) {
-      switch (exercise.recordingResource.type) {
-        case RecordingType.AUDIO:
-          return AudioPlayer(uri: exercise.recordingResource.uri,);
-        case RecordingType.VIDEO:
-          return Placeholder(fallbackHeight: 200,);
-        default:
-          return Text("Recording type not supported.");
-      }
-    } else {
-      return Text("No recording data.");
-    }
-  }
 
   Widget getSyncStatus(context) {
     return StreamBuilder(
@@ -95,7 +74,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
     var textColor = Theme.of(context).primaryColor;
     BehaviorSubject<Widget> widgetStream = BehaviorSubject<Widget>();
     if(AccountProvider.user.isLogged) {
-      FirebaseCloudStorageProvider().isSync(exercise, AccountProvider.user.loggedUser).listen((bool isSync) {
+      FirebaseCloudStorageProvider().isSync(AccountProvider.user.loggedUser, exercise).listen((bool isSync) {
         if(isSync) 
           widgetStream.add(
             FlatButton.icon(
@@ -156,6 +135,61 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
   }
 }
 
+class ExerciseProgressionItemContent extends StatelessWidget {
+  final Exercise exercise;
+
+  ExerciseProgressionItemContent({@required this.exercise});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _FeedbackWidget(feedback: exercise.feedback),
+        padding,
+        Padding(
+          padding: const EdgeInsets.all(Dimen.PADDING),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Theme : " + exercise.theme.name),
+              padding,
+              Text("Date : " + exercise.date.toString()),
+              padding,
+              Text("Recording resource"),
+              getRecorginWidget(),
+              padding,
+              Text("Saved words :"),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: exercise.savedWords.map((String word) => 
+                  Text(word)
+                ).toList(),
+              )
+            ],
+          )
+        )
+      ],
+    );
+  }
+
+
+  Widget getRecorginWidget() {
+    if(exercise?.recordingResource != null) {
+      switch (exercise.recordingResource.type) {
+        case RecordingType.AUDIO:
+          return AudioPlayer(uri: exercise.recordingResource.uri,);
+        case RecordingType.VIDEO:
+          return Placeholder(fallbackHeight: 200,);
+        default:
+          return Text("Recording type not supported.");
+      }
+    } else {
+      return Text("No recording data.");
+    }
+  }
+}
+
 
 // Feedback can be null
 class _FeedbackWidget extends StatelessWidget {
@@ -166,12 +200,36 @@ class _FeedbackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return feedback?.message == null 
-    ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic),)
-    : Container(
-        padding: const EdgeInsets.all(Dimen.PADDING),
-        color: Theme.of(context).accentColor,
-        child: Text(feedback?.message)
-      );
+    return Container(
+      padding: const EdgeInsets.all(Dimen.PADDING),
+      color: Theme.of(context).primaryColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          (feedback?.message == null 
+            ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),)
+            : Container(
+                padding: const EdgeInsets.all(Dimen.PADDING),
+                color: Theme.of(context).accentColor,
+                child: Text(feedback?.message)
+              )
+          ),
+          (AccountProvider.user is TherapistUser
+            ? OutlineButton(
+              textColor: Colors.white,
+              borderSide: BorderSide(color: Colors.white.withAlpha(100)),
+              highlightedBorderColor: Colors.white,
+              child: Text("Edit feedback"),
+              onPressed: () {
+
+              },
+            )
+            : SizedBox() // empty widget
+          ),
+          SizedBox(width: double.infinity,) // width expand
+            
+        ],
+      ),
+    );
   }
 }

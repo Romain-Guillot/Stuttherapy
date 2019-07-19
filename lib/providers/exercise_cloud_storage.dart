@@ -9,10 +9,10 @@ import 'package:logger/logger.dart';
 import 'package:stuttherapy/log_printer.dart';
 
 abstract class BaseExerciseCloudStorage {
-  uploadExercise(Exercise exercise, LoggedUser user);
-  deleteExercise(Exercise exercise, LoggedUser user);
+  uploadExercise(LoggedUser user, Exercise exercise);
+  deleteExercise(LoggedUser user, Exercise exercise);
   all(LoggedUser user, Map<String, ExerciseTheme> themes);
-  isSync(Exercise exercise, LoggedUser user);
+  isSync(LoggedUser user, Exercise exercise);
 }
 
 
@@ -24,7 +24,8 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
   static String exercisesCollection = "exercises";
   static const int CURRENT_EXERCISE_SERIALIZATION_VERSION = 1;
 
-  uploadExercise(Exercise exercise, LoggedUser user) async {
+
+  uploadExercise(LoggedUser user, Exercise exercise) async {
     if(isLogged(user)) {
       try {
         String userUid = user.uid;
@@ -45,7 +46,7 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
     }
   }
 
-  deleteExercise(Exercise exercise, LoggedUser user) async {
+  deleteExercise(LoggedUser user, Exercise exercise) async {
     if(isLogged(user)) {
       try {
        String userUID = user.uid;
@@ -64,10 +65,10 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
     }
   }
 
-  BehaviorSubject<List<Exercise>> all(LoggedUser user, Map<String, ExerciseTheme> themes) {
+  BehaviorSubject<List<Exercise>> all(LoggedUser user, Map<String, ExerciseTheme> themes, {String exercisesUserUID}) {
     BehaviorSubject<List<Exercise>> exercises = BehaviorSubject<List<Exercise>>();
     if(isLogged(user)) {
-      String userUID = user.uid;
+      String userUID = exercisesUserUID??user.uid;
       Stream<QuerySnapshot> exerciseDocumentStream = Firestore.instance
         .collection(usersCollection)
         .document(userUID)
@@ -85,7 +86,7 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
     return exercises;
   }
 
-  BehaviorSubject<bool> isSync(Exercise exercise, LoggedUser user) {
+  BehaviorSubject<bool> isSync(LoggedUser user, Exercise exercise) {
     BehaviorSubject<bool> isSyncStream = new BehaviorSubject<bool>();
     if(isLogged(user)) {
       Firestore.instance

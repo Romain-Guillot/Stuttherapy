@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 import 'package:tinycolor/tinycolor.dart';
@@ -49,7 +50,9 @@ class AccountHomePage extends StatelessWidget {
                   RaisedButton(
                     color: Theme.of(context).errorColor,
                     child: Text("Delete my account"),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(context: context, builder: (context)=> SimpleDialog(title: Text("Soon..."), titlePadding: EdgeInsets.all(20),));
+                    },
                   ),
                   SizedBox(width: double.infinity,)
                 ],

@@ -1,5 +1,4 @@
 import 'package:rxdart/subjects.dart';
-import 'package:stuttherapy/account/feed.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 
@@ -26,10 +25,7 @@ abstract class User {
 
   bool get isLogged => loggedUser != null && loggedUser.uid != null;
 
-  removeLoggedUsed() {
-    loggedUser = null;
-    loggedUserStream.add(null);
-  }
+
 
 
   initSavedWords(Iterable<String> words) {
@@ -80,6 +76,11 @@ abstract class User {
     loggedUserStream.add(loggedUser);
   }
 
+  removeLoggedUsed() {
+    loggedUser = null;
+    loggedUserStream.add(null);
+  }
+
   String get identifier;
 }
 
@@ -106,9 +107,13 @@ class TherapistUser extends User {
 class StutterUser extends User {
   static const String userIdentifier = "Stutter";
 
-  LoggedUserMeta idTherapist;
+  BehaviorSubject<LoggedUserMeta> therapistStream = BehaviorSubject<LoggedUserMeta>();
 
   StutterUser.create() : super.create();
+
+  addTherapist(LoggedUserMeta therapist) {
+    therapistStream.add(therapist);
+  }
 
   @override
   String get identifier => userIdentifier;

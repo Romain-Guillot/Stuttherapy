@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
-import 'package:stuttherapy/ui/account/account_log_in.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/ui/components/auth_buttons.dart';
 import 'package:stuttherapy/ui/components/drawer_menu.dart';
 import 'package:stuttherapy/ui/components/main_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
+import 'package:stuttherapy/ui/therapist/patient_feed.dart';
 
 class HomePageTherapist extends StatelessWidget {
 
@@ -16,9 +18,13 @@ class HomePageTherapist extends StatelessWidget {
     return Scaffold(
       appBar: MainAppBar(),
       drawer: DrawerMenu(context),
-      body: AccountProvider.user.isLogged 
-        ? loggedMainWidget(context)
-        : nonLoggedMainWidget(context)
+      body: StreamBuilder<Object>(
+        stream: AccountProvider.user.loggedUserStream,
+        builder: (context, snapshot) =>
+          !snapshot.hasData
+            ? nonLoggedMainWidget(context)
+            : loggedMainWidget(context)
+      )
     );
   }
 
@@ -48,15 +54,37 @@ class HomePageTherapist extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(Dimen.PADDING),
-          child: Text("My patients", style: Theme.of(context).textTheme.headline,),
+          child: Text("My patients", style: Theme.of(context).textTheme.title,),
         ),
-        ListView.builder(
-          padding: const EdgeInsets.all(Dimen.PADDING),
-          shrinkWrap: true,
-          itemCount: 0,
-          itemBuilder: (context, position) => null,
+        StreamBuilder(
+          stream: (AccountProvider.user as TherapistUser).patients,
+          builder: (BuildContext context, AsyncSnapshot<List<LoggedUserMeta>> snapPatients) {
+            if(!snapPatients.hasData) {
+              return Text("Loading");
+            } else {
+              List<LoggedUserMeta> patients = snapPatients.data;
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: patients.length,
+                itemBuilder: (context, position) {
+                  LoggedUserMeta patient = patients.elementAt(position);
+                  return ListTile(
+                    title: Text((patient?.name)??"Unknown name"),
+                    subtitle: Text(patient.uid),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => PatientFeed(patient: patient,)
+                      ));
+                    },
+                  );
+                }
+              );
+            }
+          },
         )
+        
       ],
     );
   }
 }
+

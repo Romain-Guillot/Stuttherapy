@@ -31,9 +31,9 @@ class ExercisesLoader {
     _themes = BehaviorSubject<List<ExerciseTheme>>();
     _themes.add([
       MetronomeExercise(),
+      ReadingExercise(),
       DAFExercise(),
       MirroringExercise(),
-      ReadingExercise(),
     ]);
     return _themes.stream;
   }

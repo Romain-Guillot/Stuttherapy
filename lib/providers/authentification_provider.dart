@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
@@ -27,10 +28,14 @@ class AuthentificationProvider {
   }
 
 
-  static Future<LoggedUser> classicSignUp(String email, String password) async {
+  static Future<LoggedUser> classicSignUp(String email, String password, String name) async {
     try {
       FirebaseUser fbUser = await auth.createUserWithEmailAndPassword(email: email, password: password);
       LoggedUser user = LoggedUser(fbUser);
+      Firestore.instance
+        .collection("users")
+        .document(user.uid)
+        .setData({"name": name});
       return user;
     } on PlatformException catch(err) {
       throw AuthentificationError(err.message);
@@ -69,9 +74,9 @@ class LoggedUser {
 }
 
 class LoggedUserMeta {
-  final String name;
-  final String uid;
-  final String email;
+  String name;
+  String uid;
+  String email;
 
-  LoggedUserMeta({@required this.name, @required this.uid, @required this.email});
+  LoggedUserMeta({this.name, @required this.uid, this.email});
 }

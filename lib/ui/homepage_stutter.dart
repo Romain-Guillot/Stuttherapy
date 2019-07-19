@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
-import 'package:stuttherapy/providers/feed_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/drawer_menu.dart';
 import 'package:stuttherapy/ui/components/exercises_list.dart';
@@ -33,7 +32,7 @@ class _HomePageStutterState extends State<HomePageStutter> {
     super.initState();
     pages = [
       ExercisesListView(), 
-      FeedWidget(),
+      FeedWidget(feed: AccountProvider.getUserFeed(),),
     ];
   }
 

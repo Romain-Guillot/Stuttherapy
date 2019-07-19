@@ -137,6 +137,7 @@ class _SignUpState extends State<SignUpFom> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
+  final nameController = TextEditingController();
 
   @override
   void dispose() {
@@ -152,6 +153,14 @@ class _SignUpState extends State<SignUpFom> {
       key: _formKey,
       child: Column(
         children: <Widget>[
+          TextFormField(
+            controller: nameController,
+            decoration: InputDecoration(labelText: "Name"),
+            textCapitalization: TextCapitalization.sentences,
+            autofocus: false,
+            validator: (name) => name.isEmpty ? "Please enter your name" : null,
+          ),
+          SizedBox(height: Dimen.PADDING,),
           TextFormField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
@@ -183,7 +192,7 @@ class _SignUpState extends State<SignUpFom> {
                   try {
                     print(passwordController.text);
                     print("DEBUG");
-                    LoggedUser user = await AuthentificationProvider.classicSignUp(emailController.text, passwordController.text);
+                    LoggedUser user = await AuthentificationProvider.classicSignUp(emailController.text, passwordController.text, nameController.text);
                     AccountProvider.setLoggedUser(user);
                     Navigator.pop(context);
                     showSuccessSnackBar(context, user);

@@ -8,7 +8,7 @@ class DAFExercise extends ExerciseTheme {
     shortDescription: Strings.DAF_DESCRIPTION_SHORT, 
     longDescription: Strings.DAF_DESCRIPTION_LONG,
     exerciseStructure: {
-      ExerciseStructureEnum.AUDIO_RECORDER: "",
+      ExerciseStructureEnum.DAF: "",
       ExerciseStructureEnum.RESOURCE: "",
       ExerciseStructureEnum.SUBMIT: ""
     }
