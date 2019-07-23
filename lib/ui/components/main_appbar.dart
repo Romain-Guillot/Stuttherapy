@@ -11,32 +11,3 @@ class MainAppBar extends AppBar {
           centerTitle: true,
         );
 }
-
-// class LogIn extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return IconButton(
-//       // child: Text("Log in".toUpperCase(), style: TextStyle(color: Theme.of(context).primaryColor),),
-//       icon: Icon(Icons.account_circle, color: Colors.black,),
-//       onPressed: () {
-//         Navigator.push(context, MaterialPageRoute(
-//           builder: (BuildContext ctx) => AccountLogIn()
-//         ));
-//       },
-//     );
-//   }
-// }
-
-// class AccountInfo extends StatelessWidget {
-
-//   final User user;
-
-//   AccountInfo({Key key, @required this.user}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       user.pseudo
-//     );
-//   }
-// }

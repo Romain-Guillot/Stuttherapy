@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/auth_buttons.dart';
 import 'package:stuttherapy/ui/components/drawer_menu.dart';
 import 'package:stuttherapy/ui/components/main_appbar.dart';
@@ -33,7 +34,7 @@ class HomePageTherapist extends StatelessWidget {
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Please be logged to add patients"),
+            Text(Strings.HOMEPAGE_THERAPIST_LOGGED_ADD_PATIENT),
             AuthButton()
           ],
       ),
@@ -49,18 +50,18 @@ class HomePageTherapist extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           child: ListTile(
             title: Text("ID : ${AccountProvider.user.loggedUser.uid}", style: TextStyle(color: Colors.white),),
-            subtitle: Text("Give this ID to your patient so they can add you as therapist.", style: TextStyle(color: Colors.white.withAlpha(150))),
+            subtitle: Text(Strings.HOMEPAGE_THERAPIST_FEED_ID_INFO, style: TextStyle(color: Colors.white.withAlpha(150))),
           )
         ),
         Padding(
           padding: const EdgeInsets.all(Dimen.PADDING),
-          child: Text("My patients", style: Theme.of(context).textTheme.title,),
+          child: Text(Strings.HOMEPAGE_THERAPIST_FEED_PATIENTS_TITLE, style: Theme.of(context).textTheme.title,),
         ),
         StreamBuilder(
           stream: (AccountProvider.user as TherapistUser).patients,
           builder: (BuildContext context, AsyncSnapshot<List<LoggedUserMeta>> snapPatients) {
             if(!snapPatients.hasData) {
-              return Text("Loading");
+              return Text(Strings.LOADING);
             } else {
               List<LoggedUserMeta> patients = snapPatients.data;
               return ListView.builder(
@@ -69,7 +70,7 @@ class HomePageTherapist extends StatelessWidget {
                 itemBuilder: (context, position) {
                   LoggedUserMeta patient = patients.elementAt(position);
                   return ListTile(
-                    title: Text((patient?.name)??"Unknown name"),
+                    title: Text((patient?.name)??Strings.HOMEPAGE_THERAPIST__FEDD_UNKNOWN_PATIENT_NAME),
                     subtitle: Text(patient.uid),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(

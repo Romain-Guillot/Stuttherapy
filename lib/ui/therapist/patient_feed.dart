@@ -33,7 +33,7 @@ class PatientFeed extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text("Remove a patient ?"),
+                  title: Text("Remove the patient ?"),
                   content: Text("Are you sure to remove ${patient.name} ?"),
                   actions: <Widget>[
                     FlatButton(
@@ -43,7 +43,7 @@ class PatientFeed extends StatelessWidget {
                     ),
                     FlatButton(
                       textColor: Theme.of(context).errorColor,
-                      child: Text("Delete"),
+                      child: Text("Remove"),
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.pop(context);

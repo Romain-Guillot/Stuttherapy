@@ -25,7 +25,7 @@ class AccountHomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(Dimen.PADDING),
               child: RaisedButton(
-                child: Text("Sign out"), 
+                child: Text("Sign-out"), 
                 // color: Theme.of(context).errorColor,
                 onPressed: () {
                   AccountProvider.logOutUser();

@@ -7,6 +7,7 @@ import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
@@ -29,7 +30,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
       appBar: SecondaryAppBar(
         context: context,
         title: exercise.theme.name,
-        subtitle: "Progression : " + exercise.date.toString(),
+        subtitle: Strings.PROGRESS_TITLE + exercise.date.toString(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,7 +61,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
           return Row(
             children: <Widget>[
               CircularProgressIndicator(),
-              Text("Loading...")
+              Text(Strings.LOADING)
             ],
           );
         } else {
@@ -80,7 +81,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
             FlatButton.icon(
               textColor: Colors.green,
               icon: Icon(Icons.check, color: Colors.green,), 
-              label: Text("Synchronized"), 
+              label: Text(Strings.PROGRESS_SYNC_STATE), 
               onPressed: () {
                 showUnsyncExercise(context);
               })
@@ -90,7 +91,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
             FlatButton.icon(
               textColor: Theme.of(context).primaryColor,
               icon: Icon(Icons.sync, color: Theme.of(context).primaryColor,), 
-              label: Text("Synchronize"), 
+              label: Text(Strings.PROGRESS_SYNC_BUTTON), 
               onPressed: () {
                 AccountProvider.syncProgression(exercise);
               })
@@ -99,7 +100,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
     } else {
       widgetStream.add(
         FlatButton.icon(
-          label: Text("Synchronization required to be logged"), 
+          label: Text(Strings.PROGRESS_SYNC_LOGGED_REQUIRED), 
           icon: Icon(Icons.account_circle), 
           textColor: textColor,
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,))),
@@ -113,16 +114,16 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Sesynchronize exercise ?"),
-        content: Text("Do you want to remove the exercise from the cloud ?"),
+        title: Text(Strings.PROGRESS_DESYNC_TITLE),
+        content: Text(Strings.PROGRESS_DESYNC_INFO),
         actions: <Widget>[
           FlatButton(
-            child: Text("No"), 
+            child: Text(Strings.PROGRESS_DESYNC_NO), 
             textColor: Colors.grey, 
             onPressed: () => Navigator.pop(context),
           ),
           FlatButton(
-            child: Text("Yes, desynchronis"), 
+            child: Text(Strings.PROGRESS_DESYNC_YES), 
             textColor: Theme.of(context).errorColor, 
             onPressed: () {
               AccountProvider.unsyncProgression(exercise);

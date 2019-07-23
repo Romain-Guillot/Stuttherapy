@@ -5,6 +5,7 @@ import 'package:stuttherapy/account/feed.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/auth_buttons.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 import 'package:stuttherapy/ui/exercise/exercise_progression.dart';
@@ -31,10 +32,10 @@ class _FeedWidgetState extends State<FeedWidget> {
             stream: widget.feed.stream,
             builder: (BuildContext context, AsyncSnapshot<Feed> snapshot) {
               if(snapshot.hasError) {
-                return ListTile(title:Text("error"));
+                return ListTile(title:Text(Strings.ERROR_UNKNOWN));
               }
               if(!snapshot.hasData) {
-                return ListTile(title: Text("loading"));
+                return ListTile(title: Text(Strings.LOADING));
               } else {
                 return ListView(
                   shrinkWrap: true,
@@ -67,8 +68,6 @@ class _FeedWidgetState extends State<FeedWidget> {
         }
       },
     );
-
-
   }
 
   Widget therapistInfo(context) {
@@ -81,11 +80,11 @@ class _FeedWidgetState extends State<FeedWidget> {
             color: Theme.of(context).primaryColor,
             child: ListTile(
               title: Text(
-                therapistExists? "You have a therapist !" : "You don't have a therapist", 
+                therapistExists? Strings.FEED_THERAPIST_EXISTS_INFO : Strings.FEED_THERAPIST_NOT_EXISTS_INFO, 
                 style: TextStyle(color: Colors.white),
               ),
               subtitle: Text(
-                therapistExists ? "id : ${snapshot.data.uid}" : "Ask your therpist his ID.", 
+                therapistExists ? "id : ${snapshot.data.uid}" : Strings.FEED_ASK_FOR_THERAPIST_ID, 
                 style: TextStyle(color: Colors.white.withAlpha(150)),
               ),
               trailing: OutlineButton(
@@ -93,7 +92,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                 highlightedBorderColor: Colors.white,
                 textColor: Colors.white,
                 child: Text(
-                  therapistExists ? "Revoque" : "Add"
+                  therapistExists ? Strings.FEED_REVOQUE_THERAPIST_BUTTON : Strings.FEED_ADD_THERAPIST_BUTTON
                 ), 
                 onPressed: () {
                   if(!therapistExists) {
@@ -123,12 +122,12 @@ class _FeedWidgetState extends State<FeedWidget> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Delete your therapist"),
+        title: Text(Strings.FEED_REVOQUE_THERAPIST_TITLE),
         content: ListView(
           shrinkWrap: true,
           children:<Widget>[
             Text(
-              "Therapist will no longer have access to your synchronised exercises.",
+              Strings.FEED_REVOQUE_THERAPIST_INFO,
               style: TextStyle(color: Colors.black.withAlpha(150)),  
             ),
           ],
@@ -136,7 +135,7 @@ class _FeedWidgetState extends State<FeedWidget> {
         actions: <Widget>[
           FlatButton(
             textColor: Theme.of(context).errorColor,
-            child: Text("Revoque"),
+            child: Text(Strings.FEED_REVOQUE_THERAPIST_BUTTON),
             onPressed: () {
               Navigator.pop(context);
               AccountProvider.revoqueTherapist();
@@ -164,12 +163,12 @@ class _AddTherapistDialogState extends State<AddTherapistDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text("Add a therapist"),
+        title: Text(Strings.FEED_ADD_THERAPIST_TTTLE),
         content: ListView(
           shrinkWrap: true,
           children:<Widget>[
             Text(
-              "Therapist will have access to your synchronised exercises and will be able to give you feedback about these exercises and share some comments with you.",
+              Strings.FEED_ADD_THERAPIST_INFO,
               style: TextStyle(color: Colors.black.withAlpha(150)),  
             ),
             SizedBox(height: Dimen.PADDING,),
@@ -177,31 +176,21 @@ class _AddTherapistDialogState extends State<AddTherapistDialog> {
               key: _formKey,
               child: TextFormField(
                 controller: idTherapistController,
-                decoration: InputDecoration(labelText: "Therapist ID"),
-                validator: (String value) => value.isEmpty ? "Please provide an ID" : null
+                decoration: InputDecoration(labelText: Strings.FEED_THERAPIST_ID),
+                validator: (String value) => value.isEmpty ? Strings.FEED_ADD_THERAPIST_ID_LABEL : null
               ),
             )
           ],
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text("Add"),
+            child: Text(Strings.FEED_ADD_THERAPIST_BUTTON),
             onPressed: () {
               if(_formKey.currentState.validate()) {
                 Navigator.pop(context);
                 var uid = idTherapistController.text; //temp
                 AccountProvider.addTherapist(uid);
               }
-              // .then((_) {
-              //   // Scaffold.of(context).showSnackBar(
-              //   //   SnackBar(content: Text("Therapist add !"), behavior: SnackBarBehavior.floating,)
-              //   // );
-              // },
-              // onError: (_) {
-              //   // Scaffold.of(context).showSnackBar(
-              //   //   SnackBar(content: Text("Error occured !"), backgroundColor: Theme.of(context).errorColor, behavior: SnackBarBehavior.floating,)
-              //   // );
-              // });
             },
           )
         ],

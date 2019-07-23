@@ -7,7 +7,7 @@ class AuthButton extends StatelessWidget {
     return Column(
       children: <Widget>[
         RaisedButton(
-          child:Text("Log-in"), 
+          child:Text("Sign-in"), 
           onPressed: () =>
             Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,)))
         ),
