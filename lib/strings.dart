@@ -50,18 +50,18 @@ class Strings {
   static const FEED_ASK_FOR_THERAPIST_ID = "Ask your therapist his ID.";
   static const FEED_ADD_THERAPIST_BUTTON = "Ask";
   static const FEED_ADD_THERAPIST_TTTLE = "Add a therapist";
-  static const FEED_ADD_THERAPIST_INFO = "Therapist will have access to your synchronised exercises and will be able to give you feedbacks about these exercises and share some comments with you.";
+  static const FEED_ADD_THERAPIST_INFO = "Therapist will have access to your synchronized exercises and will be able to give you feedbacks about these exercises and share some comments with you.";
   static const FEED_REVOQUE_THERAPIST_BUTTON = "Revoque";
   static const FEED_REVOQUE_THERAPIST_TITLE = "Revoque therapist access";
-  static const FEED_REVOQUE_THERAPIST_INFO = "Therapist will no longer have access to your synchronised progress.";
+  static const FEED_REVOQUE_THERAPIST_INFO = "Therapist will no longer have access to your synchronized progress.";
   static const FEED_THERAPIST_ID = "Therapist ID";
   static const FEED_ADD_THERAPIST_ID_LABEL = "Please provide your therapist ID :";
 
   // PROGRESS
-  static const PROGRESS_TITLE = "Progres";
-  static const PROGRESS_NO_PROGRESS = "No progress. Consider backup data on the cloud if you have synchronised your progress.";
-  static const PROGRESS_SYNC_STATE = "Synchronised";
-  static const PROGRESS_SYNC_BUTTON = "Synchronise";
+  static const PROGRESS_TITLE = "Progress";
+  static const PROGRESS_NO_PROGRESS = "No progress. Consider backup data on the cloud if you have synchronized your progress.";
+  static const PROGRESS_SYNC_STATE = "Synchronized";
+  static const PROGRESS_SYNC_BUTTON = "Synchronize";
   static const PROGRESS_SYNC_LOGGED_REQUIRED = "Synchronization required to be logged";
   static const PROGRESS_DESYNC_TITLE = "Desyncronized exercises ?";
   static const PROGRESS_DESYNC_INFO = "Do you want to remove the exercise from the cloud ?";

@@ -35,7 +35,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
       appBar: SecondaryAppBar(
         context: context,
         title: exercise.theme.name,
-        subtitle: Strings.PROGRESS_TITLE + exercise.date.toString(),
+        subtitle: exercise.date.toString(),
       ),
       body: SingleChildScrollView(
         child: Column(
