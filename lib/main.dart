@@ -84,6 +84,11 @@ class Stutterapy extends StatelessWidget {
         primaryColorDark: primary[700],
         primaryColorLight: primary[200],
 
+        textTheme: TextTheme(
+          body1: TextStyle(fontWeight: FontWeight.w300, fontSize: 14),
+          headline: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+
         
         backgroundColor: Colors.white,
         sliderTheme: SliderThemeData(

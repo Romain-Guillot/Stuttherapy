@@ -9,7 +9,7 @@ class Strings {
   // EXERCISE
   static const EXERCISES_TITLE = "Exercises";
   static const EXERCISE_LAUNCH = "Launch";
-  static const EXERCISE_SETTINGS = "Exercise settings";
+  static const EXERCISE_SETTINGS = "Settings";
 
   // STARTUP
   static const STARTUP_TITLE = "Hey !";
@@ -20,8 +20,8 @@ class Strings {
 
   // EXERCISE - metronome
   static const METRONOME_TITLE = "Metronome";
-  static const METRONOME_DESCRIPTION_SHORT = "Speech with a regular flow.";
-  static const METRONOME_DESCRIPTION_LONG = "Morbi vel posuere orci, non tempus est. Aliquam erat volutpat. Sed gravida odio quis sem egestas, gravida efficitur nunc faucibus.\nDuis facilisis eros sit amet sapien gravida, eu lobortis lorem bibendum. Ut a est sed diam scelerisque feugiat in eu nulla.";
+  static const METRONOME_DESCRIPTION_SHORT = "Practice speaking with a regular tempo";
+  static const METRONOME_DESCRIPTION_LONG = "A metronome is a device that produces a fixated number of beats or clicks per minute.\n\nMetronome use during therapy can help to reduce the occurrence of filled pauses and interjections during speech, by allowing the speaker to focus on rate of speech rather than what they are attempting to say\n(Christenfeld, 1996)";
 
   // EXERCISE - DAF
   static const DAF_TITLE = "DAF";
@@ -30,8 +30,8 @@ class Strings {
 
   // EXERCISE - Reading
   static const READING_TITLE = "Reading";
-  static const READING_DESCRIPTION_SHORT = "Read text, sentences or words.";
-  static const READING_DESCRIPTION_LONG = "";
+  static const READING_DESCRIPTION_SHORT = "Practice on texts, sentences or words";
+  static const READING_DESCRIPTION_LONG = "Just relax and read, trying to enjoy the process instead of focusing on not stuttering.";
 
   // EXERCISE - Mirroring
   static const MIRRORING_TITLE = "Mirorring";
