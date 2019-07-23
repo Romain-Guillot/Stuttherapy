@@ -1,7 +1,6 @@
 
 import 'package:rxdart/subjects.dart';
 import 'package:stuttherapy/account/feed.dart';
-import 'package:stuttherapy/exercise_library/date.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
@@ -20,9 +19,6 @@ class FeedProvider {
       FirebaseCloudStorageProvider().all(user, themesMap, exercisesUserUID: userUid).listen((List<Exercise> exercices) {
         final Feed f = Feed();
         f.addItems(exercices);
-        f.addItems([
-          Comment(date: MyDateTime(DateTime.now()), message: "Illustrative comments ... ")
-        ]);
         feed.add(f);
       });
     });   

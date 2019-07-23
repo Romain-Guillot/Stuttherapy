@@ -53,13 +53,11 @@ class AuthentificationProvider {
     return user == null ? null : LoggedUser(user);
   }
 
-  static googleSignIn() {
-    // TODO
-  }
+  // static googleSignIn() {
+  // }
 
-  static googleSignUp() {
-    // TODO
-  }
+  // static googleSignUp() {
+  // }
   
 }
 

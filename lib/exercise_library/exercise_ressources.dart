@@ -13,7 +13,7 @@ enum ResourcePerception {
   TEXT_UNCOVER,
 
   /// for resource available with an audio generated message
-  AUDIO,
+  // AUDIO,
 }
 
 
@@ -49,7 +49,7 @@ class ResourcePerceptionString implements EnumToString {
     switch (p) {
       case ResourcePerception.TEXT_COVER: return "Covered";
       case ResourcePerception.TEXT_UNCOVER: return "Uncovered";
-      case ResourcePerception.AUDIO: return "Audio";
+      // case ResourcePerception.AUDIO: return "Audio";
       default: return "Unknown perception";
     }
   }

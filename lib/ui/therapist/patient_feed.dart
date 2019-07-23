@@ -17,13 +17,13 @@ class PatientFeed extends StatelessWidget {
         title: "Patient feed",
         subtitle: patient.name,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.comment, color: Colors.white,),
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          showDialog(context: context, builder: (context)=>SimpleDialog(title: Text("Soon ..."), titlePadding: EdgeInsets.all(20),));
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.comment, color: Colors.white,),
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   onPressed: () {
+      //     showDialog(context: context, builder: (context)=>SimpleDialog(title: Text("Soon ..."), titlePadding: EdgeInsets.all(20),));
+      //   },
+      // ),
       body: Column(
         children: <Widget>[
           RaisedButton(

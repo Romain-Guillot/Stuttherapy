@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:stuttherapy/exercise_library/date.dart';
 
 class Feed {
@@ -19,16 +18,16 @@ abstract class FeedItem implements Comparable {
   int compareTo(other);
 }
 
-class Comment implements FeedItem {
-  MyDateTime date;
-  String message;
-  String label = "Comment";
+// class Comment implements FeedItem {
+//   MyDateTime date;
+//   String message;
+//   String label = "Comment";
 
-  Comment({@required this.date, @required this.message});
+//   Comment({@required this.date, @required this.message});
 
-  @override
-  int compareTo(other) => (other.date?.compareTo(date))??0;
+//   @override
+//   int compareTo(other) => (other.date?.compareTo(date))??0;
 
-  @override
-  String toString() => this.message;
-}
+//   @override
+//   String toString() => this.message;
+// }

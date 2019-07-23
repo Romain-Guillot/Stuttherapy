@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
-import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 import 'package:tinycolor/tinycolor.dart';
