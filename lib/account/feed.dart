@@ -2,6 +2,9 @@ import 'package:stuttherapy/exercise_library/date.dart';
 
 class Feed {
   List<FeedItem> items = [];
+  String userUID;
+
+  Feed(this.userUID);
 
   addItems(List<FeedItem> _items) {
     items.addAll(_items);

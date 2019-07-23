@@ -8,6 +8,7 @@ import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stuttherapy/exercises_implem/ui/mirror.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
+import 'package:stuttherapy/providers/feed_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
@@ -18,10 +19,12 @@ const SizedBox padding = SizedBox(height: Dimen.PADDING,);
 class ExerciseProgressionItemWidget extends StatelessWidget {
 
   final Exercise exercise;
+  final String patientUID;
 
   ExerciseProgressionItemWidget({
     Key key, 
-    @required this.exercise
+    @required this.exercise,
+    this.patientUID,
   }) : assert(exercise != null), 
        super(key: key);
 
@@ -44,7 +47,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
                 )
               : SizedBox()
             ),
-            ExerciseProgressionItemContent(exercise: exercise,),
+            ExerciseProgressionItemContent(exercise: exercise, patientUID: patientUID,),
           ],
         ),
       ),
@@ -139,15 +142,16 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
 
 class ExerciseProgressionItemContent extends StatelessWidget {
   final Exercise exercise;
+  final String patientUID;
 
-  ExerciseProgressionItemContent({@required this.exercise});
+  ExerciseProgressionItemContent({@required this.exercise, @required this.patientUID});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _FeedbackWidget(feedback: exercise.feedback),
+        _FeedbackWidget(exercise: exercise, patientUID: patientUID,),
         padding,
         Padding(
           padding: const EdgeInsets.all(Dimen.PADDING),
@@ -194,12 +198,18 @@ class ExerciseProgressionItemContent extends StatelessWidget {
 
 
 // Feedback can be null
-class _FeedbackWidget extends StatelessWidget {
+class _FeedbackWidget extends StatefulWidget {
 
-  final ExerciseFeedback feedback;
+  final Exercise exercise;
+  final String patientUID;
 
-  _FeedbackWidget({Key key, @required this.feedback}) : super(key: key);
+  _FeedbackWidget({Key key, @required this.exercise, @required this.patientUID}) : super(key: key);
 
+  @override
+  __FeedbackWidgetState createState() => __FeedbackWidgetState();
+}
+
+class __FeedbackWidgetState extends State<_FeedbackWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,13 +218,14 @@ class _FeedbackWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          (feedback?.message == null 
-            ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),)
-            : Container(
-                padding: const EdgeInsets.all(Dimen.PADDING),
-                color: Theme.of(context).accentColor,
-                child: Text(feedback?.message)
-              )
+          Text(
+            (widget.exercise.feedback?.message == null 
+              ? "No feedback."
+              : widget.exercise.feedback?.message),
+            style: TextStyle(
+              fontStyle: widget.exercise.feedback?.message == null? FontStyle.italic : FontStyle.normal, 
+              color: Colors.white
+            ),
           ),
           (AccountProvider.user is TherapistUser
             ? OutlineButton(
@@ -222,9 +233,7 @@ class _FeedbackWidget extends StatelessWidget {
               borderSide: BorderSide(color: Colors.white.withAlpha(100)),
               highlightedBorderColor: Colors.white,
               child: Text("Edit feedback"),
-              onPressed: () {
-
-              },
+              onPressed: () => onAddFeedback(context),
             )
             : SizedBox() // empty widget
           ),
@@ -232,6 +241,76 @@ class _FeedbackWidget extends StatelessWidget {
             
         ],
       ),
+    );
+  }
+
+  onAddFeedback(context) {
+    showDialog(
+      context: context,
+      builder: (context) => _FeedbackEditor(
+        exercise: widget.exercise, 
+        patientUID: widget.patientUID,
+      )
+    ).then((_) {
+      setState(() {});
+    });
+  }
+}
+
+class _FeedbackEditor extends StatefulWidget {
+  final Exercise exercise;
+  final String patientUID;
+
+  _FeedbackEditor({Key key, this.exercise, @required this.patientUID}) : super(key: key);
+
+  @override
+  _FeedbackEditorState createState() => _FeedbackEditorState();
+}
+
+class _FeedbackEditorState extends State<_FeedbackEditor> {
+
+  final _formKey = GlobalKey<FormState>();
+  final feedbackController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    feedbackController.text = widget.exercise.feedback?.message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Edit feedback"),
+      content: Form(
+        key: _formKey,
+        child: TextFormField(
+          controller: feedbackController,
+          decoration: InputDecoration(labelText: "Feedback"),
+          validator: (value) => value.isEmpty ? "Write your feedback" : null,
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("Save feedback"),
+          onPressed: () async {
+            if(_formKey.currentState.validate())
+            await _addFeedback(feedbackController.text);
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+
+  _addFeedback(String message) async {
+    
+    FeedProvider.addFeedback(
+      patientUID: widget.patientUID,
+      user: AccountProvider.user.loggedUser,
+      exercise: widget.exercise,
+      feedback: ExerciseFeedback(message: message)
     );
   }
 }

@@ -51,6 +51,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                           case Exercise:
                             return ExerciseProgressionListItem(
                               exercise: item,
+                              patientUID: snapshot.data.userUID
                             );
                           default:
                             return ListTile(

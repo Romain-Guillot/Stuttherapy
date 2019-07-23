@@ -33,7 +33,7 @@ class ExerciseProgressionWidget extends StatelessWidget {
             return ListView.builder(
               itemCount: progressions.length,
               itemBuilder: (BuildContext ctx, int position) 
-                => ExerciseProgressionListItem(exercise: progressions.elementAt(position)),
+                => ExerciseProgressionListItem(exercise: progressions.elementAt(position), patientUID: AccountProvider.user?.loggedUser?.uid,),
             );
           }
         },
@@ -44,8 +44,9 @@ class ExerciseProgressionWidget extends StatelessWidget {
 
 class ExerciseProgressionListItem extends StatelessWidget {
   final Exercise exercise;
+  final String patientUID;
 
-  ExerciseProgressionListItem({Key key, @required this.exercise}) : super(key: key);
+  ExerciseProgressionListItem({Key key, @required this.exercise, @required this.patientUID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class ExerciseProgressionListItem extends StatelessWidget {
       title: Text(exercise.theme.name),
       subtitle: Text(exercise.date.toString()),
       onTap: () => Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ExerciseProgressionItemWidget(exercise: exercise,)
+        builder: (context) => ExerciseProgressionItemWidget(exercise: exercise, patientUID: patientUID)
       )),
     );
   }
