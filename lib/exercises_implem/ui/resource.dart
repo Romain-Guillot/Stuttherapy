@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
 
 class ResourceWidget extends StatefulWidget implements ExerciseWidget {
 

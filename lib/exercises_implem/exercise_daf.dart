@@ -1,6 +1,6 @@
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/exercise_structure_provider.dart';
-import 'package:stutterapy/strings.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/exercise_structure_provider.dart';
+import 'package:stuttherapy/strings.dart';
 
 class DAFExercise extends ExerciseTheme {
   DAFExercise() : super(
@@ -8,7 +8,7 @@ class DAFExercise extends ExerciseTheme {
     shortDescription: Strings.DAF_DESCRIPTION_SHORT, 
     longDescription: Strings.DAF_DESCRIPTION_LONG,
     exerciseStructure: {
-      ExerciseStructureEnum.AUDIO_RECORDER: "",
+      ExerciseStructureEnum.DAF: "",
       ExerciseStructureEnum.RESOURCE: "",
       ExerciseStructureEnum.SUBMIT: ""
     }

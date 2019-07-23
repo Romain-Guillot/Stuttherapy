@@ -1,4 +1,4 @@
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
 
 class ResourceProvider {
   static CollectionExerciseResource getResources(ExerciseResourceEnum resType) {

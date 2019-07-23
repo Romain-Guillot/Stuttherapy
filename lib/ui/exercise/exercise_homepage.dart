@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/providers/resource_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
-import 'package:stutterapy/ui/dimen.dart';
-import 'package:stutterapy/ui/exercise/exercise_instance.dart';
-import 'package:stutterapy/ui/exercise_settings/settings_widget_provider.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
+import 'package:stuttherapy/providers/resource_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/ui/dimen.dart';
+import 'package:stuttherapy/ui/exercise/exercise_instance.dart';
+import 'package:stuttherapy/ui/exercise_settings/settings_widget_provider.dart';
 
 
 /// Widget to display the [theme] informations in order to

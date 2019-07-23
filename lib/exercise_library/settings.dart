@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
 
 
 /// Provide of way to describe [Exercise] settings parameters.

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/homepage_stutter.dart';
-import 'package:stutterapy/ui/homepage_therapist.dart';
-import 'package:stutterapy/ui/startup.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/homepage_stutter.dart';
+import 'package:stuttherapy/ui/homepage_therapist.dart';
+import 'package:stuttherapy/ui/startup.dart';
+
 
 /*
 Regroue SettingsItemWidget to one super widget
@@ -72,11 +74,17 @@ class Stutterapy extends StatelessWidget {
             color: Colors.black
           )
         ),
+        
         // primarySwatch: primary,
-        buttonTheme: ButtonThemeData(buttonColor: primary[400], textTheme: ButtonTextTheme.primary),
+        buttonTheme: ButtonThemeData(
+          buttonColor: primary[400], 
+          textTheme: ButtonTextTheme.primary,
+        ),
         primaryColor: primary[400],
         primaryColorDark: primary[700],
         primaryColorLight: primary[200],
+
+        
         backgroundColor: Colors.white,
         sliderTheme: SliderThemeData(
           // thumbColor: primary[700],
@@ -87,6 +95,10 @@ class Stutterapy extends StatelessWidget {
           activeTrackColor: secondaryColorDarker,
           inactiveTrackColor: secondaryColor.withAlpha(100),
           overlayColor: secondaryColor.withAlpha(30)
+        ),
+
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderSide: BorderSide(width: 1))
         ),
 
         accentColor: secondaryColor,
@@ -101,9 +113,14 @@ class Stutterapy extends StatelessWidget {
             if(_userSnapshot.data == false) {
               return StartUp();
             } else {
-              return _userSnapshot.data == true ? 
-                        HomePageStutter() : 
-                        HomePageTherapist();
+              switch (AccountProvider.user.runtimeType) {
+                case StutterUser:
+                  return HomePageStutter();
+                case TherapistUser:
+                  return HomePageTherapist();
+                default:
+                  return Text("Critical error !");
+              }
             }
           }
         },

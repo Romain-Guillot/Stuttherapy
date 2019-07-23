@@ -33,6 +33,9 @@ Exercise _$ExerciseFromJson(Map<String, dynamic> json) {
         ? null
         : RecordingResource.fromJson(
             json['recordingResource'] as Map<String, dynamic>)
+    ..date = json['date'] == null
+        ? null
+        : MyDateTime.fromJson(json['date'] as Map<String, dynamic>)
     ..savedWords =
         (json['savedWords'] as List)?.map((e) => e as String)?.toSet()
     ..feedback = json['feedback'] == null
@@ -44,6 +47,7 @@ Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
       'theme': instance.theme,
       'resources': instance.resources,
       'recordingResource': instance.recordingResource,
+      'date': instance.date,
       'savedWords': instance.savedWords?.toList(),
       'feedback': instance.feedback
     };

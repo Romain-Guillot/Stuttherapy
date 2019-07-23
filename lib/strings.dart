@@ -1,9 +1,10 @@
 
 class Strings {
   // GENERAL
-  static const APP_NAME = "Stutterapy";
+  static const APP_NAME = "Stuttherapy";
   static const FEED = "My Feed";
   static const ERROR_UNKNOWN = "Error...";
+  static const LOADING = "Loading ...";
 
   // EXERCISE
   static const EXERCISES_TITLE = "Exercises";
@@ -24,18 +25,48 @@ class Strings {
 
   // EXERCISE - DAF
   static const DAF_TITLE = "DAF";
-  static const DAF_DESCRIPTION_SHORT = "Heard your speech flow with a little delay.";
+  static const DAF_DESCRIPTION_SHORT = "Speech and hear your voice with a delay.";
   static const DAF_DESCRIPTION_LONG = "";
 
   // EXERCISE - Reading
   static const READING_TITLE = "Reading";
-  static const READING_DESCRIPTION_SHORT = "Heard your speech flow with a little delay.";
+  static const READING_DESCRIPTION_SHORT = "Read text, sentences or words.";
   static const READING_DESCRIPTION_LONG = "";
 
   // EXERCISE - Mirroring
   static const MIRRORING_TITLE = "Mirorring";
-  static const MIRORRING_DESCRIPTION_SHORT = "Watch you while speech, analayse your behavior !";
+  static const MIRORRING_DESCRIPTION_SHORT = "Speech and analayse your behavior.";
   static const MIRORRNG_DESCRIPTION_LONG = "";
+
+  // HOMEPAGE - THERAPIST
+  static const HOMEPAGE_THERAPIST_LOGGED_ADD_PATIENT = "Please be logged to add patients";
+  static const HOMEPAGE_THERAPIST_FEED_ID_INFO = "Give this ID to your patients so they can add you as their therapist.";
+  static const HOMEPAGE_THERAPIST_FEED_PATIENTS_TITLE = "My patients";
+  static const HOMEPAGE_THERAPIST__FEDD_UNKNOWN_PATIENT_NAME = "Unknown name";
+
+  // STUTTER FEED
+  static const FEED_THERAPIST_EXISTS_INFO = "You have a therapist !";
+  static const FEED_THERAPIST_NOT_EXISTS_INFO = "You don't have a therapist";
+  static const FEED_ASK_FOR_THERAPIST_ID = "Ask your therapist his ID.";
+  static const FEED_ADD_THERAPIST_BUTTON = "Ask";
+  static const FEED_ADD_THERAPIST_TTTLE = "Add a therapist";
+  static const FEED_ADD_THERAPIST_INFO = "Therapist will have access to your synchronised exercises and will be able to give you feedbacks about these exercises and share some comments with you.";
+  static const FEED_REVOQUE_THERAPIST_BUTTON = "Revoque";
+  static const FEED_REVOQUE_THERAPIST_TITLE = "Revoque therapist access";
+  static const FEED_REVOQUE_THERAPIST_INFO = "Therapist will no longer have access to your synchronised progress.";
+  static const FEED_THERAPIST_ID = "Therapist ID";
+  static const FEED_ADD_THERAPIST_ID_LABEL = "Please provide your therapist ID :";
+
+  // PROGRESS
+  static const PROGRESS_TITLE = "Progres";
+  static const PROGRESS_NO_PROGRESS = "No progress. Consider backup data on the cloud if you have synchronised your progress.";
+  static const PROGRESS_SYNC_STATE = "Synchronised";
+  static const PROGRESS_SYNC_BUTTON = "Synchronise";
+  static const PROGRESS_SYNC_LOGGED_REQUIRED = "Synchronization required to be logged";
+  static const PROGRESS_DESYNC_TITLE = "Desyncronized exercises ?";
+  static const PROGRESS_DESYNC_INFO = "Do you want to remove the exercise from the cloud ?";
+  static const PROGRESS_DESYNC_YES = "Yes, desynchronize";
+  static const PROGRESS_DESYNC_NO = "No";
 
 }
 

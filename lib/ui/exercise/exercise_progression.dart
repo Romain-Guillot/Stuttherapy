@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
-import 'package:stutterapy/ui/dimen.dart';
-import 'package:stutterapy/ui/exercise/exercise_progression_item.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/ui/exercise/exercise_progression_item.dart';
 
 class ExerciseProgressionWidget extends StatelessWidget {
 
@@ -16,23 +17,23 @@ class ExerciseProgressionWidget extends StatelessWidget {
     return Scaffold(
       appBar: SecondaryAppBar(
         title: theme.name,
-        subtitle: "Progressions",
+        subtitle: Strings.PROGRESS_TITLE,
         context: context,
       ),
       body: StreamBuilder(
         stream: AccountProvider.user.progression,
-        builder: (BuildContext context, AsyncSnapshot<Map<ExerciseTheme, List<Exercise>>> progressionsSnap) {
+        builder: (BuildContext context, AsyncSnapshot<Map<ExerciseTheme, Map<int, Exercise>>> progressionsSnap) {
           if(!progressionsSnap.hasData || progressionsSnap.data[theme] == null || progressionsSnap.data[theme].length == 0) {
             return ListTile(
-              title: Text("No progression available ...", style: TextStyle(fontStyle: FontStyle.italic),),
+              title: Text(Strings.PROGRESS_NO_PROGRESS, style: TextStyle(fontStyle: FontStyle.italic),),
             );
           }else {
-            final List<Exercise> progressions = progressionsSnap.data[theme];
+            final List<Exercise> progressions = progressionsSnap.data[theme].values.toList();
             progressions.sort();
             return ListView.builder(
               itemCount: progressions.length,
               itemBuilder: (BuildContext ctx, int position) 
-                => _ExerciseProgressionListItem(exercise: progressions.elementAt(position),),
+                => ExerciseProgressionListItem(exercise: progressions.elementAt(position)),
             );
           }
         },
@@ -41,21 +42,19 @@ class ExerciseProgressionWidget extends StatelessWidget {
   }
 }
 
-class _ExerciseProgressionListItem extends StatelessWidget {
+class ExerciseProgressionListItem extends StatelessWidget {
   final Exercise exercise;
 
-  _ExerciseProgressionListItem({Key key, @required this.exercise}) : super(key: key);
+  ExerciseProgressionListItem({Key key, @required this.exercise}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(exercise.theme.name),
       subtitle: Text(exercise.date.toString()),
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (BuildContext ctx) => ExerciseProgressionItemWidget(exercise: exercise,)
-        ));
-      },
+      onTap: () => Navigator.push(context, MaterialPageRoute(
+        builder: (context) => ExerciseProgressionItemWidget(exercise: exercise,)
+      )),
     );
   }
 }

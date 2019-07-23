@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/ui/components/secondary_appbar.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 
 class SavedWordsWidget extends StatelessWidget {
   @override
@@ -32,14 +32,16 @@ class SavedWordsWidget extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: snapWords.data.length,
                     separatorBuilder: (context, index) => Divider(),
-                    itemBuilder: (context, index) =>
-                      ListTile(
-                        title: Text(snapWords.data.elementAt(index)),
+                    itemBuilder: (context, index) {
+                      String word = snapWords.data.elementAt(index);
+                      return ListTile(
+                        title: Text(word),
                         trailing: IconButton(
                           icon: Icon(Icons.delete_forever, color: Colors.red),
-                          onPressed: () {},
+                          onPressed: () => deleteSavedWord(context, word),
                         )
-                      )
+                      );
+                    }
                   ),
                 ],
               );
@@ -48,7 +50,7 @@ class SavedWordsWidget extends StatelessWidget {
     );
   }
 
-  showAlertWipeSavedWords(context) {
+  showAlertWipeSavedWords(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) =>
@@ -66,6 +68,10 @@ class SavedWordsWidget extends StatelessWidget {
           ],
         )
     ); 
+  }
+
+  deleteSavedWord(BuildContext context, String word) {
+    AccountProvider.deleteSavedWord(word);
   }
 }
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/strings.dart';
-import 'package:stutterapy/ui/components/drawer_menu.dart';
-import 'package:stutterapy/ui/components/exercises_list.dart';
-import 'package:stutterapy/ui/components/main_appbar.dart';
-import 'package:stutterapy/ui/dimen.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
+import 'package:stuttherapy/ui/components/drawer_menu.dart';
+import 'package:stuttherapy/ui/components/exercises_list.dart';
+import 'package:stuttherapy/ui/components/feed.dart';
+import 'package:stuttherapy/ui/components/main_appbar.dart';
+import 'package:stuttherapy/ui/dimen.dart';
 
 
 
@@ -31,16 +32,14 @@ class _HomePageStutterState extends State<HomePageStutter> {
     super.initState();
     pages = [
       ExercisesListView(), 
-      Text("Feed")
+      FeedWidget(feed: AccountProvider.getUserFeed(),),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(
-        user: AccountProvider.user,
-      ),
+      appBar: MainAppBar(),
       drawer: DrawerMenu(
         context
       ),
@@ -51,10 +50,7 @@ class _HomePageStutterState extends State<HomePageStutter> {
             child: Text(_pagesNavigationIndicator.keys.elementAt(_selectedPage), style: Theme.of(context).textTheme.title),
           ),
           
-          Padding(
-            padding: const EdgeInsets.all(Dimen.PADDING),
-            child: pages.elementAt(_selectedPage),
-          ),
+          pages.elementAt(_selectedPage),
           
         ]
       ),

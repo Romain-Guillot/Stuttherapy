@@ -1,30 +1,38 @@
-import 'package:flutter/foundation.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/providers/exercise_local_storage.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 
+
+class RequiredAuthentification implements Exception {
+  @override
+  String toString() => "This action required user authentification. Please log in.";
+}
 
 ///
 abstract class User {
   static const String userIdentifier = "";
 
-  bool isLogged = false;
-  String pseudo;
+  LoggedUser loggedUser;
+  BehaviorSubject<LoggedUser> loggedUserStream = BehaviorSubject<LoggedUser>();
 
   BehaviorSubject<List<String>> savedWords = BehaviorSubject<List<String>>(seedValue: []); // List used to have sorted words
   Set<String> _savedWords = {};
 
-  BehaviorSubject<Map<ExerciseTheme, List<Exercise>>> progression = BehaviorSubject<Map<ExerciseTheme, List<Exercise>>>();
-  Map<ExerciseTheme, List<Exercise>> _progression = {}; 
+  BehaviorSubject<Map<ExerciseTheme, Map<int, Exercise>>> progression = BehaviorSubject<Map<ExerciseTheme, Map<int, Exercise>>>();
+  Map<ExerciseTheme, Map<int, Exercise>> _progression = {}; 
 
   User.create();
 
-  restore({@required Set<String> userSavedWord, Map<ExerciseTheme, List<Exercise>> userProgression}) {
-    addSavedWords(userSavedWord);
-    initProgressions(userProgression);
+  bool get isLogged => loggedUser != null && loggedUser.uid != null;
+
+
+
+
+  initSavedWords(Iterable<String> words) {
+    List<String> wordsSorted = words.toList();
+    wordsSorted.sort();
+    savedWords.add(wordsSorted);
   }
-
-
 
   Set<String> addSavedWords(Iterable<String> words) {
     _savedWords.addAll(words);
@@ -34,8 +42,27 @@ abstract class User {
     return _savedWords;
   }
 
-  initProgressions(Map<ExerciseTheme, List<Exercise>> restoredProgression) {
-    _progression = restoredProgression;
+  wipeSavedwords() {
+    _savedWords = {};
+    savedWords.add([]);
+  }
+
+
+  addProgressions(List<Exercise> restoredProgression) {
+    restoredProgression.forEach((Exercise ex) => addProgression(ex));
+    // Map<ExerciseTheme, Map<int, Exercise>> exercises = {};
+    // restoredProgression.keys.forEach((ExerciseTheme t) {
+    //   Map<int, Exercise> themeExercises = {};
+    //   restoredProgression[t].forEach((Exercise ex) => themeExercises[ex.key] = ex);
+    //   exercises[t] = themeExercises;
+    // });
+    // _progression.addAll(exercises);
+    // progression.add(_progression);
+  }
+
+  addProgression(Exercise exercise) {
+    if(_progression[exercise.theme] == null) _progression[exercise.theme] = {};
+    _progression[exercise.theme][exercise.key] = exercise;
     progression.add(_progression);
   }
 
@@ -44,20 +71,17 @@ abstract class User {
     progression.add(_progression);
   }
 
-  wipeSavedwords() {
-    _savedWords = {};
-    savedWords.add([]);
+  setLoggedUser(LoggedUser user) {
+    loggedUser = user;
+    loggedUserStream.add(loggedUser);
   }
 
-  addProgression(Exercise exercise) {
-    _progression[exercise.theme] = [
-      ..._progression[exercise.theme]??[], 
-      exercise
-    ];
-    progression.add(_progression);
-    ExerciseLocalStorageProvider().insert(exercise);
-    print("Progression added");
+  removeLoggedUsed() {
+    loggedUser = null;
+    loggedUserStream.add(null);
   }
+
+  String get identifier;
 }
 
 
@@ -65,7 +89,16 @@ abstract class User {
 class TherapistUser extends User {
   static const String userIdentifier = "Therapist";
 
+  BehaviorSubject<List<LoggedUserMeta>> patients = BehaviorSubject<List<LoggedUserMeta>>();
+
   TherapistUser.create() : super.create();
+
+  initPatient(List<LoggedUserMeta> _patients) {
+    patients.add(_patients);
+  }
+
+  @override
+  String get identifier => userIdentifier;
 
 }
 
@@ -74,8 +107,16 @@ class TherapistUser extends User {
 class StutterUser extends User {
   static const String userIdentifier = "Stutter";
 
+  BehaviorSubject<LoggedUserMeta> therapistStream = BehaviorSubject<LoggedUserMeta>();
+
   StutterUser.create() : super.create();
 
+  addTherapist(LoggedUserMeta therapist) {
+    therapistStream.add(therapist);
+  }
+
+  @override
+  String get identifier => userIdentifier;
 
 }
 

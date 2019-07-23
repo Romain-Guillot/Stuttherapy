@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/account/accounts.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/providers/account_provider.dart';
-import 'package:stutterapy/providers/exercises_loader.dart';
-import 'package:stutterapy/ui/exercise/exercise_progression.dart';
-import 'package:stutterapy/ui/exercise/exercise_homepage.dart';
+import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/exercises_loader.dart';
+import 'package:stuttherapy/ui/dimen.dart';
+import 'package:stuttherapy/ui/exercise/exercise_progression.dart';
+import 'package:stuttherapy/ui/exercise/exercise_homepage.dart';
 
 
 ///
@@ -16,19 +17,22 @@ class ExercisesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ExerciseTheme>>(
-      stream: ExercisesLoader.themes,
-      builder: (BuildContext ctx, AsyncSnapshot<List<ExerciseTheme>> snapshotThemes) {
-        if(snapshotThemes.data == null) {
-          return Text("Loading data...");
-        }else {
-          return Column(
-            children: snapshotThemes.data.map(
-              (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme)
-            ).toList(),
-          );
-        }
-      },
+    return Padding(
+      padding: const EdgeInsets.all(Dimen.PADDING),
+      child: StreamBuilder<List<ExerciseTheme>>(
+        stream: ExercisesLoader.themes,
+        builder: (BuildContext ctx, AsyncSnapshot<List<ExerciseTheme>> snapshotThemes) {
+          if(snapshotThemes.data == null) {
+            return Text("Loading data...");
+          }else {
+            return Column(
+              children: snapshotThemes.data.map(
+                (ExerciseTheme _theme)  => ExerciseListItem(theme: _theme)
+              ).toList(),
+            );
+          }
+        },
+      ),
     );
   }
 }

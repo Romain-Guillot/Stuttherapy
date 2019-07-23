@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/ui/exercise_settings/boolean_widget.dart';
-import 'package:stutterapy/ui/exercise_settings/combo_box_widget.dart';
-import 'package:stutterapy/ui/exercise_settings/integer_slider_widget.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
+import 'package:stuttherapy/ui/exercise_settings/boolean_widget.dart';
+import 'package:stuttherapy/ui/exercise_settings/combo_box_widget.dart';
+import 'package:stuttherapy/ui/exercise_settings/integer_slider_widget.dart';
 
 /// Provide an unique method to get the [Widget] corresponding to
 /// the [ExerciseSettingsItem] pass as argument.

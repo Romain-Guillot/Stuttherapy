@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
 
 
 /// Widget to give a grahical representation of the [ExerciseSettingsItem]

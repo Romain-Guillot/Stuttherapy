@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
-import 'package:stutterapy/ui/exercise_settings/settings_item_widget.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
+import 'package:stuttherapy/ui/exercise_settings/settings_item_widget.dart';
 
 
 class IntegerSliderWidget extends SettingsItemWidget {
@@ -44,6 +44,7 @@ class _IntegerSliderWidgetState extends State<IntegerSliderWidget> {
             child: TextField(
               textAlign: TextAlign.center,
               controller: _controller,
+              decoration: InputDecoration(border: InputBorder.none),
               keyboardType: TextInputType.number,
               onSubmitted: (String value) {
                 int _value = widget.field.value;

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
-import 'package:stutterapy/exercise_library/exercises.dart';
-import 'package:stutterapy/exercises_implem/ui/exercice_widget.dart';
-import 'package:stutterapy/providers/saved_word_provider.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/exercises.dart';
+import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
+import 'package:stuttherapy/providers/account_provider.dart';
+
 
 class SubmitWidget extends StatefulWidget implements ExerciseWidget {
 
@@ -33,9 +34,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
     super.initState();
     widget.exercise.currentResource.stream.listen((ExerciseResource res) {
       checkedWords = {};
-      for(String word in res.getWords()) {
-        checkedWords[word] = false;
-      }
+      res.getWords().forEach((String word) => checkedWords[word] = false);
     });
   }
 
@@ -142,7 +141,9 @@ class _SubmitWidgetState extends State<SubmitWidget> {
   }
 
   addCheckedWordsToExercise() {
-    checkedWords.removeWhere((String _, bool checked) => !checked);
-    SavedWordsProvider.addSavedWord(widget.exercise, checkedWords.keys);
+    checkedWords.removeWhere((_, bool checked) => !checked);
+    Iterable<String> words = checkedWords.keys;
+    widget.exercise.addSavedWords(words);
+    AccountProvider.addSavedWords(words);
   }
 }

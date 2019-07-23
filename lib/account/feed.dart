@@ -1,23 +1,33 @@
-import 'package:flutter/foundation.dart';
+import 'package:stuttherapy/exercise_library/date.dart';
 
 class Feed {
-  List<FeedItem> items;
+  List<FeedItem> items = [];
+
+  addItems(List<FeedItem> _items) {
+    items.addAll(_items);
+    items.sort();
+  }
 }
 
-abstract class FeedItem {
+abstract class FeedItem implements Comparable {
+  
+  MyDateTime date;
   String label;
 
-  FeedItem({@required this.label}) : assert(label != null);
+  @override
+  int compareTo(other);
 }
 
-class Comment extends FeedItem {
-  Comment() : super(label: "Comment");
-}
+// class Comment implements FeedItem {
+//   MyDateTime date;
+//   String message;
+//   String label = "Comment";
 
-class SuggestedExercise extends FeedItem {
-  SuggestedExercise() : super(label: "Suggested Exercise");
-} 
+//   Comment({@required this.date, @required this.message});
 
-class ExerciseFeedback extends FeedItem {
-  ExerciseFeedback() : super(label: "Exercise Feedback");
-}
+//   @override
+//   int compareTo(other) => (other.date?.compareTo(date))??0;
+
+//   @override
+//   String toString() => this.message;
+// }

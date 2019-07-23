@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:stutterapy/exercise_library/exercise_ressources.dart';
-import 'package:stutterapy/exercise_library/recording_resources.dart';
-import 'package:stutterapy/exercise_library/settings.dart';
+import 'package:stuttherapy/account/feed.dart';
+import 'package:stuttherapy/exercise_library/date.dart';
+import 'package:stuttherapy/exercise_library/exercise_ressources.dart';
+import 'package:stuttherapy/exercise_library/recording_resources.dart';
+import 'package:stuttherapy/exercise_library/settings.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'exercises.g.dart';
@@ -124,10 +125,13 @@ class ExerciseTheme {
 /// 
 /// NOTE : This extends [Comparable] to sort [Exercise]s by their [date].
 @JsonSerializable()
-class Exercise implements Comparable {
+class Exercise implements FeedItem {
+
+  @JsonKey(ignore: true)
+  String label = "Exercise";
 
   ///Theme of the exercise
-  final ExerciseTheme theme;
+  ExerciseTheme theme;
 
   /// Defined resources used by the exercise,it's
   /// the exercise content
@@ -137,7 +141,7 @@ class Exercise implements Comparable {
   RecordingResource recordingResource;
 
   /// When the exercise has been started.
-  final MyDateTime date;
+  MyDateTime date;
 
   /// Set of words that have to be saved (e.g. : difficult words)
   Set<String> savedWords = {};
@@ -167,11 +171,15 @@ class Exercise implements Comparable {
 
   /// Main constructor to ceate an [Exercise] instance for the first
   /// time. [currentResource] is init with a resource..
+  /// If [createdAt] is null, [date] will be the current time, else
+  /// [date] will be [createAt]
   Exercise({
     @required this.theme, 
-    @required this.resources
-  }) : this.date = MyDateTime.now() /*: assert(resources != null, "Please provide resources.")*/
+    @required this.resources,
+    DateTime createdAt,
+  })
   {
+    date = MyDateTime(createdAt??DateTime.now() );
     moveNextResource(); // init [currentResource] stream with a resource
   }
 
@@ -218,10 +226,15 @@ class Exercise implements Comparable {
   /// (fill the stream with true boolean object)
   stop() => flagEndOfExercise.add(true);
 
-  /// Exercise are compared with their date
-  /// (override the compare method with the date compare methode)
+  /// Return an identifiant for the exercise
+  int get key => date.date.microsecondsSinceEpoch;
+
   @override
-  int compareTo(other) => other.runtimeType == Exercise ? (other as Exercise).date.compareTo(date) : 0;
+  int compareTo(other) => (other.date?.compareTo(date))??0;
+
+  @override
+  String toString() => "${theme.name} exercise done the $date";
+
 }
 
 
@@ -240,19 +253,3 @@ class ExerciseFeedback {
 }
 
 
-/// Encapsulation of [DateTime] object to redefined the
-/// [toString] method to return a String representation
-/// that follow the following format : yyyy-MM-dd
-class MyDateTime extends DateTime {
-
-  static DateFormat _formatter =  DateFormat('yyyy-MM-dd');
-
-  MyDateTime.now() : super.now();
-  
-  /// String representation of the date with the following format :
-  /// yyyy-MM-dd
-  @override
-  String toString() {
-    return _formatter.format(this);
-  }
-}
