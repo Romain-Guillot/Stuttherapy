@@ -7,6 +7,7 @@ import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stuttherapy/exercises_implem/ui/mirror.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
 import 'package:stuttherapy/providers/feed_provider.dart';
 import 'package:stuttherapy/strings.dart';
@@ -60,58 +61,65 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
   Widget getSyncStatus(context) {
     return StreamBuilder(
       stream: syncButtonFuture(context).stream,
-      builder: (BuildContext context, AsyncSnapshot<Widget> buttonSnap) {
-        if(!buttonSnap.hasData) {
-          return Row(
-            children: <Widget>[
-              CircularProgressIndicator(),
-              Text(Strings.LOADING)
-            ],
-          );
-        } else {
-          return buttonSnap.data;
-        }
-      },
+      builder: (BuildContext context, AsyncSnapshot<Widget> buttonSnap) =>
+        !buttonSnap.hasData
+          ? syncStatusLoading()
+          : buttonSnap.data
     );
   }
 
   BehaviorSubject<Widget> syncButtonFuture(context) {
     var textColor = Theme.of(context).primaryColor;
-    BehaviorSubject<Widget> widgetStream = BehaviorSubject<Widget>();
-    if(AccountProvider.user.isLogged) {
-      FirebaseCloudStorageProvider().isSync(AccountProvider.user.loggedUser, exercise).listen((bool isSync) {
-        if(isSync) 
-          widgetStream.add(
-            FlatButton.icon(
-              textColor: Colors.green,
-              icon: Icon(Icons.check, color: Colors.green,), 
-              label: Text(Strings.PROGRESS_SYNC_STATE), 
-              onPressed: () {
-                showUnsyncExercise(context);
-              })
-          );
-        else
-          widgetStream.add(
-            FlatButton.icon(
-              textColor: Theme.of(context).primaryColor,
-              icon: Icon(Icons.sync, color: Theme.of(context).primaryColor,), 
-              label: Text(Strings.PROGRESS_SYNC_BUTTON), 
-              onPressed: () {
-                AccountProvider.syncProgression(exercise);
-              })
-          );
-      }); 
-    } else {
-      widgetStream.add(
-        FlatButton.icon(
-          label: Text(Strings.PROGRESS_SYNC_LOGGED_REQUIRED), 
-          icon: Icon(Icons.account_circle), 
-          textColor: textColor,
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,))),
-        )
-      );
-    }
+    BehaviorSubject<Widget> widgetStream = BehaviorSubject<Widget>(
+      seedValue: AccountProvider.user.isLogged 
+        ? syncStatusLoading()
+        : FlatButton.icon(
+            label: Text(Strings.PROGRESS_SYNC_LOGGED_REQUIRED), 
+            icon: Icon(Icons.account_circle), 
+            textColor: textColor,
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,))),
+          )
+    );
+
+    AccountProvider.user.loggedUserStream.listen((LoggedUser loggedUser) {
+      FirebaseCloudStorageProvider().isSync(loggedUser, exercise).listen((bool isSync) {
+      if(isSync) 
+        widgetStream.add(
+          FlatButton.icon(
+            textColor: Colors.green,
+            icon: Icon(Icons.check, color: Colors.green,), 
+            label: Text(Strings.PROGRESS_SYNC_STATE), 
+            onPressed: () {
+              showUnsyncExercise(context);
+            })
+        );
+      else
+        widgetStream.add(
+          FlatButton.icon(
+            textColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.sync, color: Theme.of(context).primaryColor,), 
+            label: Text(Strings.PROGRESS_SYNC_BUTTON), 
+            onPressed: () {
+              AccountProvider.syncProgression(exercise);
+            })
+        );
+      });
+    });
     return widgetStream;
+  }
+
+  Widget syncStatusLoading() {
+    return Wrap(
+      spacing: 10,
+      children: <Widget>[
+        SizedBox(
+          width: 15,
+          height: 15,
+          child: CircularProgressIndicator(strokeWidth: 2,)
+        ),
+        Text(Strings.LOADING, style: TextStyle(fontStyle: FontStyle.italic),)
+      ],
+    );
   }
 
   showUnsyncExercise(context) {
