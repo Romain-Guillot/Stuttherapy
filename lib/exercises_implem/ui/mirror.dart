@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
@@ -42,6 +43,8 @@ class _CameraExampleHomeState extends State<MirrorWidget>
   }
 
    Future initCamera() async {
+    await PermissionHandler().requestPermissions([PermissionGroup.camera, PermissionGroup.storage, PermissionGroup.microphone]);
+
     try {
       cameras = await availableCameras();
     } on CameraException catch (e) {
