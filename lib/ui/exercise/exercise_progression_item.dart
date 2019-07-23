@@ -5,6 +5,7 @@ import 'package:stuttherapy/account/accounts.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
+import 'package:stuttherapy/exercises_implem/ui/mirror.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
 import 'package:stuttherapy/strings.dart';
@@ -181,7 +182,7 @@ class ExerciseProgressionItemContent extends StatelessWidget {
         case RecordingType.AUDIO:
           return AudioPlayer(uri: exercise.recordingResource.uri,);
         case RecordingType.VIDEO:
-          return Placeholder(fallbackHeight: 200,);
+          return VideoResourcePlayer(uri: exercise.recordingResource.uri,);
         default:
           return Text("Recording type not supported.");
       }
