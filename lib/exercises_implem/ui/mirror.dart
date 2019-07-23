@@ -14,7 +14,9 @@ class MirrorWidget extends StatefulWidget implements ExerciseWidget{
 
   final Exercise exercise;
 
-    MirrorWidget({Key key, @required this.exercise}) : super(key: key);
+  MirrorWidget({Key key, @required this.exercise}) : super(key: key);
+
+  bool get recordingEnable => exercise.theme.settings[ExerciseTheme.SETTINGS_RECORD];
 
   @override
   _CameraExampleHomeState createState() {
@@ -58,7 +60,7 @@ class _CameraExampleHomeState extends State<MirrorWidget>
         cameraFound = true;
       }
     }
-    if(cameraFound) {
+    if(cameraFound && widget.recordingEnable) {
       startVideoRecording();
     } else {
       setState(() => error = true);
