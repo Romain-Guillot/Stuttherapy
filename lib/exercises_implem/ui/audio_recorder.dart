@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 
 class AudioRecorder extends StatefulWidget implements ExerciseWidget {
@@ -41,8 +42,8 @@ class _AudioRecorderState extends State<AudioRecorder> {
 
   start() async {
     try {
+      await PermissionHandler().requestPermissions([PermissionGroup.microphone, PermissionGroup.storage]);
       final String uri = await recorder.startRecorder((await getApplicationDocumentsDirectory()).path + "/" + DateTime.now().millisecondsSinceEpoch.toString() + ".m4a");
-      print("URI : " + uri);
       widget.exercise.recordingResource = RecordingResource(uri: uri, type: RecordingType.AUDIO);
       _recorderSubscription = widget.exercise.flagEndOfExercise.stream.listen((bool end) {
         if(end) 
