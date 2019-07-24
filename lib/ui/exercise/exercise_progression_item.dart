@@ -166,14 +166,14 @@ class ExerciseProgressionItemContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Theme : " + exercise.theme.name),
+              Text(Strings.PROGRESS_EXERCISE_THEME_LABEL + " " + exercise.theme.name),
               padding,
-              Text("Date : " + exercise.date.toString()),
+              Text(Strings.PROGRESS_EXERCISE_DATE_LABEL + " " + exercise.date.toString()),
               padding,
-              Text("Recording resource"),
+              Text(Strings.PROGRESS_EXERCISE_RECORDING_LABEL),
               getRecorginWidget(),
               padding,
-              Text("Saved words :"),
+              Text(Strings.PROGRESS_EXERCISE_SAVED_WORDS_LABEL),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: exercise.savedWords.map((String word) => 
@@ -196,10 +196,10 @@ class ExerciseProgressionItemContent extends StatelessWidget {
         case RecordingType.VIDEO:
           return VideoResourcePlayer(uri: exercise.recordingResource.uri,);
         default:
-          return Text("Recording type not supported.");
+          return Text(Strings.PROGRESS_EXERCISE_RECORDING_NOTSUPPORTED);
       }
     } else {
-      return Text("No recording data.");
+      return Text(Strings.PROGRESS_EXERCISE_NORECORDING);
     }
   }
 }
@@ -228,7 +228,7 @@ class __FeedbackWidgetState extends State<_FeedbackWidget> {
         children: <Widget>[
           Text(
             (widget.exercise.feedback?.message == null 
-              ? "No feedback."
+              ? Strings.PROGRESS_EXERCISE_NO_FEEDBACK
               : widget.exercise.feedback?.message),
             style: TextStyle(
               fontStyle: widget.exercise.feedback?.message == null? FontStyle.italic : FontStyle.normal, 
@@ -240,7 +240,7 @@ class __FeedbackWidgetState extends State<_FeedbackWidget> {
               textColor: Colors.white,
               borderSide: BorderSide(color: Colors.white.withAlpha(100)),
               highlightedBorderColor: Colors.white,
-              child: Text("Edit feedback"),
+              child: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK),
               onPressed: () => onAddFeedback(context),
             )
             : SizedBox() // empty widget
@@ -290,18 +290,18 @@ class _FeedbackEditorState extends State<_FeedbackEditor> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Edit feedback"),
+      title: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK),
       content: Form(
         key: _formKey,
         child: TextFormField(
           controller: feedbackController,
-          decoration: InputDecoration(labelText: "Feedback"),
-          validator: (value) => value.isEmpty ? "Write your feedback" : null,
+          decoration: InputDecoration(labelText: Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_LABEL),
+          validator: (value) => value.isEmpty ? Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_ERROR : null,
         ),
       ),
       actions: <Widget>[
         FlatButton(
-          child: Text("Save feedback"),
+          child: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_SAVE),
           onPressed: () async {
             if(_formKey.currentState.validate())
             await _addFeedback(feedbackController.text);

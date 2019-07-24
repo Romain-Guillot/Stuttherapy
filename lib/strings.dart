@@ -5,11 +5,15 @@ class Strings {
   static const FEED = "My Feed";
   static const ERROR_UNKNOWN = "Error...";
   static const LOADING = "Loading ...";
+  static const SOMETHING_WRONG = "Something went wrong ...";
+  static const OK = "Ok";
 
   // EXERCISE
   static const EXERCISES_TITLE = "Exercises";
+  static const EXERCISE_TRAIN = "Training";
   static const EXERCISE_LAUNCH = "Launch";
   static const EXERCISE_SETTINGS = "Settings";
+  static const EXERCISE_STOP = "Finish";
 
   // STARTUP
   static const STARTUP_TITLE = "Hey !";
@@ -38,11 +42,17 @@ class Strings {
   static const MIRORRING_DESCRIPTION_SHORT = "Speech and analayse your behavior.";
   static const MIRORRNG_DESCRIPTION_LONG = "";
 
-  // HOMEPAGE - THERAPIST
+  // THERAPIST
   static const HOMEPAGE_THERAPIST_LOGGED_ADD_PATIENT = "Please be logged to add patients";
   static const HOMEPAGE_THERAPIST_FEED_ID_INFO = "Give this ID to your patients so they can add you as their therapist.";
   static const HOMEPAGE_THERAPIST_FEED_PATIENTS_TITLE = "My patients";
   static const HOMEPAGE_THERAPIST__FEDD_UNKNOWN_PATIENT_NAME = "Unknown name";
+  static const THERAPIST_PATIENT_FEED = "Patient feed";
+  static const THERAPIST_PATIENT_FEED_REMOVE = "Remove patient";
+  static const THERAPIST_PATIENT_FEED_REMOVE_INFO = "Are you sure to remove";
+  static const THERAPIST_PATIENT_FEED_REMOVE_YES = "Yes, remove";
+  static const THERAPIST_PATIENT_FEED_REMOVE_NO = "No";
+
 
   // STUTTER FEED
   static const FEED_THERAPIST_EXISTS_INFO = "You have a therapist !";
@@ -55,7 +65,7 @@ class Strings {
   static const FEED_REVOQUE_THERAPIST_TITLE = "Revoque therapist access";
   static const FEED_REVOQUE_THERAPIST_INFO = "Therapist will no longer have access to your synchronized progress.";
   static const FEED_THERAPIST_ID = "Therapist ID";
-  static const FEED_ADD_THERAPIST_ID_LABEL = "Please provide your therapist ID :";
+  static const FEED_ADD_THERAPIST_ID_LABEL = "Please provide your therapist ID:";
 
   // PROGRESS
   static const PROGRESS_TITLE = "Progress";
@@ -67,17 +77,56 @@ class Strings {
   static const PROGRESS_DESYNC_INFO = "Do you want to remove the exercise from the cloud ?";
   static const PROGRESS_DESYNC_YES = "Yes, desynchronize";
   static const PROGRESS_DESYNC_NO = "No";
+  static const PROGRESS_EXERCISE_NORECORDING = "No recording data";
+  static const PROGRESS_EXERCISE_RECORDING_NOTSUPPORTED = "Recording type not supported.";
+  static const PROGRESS_EXERCISE_NO_FEEDBACK = "No feedback.";
+  static const PROGRESS_EXERCISE_EDIT_FEEDBACK = "Edit feedback";
+  static const PROGRESS_EXERCISE_EDIT_FEEDBACK_SAVE = "Save feedback";
+  static const PROGRESS_EXERCISE_EDIT_FEEDBACK_LABEL = "Feedback";
+  static const PROGRESS_EXERCISE_EDIT_FEEDBACK_ERROR = "Write your feedback";
+  static const PROGRESS_EXERCISE_THEME_LABEL = "Theme:";
+  static const PROGRESS_EXERCISE_SAVED_WORDS_LABEL = "Saved words:";
+  static const PROGRESS_EXERCISE_RECORDING_LABEL = "Recording resource:";
+  static const PROGRESS_EXERCISE_DATE_LABEL = "Date:";
+
+  // ACCOUNT
+  static const ACCOUNT_TITLE = "Your profile";
+  static const ACCOUNT_TYPE_LABEL = "Account type:";
+  static const ACCOUNT_SIGNIN = "Sign in";
+  static const ACCOUNT_SIGNOUT = "Sign out";
+  static const ACCOUNT_SIGNUP = "Sign up";
+  static const ACCOUNT_DELETE_TITLE = "Delete your account";
+  static const ACCOUNT_DELETE_INFO = "Once you delete your account, there is no going back. Please be certain.";
+  static const ACCOUNT_DELETE_ACTION = "Delete my account";
+  static const ACCOUNT_FORM_EMAIL_LABEL = "email";
+  static const ACCOUNT_FORM_EMAIL_ERROR = "Please enter your email";
+  static const ACCOUNT_FORM_PASSWORD_LABEL = "password";
+  static const ACCOUNT_FORM_PASSWORD_ERROR = "Please enter your password";
+  static const ACCOUNT_FORM_PASSWORD_CONFIRM_LABLE = "password confirmation";
+  static const ACCOUNT_FORM_PASSWORD_CONFIRM_ERROR = "Passwords doesn't match";
+  static const ACCOUNT_FORM_NAME_LABEL = "Name";
+  static const ACCOUNT_FORM_NAME_ERROR = "Please enter your name";
+  static const ACCOUNT_FORM_SUCCESS_CREATED = "User successfully created";
+  static const ACCOUNT_FORM_ACCOUNT_EXISTS = "You already have an account ?";
+  static const ACCOUNT_FORM_ACCOUNT_NOT_EXISTS = "You don't have an account ?";
+
+  // SAVED WORDS
+  static const SAVED_WORDS_TITLE = "Saved words";
+  static const SAVED_WORDS_DESCRIPTION = "Words saved during your training.";
+  static const SAVED_WORDS_EMPTY = "No saved words.";
+  static const SAVED_WORDS_REMOVE_ALL = "Remove all";
+  static const SAVED_WORDS_REMOVE_ALL_TITLE = "Delete saved words";
+  static const SAVED_WORDS_REMOVE_ALL_INFO = "Saved words will be deleted permanently.";
+  static const SAVED_WORDS_REMOVE_ALL_NO = "No";
+  static const SAVED_WORDS_REMOVE_ALL_YES = "Yes, delete all";
+
+  // OTHER
+  static const WIPE_LOCAL_PROGRESS = "Wipe local progress";
+  static const WIPE_LOCAL_PROGRESS_DESCRIPTION = "Deleted your progress saved on your device.";
+  static const WIPE_LOCAL_PROGRESS_SUCCESS = "Progress wiped !";
+  static const BACKUP_CLOUD_PROGRESS = "Backup cloud progress";
+  static const BACKUP_CLOUD_PROGRESS_DESCRIPTION = "Get back your progress synchronized in the cloud..";
+  static const BACKUP_CLOUD_PROGRESS_SUCCESS = "Progress downloaded !";
+
 
 }
-
-/*
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut nisi elit. Cras rutrum, quam eu facilisis rhoncus, enim enim aliquam dui, vitae mattis elit est et nulla. Maecenas et posuere magna. Praesent finibus dignissim dignissim. Vivamus maximus libero turpis, sed posuere est pretium eget. Mauris tincidunt eu odio sit amet efficitur. Maecenas magna sem, bibendum ut semper id, ultricies nec arcu. Aenean id libero viverra, tempus felis non, laoreet ex.
-
-Quisque nulla dolor, varius at eleifend ornare, iaculis eu felis. Vivamus eu felis sed dui dictum vulputate at non metus. Vivamus aliquam sodales orci, auctor auctor velit iaculis non. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed nec massa fringilla, venenatis metus ultrices, luctus nibh. Nulla pulvinar sed lorem vulputate feugiat. Quisque at pulvinar elit. Suspendisse vestibulum commodo sem, sit amet laoreet justo placerat eu.
-
-Ut porttitor leo eu velit porttitor blandit non vitae erat. Maecenas eu nisl nisi. Vestibulum bibendum mattis nisi, ac faucibus orci sollicitudin a. Curabitur eleifend risus id sem vehicula, ac congue eros accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras velit diam, luctus sed magna vel, bibendum luctus erat. In varius urna mattis urna scelerisque tincidunt. Maecenas sem massa, pulvinar sit amet risus nec, vestibulum commodo sapien. Nam consequat mauris vitae lacus consectetur ultrices. Pellentesque ante odio, interdum fringilla mi non, rhoncus aliquam est. Pellentesque quis faucibus ligula, et viverra libero.
-
-Morbi vel posuere orci, non tempus est. Aliquam erat volutpat. Sed gravida odio quis sem egestas, gravida efficitur nunc faucibus. Duis facilisis eros sit amet sapien gravida, eu lobortis lorem bibendum. Ut a est sed diam scelerisque feugiat in eu nulla. Pellentesque sagittis congue enim, nec euismod quam egestas eget. Donec eget scelerisque lectus, eu fermentum turpis. Nulla erat tortor, consectetur sed magna ac, aliquet tristique lorem. Curabitur sed elit at augue vulputate venenatis eu pellentesque tellus. Cras malesuada est in fringilla rutrum. Phasellus dignissim velit odio, ut blandit diam auctor id. Nam congue, mi consequat venenatis hendrerit, leo mi ornare augue, aliquet mattis urna mauris id arcu. Cras maximus placerat sapien sed ultricies. Mauris in nisi non velit lobortis imperdiet. Sed lacinia mattis erat vel pharetra.
-
-Nam tempor rutrum orci, ornare eleifend purus posuere et. Vivamus ut eros id nibh condimentum laoreet. Nunc rhoncus nisl at elit pharetra pellentesque. Pellentesque tempor diam enim. Proin mattis urna vel ante pellentesque, at accumsan ipsum laoreet. Morbi eget sapien ac lorem auctor mattis. Sed aliquam est vitae eros fermentum, non pharetra nisl imperdiet.
-*/

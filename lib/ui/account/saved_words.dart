@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 
 class SavedWordsWidget extends StatelessWidget {
@@ -8,21 +9,24 @@ class SavedWordsWidget extends StatelessWidget {
     return Scaffold(
       appBar: SecondaryAppBar(
         context: context,
-        title: "Saved words",
+        title: Strings.SAVED_WORDS_TITLE,
       ),
       body: StreamBuilder<List<String>>(
         stream: AccountProvider.user.savedWords.stream,
         builder: (BuildContext context, AsyncSnapshot<List<String>> snapWords) {
           if(!snapWords.hasData)
-            return Text("Loading...");
+            return Text(Strings.LOADING);
 
           return snapWords.data.length == 0
-            ? ListTile(title: Text("No saved words.", style: TextStyle(fontStyle: FontStyle.italic),),)
+            ? ListTile(
+                title: Text(Strings.SAVED_WORDS_EMPTY, 
+                style: TextStyle(fontStyle: FontStyle.italic),),
+              )
             : ListView(
                 children: <Widget>[
                   ListTile(
                     title: RaisedButton(
-                      child: Text("Remove all"), 
+                      child: Text(Strings.SAVED_WORDS_REMOVE_ALL), 
                       color: Theme.of(context).errorColor,
                       onPressed: () => showAlertWipeSavedWords(context)
                     ),
@@ -55,13 +59,13 @@ class SavedWordsWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) =>
         AlertDialog(
-          title: Text("Delete saved words ?"),
-          content: Text("Saved words will be deleted permanently."),
+          title: Text(Strings.SAVED_WORDS_REMOVE_ALL_TITLE),
+          content: Text(Strings.SAVED_WORDS_REMOVE_ALL_INFO),
           actions: <Widget>[
-            FlatButton(child: Text("No."), textColor: Colors.grey, onPressed: () {
+            FlatButton(child: Text(Strings.SAVED_WORDS_REMOVE_ALL_NO), textColor: Colors.grey, onPressed: () {
               Navigator.pop(context);
             },),
-            FlatButton(child: Text("Yes, delete."), textColor: Theme.of(context).errorColor, onPressed: () {
+            FlatButton(child: Text(Strings.SAVED_WORDS_REMOVE_ALL_YES), textColor: Theme.of(context).errorColor, onPressed: () {
               Navigator.pop(context);
               AccountProvider.wipeSavedwords();
             },),

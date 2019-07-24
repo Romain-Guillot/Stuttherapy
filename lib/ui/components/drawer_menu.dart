@@ -26,20 +26,20 @@ class DrawerMenu extends Drawer {
           children: <Widget>[
             accountInformation(),
             ListTile(
-              title: Text("Saved words"),
-              subtitle: Text("Words saved during your training."),
+              title: Text(Strings.SAVED_WORDS_TITLE),
+              subtitle: Text(Strings.SAVED_WORDS_DESCRIPTION),
               onTap: () => Navigator.push(context, MaterialPageRoute(
                 builder: (context) => SavedWordsWidget()
               )),
             ),
             ListTile(
-              title: Text("Wipe local progress"),
-              subtitle: Text("Deleted your progress saved on your device."),
+              title: Text(Strings.WIPE_LOCAL_PROGRESS),
+              subtitle: Text(Strings.WIPE_LOCAL_PROGRESS_DESCRIPTION),
               onTap: () => wipeLocalProgression(newContext),
             ),
             ListTile(
-              title: Text("Backup cloud progress"),
-              subtitle: Text("Get back your progress synchronized in the cloud.."),
+              title: Text(Strings.BACKUP_CLOUD_PROGRESS),
+              subtitle: Text(Strings.BACKUP_CLOUD_PROGRESS_DESCRIPTION),
               onTap: () => backupProgression(newContext)
             ),
           ],
@@ -53,11 +53,11 @@ class DrawerMenu extends Drawer {
     AccountProvider.wipeProgressions().then(
       (_) =>
         Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text("Progress wiped !"), behavior: SnackBarBehavior.floating)
+          SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
         ),
       onError: (e) => 
         Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text("Something went wrong ..."), behavior: SnackBarBehavior.floating)
+            SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
         )
     );
   }
@@ -66,9 +66,15 @@ class DrawerMenu extends Drawer {
     Navigator.pop(context);
     try {
       if(AccountProvider.user.isLogged) {
-        await AccountProvider.backupProgression();
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text("Progress downloaded !"), behavior: SnackBarBehavior.floating,)
+        await AccountProvider.backupProgression().then(
+          (_) =>
+            Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text(Strings.BACKUP_CLOUD_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating,)
+            ),
+          onError: (e) =>
+            Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+            )
         );
       } else {
         Navigator.push(context, MaterialPageRoute(
@@ -111,7 +117,7 @@ class DrawerMenu extends Drawer {
                     iconColor: Colors.white,
                     child: ListTile(
                       leading: Icon(Icons.account_circle),
-                      title: Text("Your profile", style: TextStyle(fontWeight: FontWeight.bold)),
+                      title: Text(Strings.ACCOUNT_TITLE, style: TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(user.email, style: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.7))),
                       
                     ),
@@ -119,8 +125,8 @@ class DrawerMenu extends Drawer {
                 ),
                 onTap: () {
                     Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => AccountHomePage()
-                  ));
+                      builder: (context) => AccountHomePage()
+                    ));
                 },
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 
@@ -27,7 +28,7 @@ class _AccountLogInState extends State<AccountLogIn> {
     return Scaffold(
       appBar: SecondaryAppBar(
         context: context,
-        title: isSignIn ? "Sign in" : "Sign up"
+        title: isSignIn ? Strings.ACCOUNT_SIGNIN : Strings.ACCOUNT_SIGNUP
       ),
       body: Builder(
         builder: (context) => SingleChildScrollView(
@@ -40,10 +41,10 @@ class _AccountLogInState extends State<AccountLogIn> {
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: <Widget>[
-                      Text(isSignIn ? "You don't have an account ? " : "You already have an account ?"),
+                      Text(isSignIn ? Strings.ACCOUNT_FORM_ACCOUNT_NOT_EXISTS : Strings.ACCOUNT_FORM_ACCOUNT_EXISTS),
                       FlatButton(
                         textColor: Theme.of(context).primaryColor,
-                        child: Text(isSignIn ? "Sign up" : "Sign in"),
+                        child: Text(isSignIn ? Strings.ACCOUNT_SIGNUP : Strings.ACCOUNT_SIGNIN),
                         onPressed: () {
                           setState(() => mode = (isSignIn ? FormMode.SIGNUP : FormMode.SIGNIN));
                         },
@@ -68,6 +69,7 @@ class LogInForm extends StatefulWidget {
 
 class _LogInFormState extends State<LogInForm> {
 
+  bool isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
@@ -81,35 +83,39 @@ class _LogInFormState extends State<LogInForm> {
         children: <Widget>[
           TextFormField(
             controller: emailController,
+            enabled: !isLoading,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: "email",),
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_EMAIL_LABEL,),
             autofocus: false,
-            validator: (email) => email.isEmpty ? "Please enter your email" : null,
+            validator: (email) => email.isEmpty ? Strings.ACCOUNT_FORM_EMAIL_ERROR : null,
           ),
           SizedBox(height: Dimen.PADDING,),
           TextFormField(
             controller: passwordController,
-            decoration: InputDecoration(labelText: "password"),
+            enabled: !isLoading,
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_PASSWORD_CONFIRM_LABLE),
             obscureText: true,
             autofocus: false,
-            validator: (password) => password.isEmpty ? "Please enter your password" : null,
+            validator: (password) => password.isEmpty ? Strings.ACCOUNT_FORM_PASSWORD_ERROR : null,
           ),
           SizedBox(height: Dimen.PADDING,),
           RaisedButton(
-            child: Text("Log In"),
-            onPressed: () async {
+            child: Text(isLoading ? Strings.LOADING : Strings.ACCOUNT_SIGNIN),
+            onPressed: isLoading ? null : () async {
               if(_formKey.currentState.validate()) {
                 try {
+                  setState(() => isLoading = true);
                   LoggedUser user = await AuthentificationProvider.classicSignIn(emailController.text, passwordController.text);
                   AccountProvider.setLoggedUser(user);
                   Navigator.pop(context);
                 } on AuthentificationError catch(err) {
+                  setState(() => isLoading = false);
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
                       content: Text(err.message),
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Theme.of(context).errorColor,
-                      action: SnackBarAction(label: "OK", onPressed: () {}, textColor: Colors.white,), // onPressed will remove the snackbar
+                      action: SnackBarAction(label: Strings.OK, onPressed: () {}, textColor: Colors.white,), // onPressed will remove the snackbar
                     )
                   );
                 }
@@ -128,6 +134,7 @@ class SignUpFom extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUpFom> {
+  bool isLoading = false;
   String email;
   String password;
   String passwordConfirmation;
@@ -155,48 +162,52 @@ class _SignUpState extends State<SignUpFom> {
         children: <Widget>[
           TextFormField(
             controller: nameController,
-            decoration: InputDecoration(labelText: "Name"),
+            enabled: !isLoading,
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_NAME_LABEL),
             textCapitalization: TextCapitalization.sentences,
             autofocus: false,
-            validator: (name) => name.isEmpty ? "Please enter your name" : null,
+            validator: (name) => name.isEmpty ? Strings.ACCOUNT_FORM_NAME_ERROR : null,
           ),
           SizedBox(height: Dimen.PADDING,),
           TextFormField(
             controller: emailController,
+            enabled: !isLoading,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: "email",),
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_EMAIL_LABEL,),
             autofocus: false,
-            validator: (email) => email.isEmpty ? "Please enter your email" : null,
+            validator: (email) => email.isEmpty ? Strings.ACCOUNT_FORM_EMAIL_ERROR : null,
           ),
           SizedBox(height: Dimen.PADDING,),
           TextFormField(
             controller: passwordController,
-            decoration: InputDecoration(labelText: "password"),
+            enabled: !isLoading,
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_PASSWORD_LABEL),
             obscureText: true,
             autofocus: false,
-            validator: (password) => password.isEmpty ? "Please enter your password" : null,
+            validator: (password) => password.isEmpty ? Strings.ACCOUNT_FORM_PASSWORD_ERROR: null,
           ),
           SizedBox(height: Dimen.PADDING,),
           TextFormField(
             controller: passwordConfirmationController,
-            decoration: InputDecoration(labelText: "confirm password"),
+            enabled: !isLoading,
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_PASSWORD_CONFIRM_LABLE),
             obscureText: true,
             autofocus: false,
-            validator: (password) => passwordController.text != password ? "Passwords doesn't match" : null,
+            validator: (password) => passwordController.text != password ? Strings.ACCOUNT_FORM_PASSWORD_CONFIRM_ERROR : null,
           ),
           SizedBox(height: Dimen.PADDING,),
           RaisedButton(
-            child: Text("Sign Up"),
-              onPressed: () async {
+            child: Text(isLoading ? Strings.LOADING : Strings.ACCOUNT_SIGNUP),
+              onPressed: isLoading ? null : () async {
                 if(_formKey.currentState.validate()) {
                   try {
-                    print(passwordController.text);
-                    print("DEBUG");
+                    setState(() => isLoading = true);
                     LoggedUser user = await AuthentificationProvider.classicSignUp(emailController.text, passwordController.text, nameController.text);
                     AccountProvider.setLoggedUser(user);
                     Navigator.pop(context);
                     showSuccessSnackBar(context, user);
                   } on AuthentificationError catch(err) {
+                    setState(() => isLoading = false);
                     showErrorSnackBar(context, err.message);
                   }
                 }
@@ -214,7 +225,7 @@ class _SignUpState extends State<SignUpFom> {
         content: Text(error),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).errorColor,
-        action: SnackBarAction(label: "OK", onPressed: () {}, textColor: Colors.white,), // onPressed will remove the snackbar
+        action: SnackBarAction(label: Strings.OK, onPressed: () {}, textColor: Colors.white,), // onPressed will remove the snackbar
       )
     );
   }
@@ -222,7 +233,7 @@ class _SignUpState extends State<SignUpFom> {
   showSuccessSnackBar(context, username) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        content: Text("User successfully added : $username"),
+        content: Text("${Strings.ACCOUNT_FORM_SUCCESS_CREATED}: $username"),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).primaryColor,
       )

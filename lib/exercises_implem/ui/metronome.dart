@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 
 class MetronomeWidget extends StatefulWidget implements ExerciseWidget {
