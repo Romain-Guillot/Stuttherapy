@@ -61,6 +61,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
     if(isRecording) {
       try {
         await recorder.stopRecorder();
+        print("dssddsf");
         if (_recorderSubscription != null) {
           _recorderSubscription.cancel();
           _recorderSubscription = null;
@@ -70,7 +71,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
         print("Unable to stop the recorder ... (not normal !)");
         print("err" + err.toString());
       }
-      if(updateUI)
+      if(updateUI && mounted)
         setState(() => isRecording = false);
     } else {
       print("Not in recording status.");

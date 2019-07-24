@@ -45,10 +45,11 @@ class _StartUpState extends State<StartUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Builder(builder: (BuildContext newCtx) =>
-        Padding(
+      body: Builder(
+        builder: (newCtx) => SingleChildScrollView(
+          primary: true,
           padding: const EdgeInsets.all(Dimen.STARTUP_PADDING),
-          child: SafeArea(
+          child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -62,7 +63,7 @@ class _StartUpState extends State<StartUp> {
                     child: _choicesWidget()
                   ),
                 ),
-                Expanded(child: SizedBox(),),
+                // Expanded(child: SizedBox(),),
                 Center(
                   child: RaisedButton(
                     color: Theme.of(context).accentColor,

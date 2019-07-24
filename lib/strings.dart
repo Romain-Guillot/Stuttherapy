@@ -16,8 +16,8 @@ class Strings {
   static const EXERCISE_STOP = "Finish";
 
   // STARTUP
-  static const STARTUP_TITLE = "Hey !";
-  static const STARTUP_INTRO = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ut nisi elit. Cras rutrum, quam eu facilisis rhoncus, enim enim aliquam dui, vitae mattis elit est et nulla.\n\n Maecenas et posuere magna. Praesent finibus dignissim dignissim. Vivamus maximus libero turpis, sed posuere est pretium eget. Mauris tincidunt eu odio sit amet efficitur. Maecenas magna sem, bibendum ut semper id, ultricies nec arcu. Aenean id libero viverra, tempus felis non, laoreet ex.";
+  static const STARTUP_TITLE = "Hi,";
+  static const STARTUP_INTRO = "Stuttherapy is an application to help you overcome your stuttering through different exercises. Train freely, without pressure!\n\nYou can keep track of your progress and share your results with your therapist to get feedback.\n\nBefore you start, choose the context in which you will use this application:";
   static const STARTUP_SUBMIT = "Submit !";
   static const STARTUP_ERROR_NO_ACCOUNT_SELECTED = "You have to select an account type !";
 
