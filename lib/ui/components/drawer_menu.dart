@@ -49,17 +49,51 @@ class DrawerMenu extends Drawer {
   }
 
   wipeLocalProgression(context) {
-    Navigator.pop(context);
-    AccountProvider.wipeProgressions().then(
-      (_) =>
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
-        ),
-      onError: (e) => 
-        Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+    showDialog(
+      context: context,
+      builder: (ctx) =>
+        AlertDialog(
+          title: Text("Wipe local progress"),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.grey,
+              child: Text("Cancel"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            FlatButton(
+              textColor: Theme.of(context).errorColor,
+              child: Text("Yes, wipe"),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                AccountProvider.wipeProgressions().then(
+                  (_) =>
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
+                    ),
+                  onError: (e) => 
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+                    )
+                );
+              },
+            )
+          ],
         )
-    );
+    ).then((val) {
+      print(val);
+    });
+    // Navigator.pop(context);
+    // AccountProvider.wipeProgressions().then(
+    //   (_) =>
+    //     Scaffold.of(context).showSnackBar(
+    //       SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
+    //     ),
+    //   onError: (e) => 
+    //     Scaffold.of(context).showSnackBar(
+    //         SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+    //     )
+    // );
   }
 
   backupProgression(BuildContext context) async {
