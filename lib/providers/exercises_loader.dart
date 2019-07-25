@@ -2,7 +2,6 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 
 import 'package:stuttherapy/exercise_library/exercises.dart';
-import 'package:stuttherapy/exercises_implem/exercise_daf.dart';
 import 'package:stuttherapy/exercises_implem/exercise_metronome.dart';
 import 'package:stuttherapy/exercises_implem/exercise_mirroring.dart';
 import 'package:stuttherapy/exercises_implem/exercise_reading.dart';

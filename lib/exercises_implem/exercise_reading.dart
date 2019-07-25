@@ -6,7 +6,7 @@ class ReadingExercise extends ExerciseTheme {
   ReadingExercise() : super(
     name: Strings.READING_TITLE, 
     shortDescription: Strings.READING_DESCRIPTION_SHORT, 
-    longDescription: Strings.READING_DESCRIPTION_SHORT,
+    longDescription: Strings.READING_DESCRIPTION_LONG,
     exerciseStructure: {
       ExerciseStructureEnum.AUDIO_RECORDER: "",
       ExerciseStructureEnum.RESOURCE: "",

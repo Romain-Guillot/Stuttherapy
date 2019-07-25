@@ -149,7 +149,7 @@ class _CameraExampleHomeState extends State<MirrorWidget>
 
     try {
       await controller.initialize();
-    } on CameraException catch (e) {
+    } on CameraException {
     }
 
     if (mounted) {
@@ -175,7 +175,7 @@ class _CameraExampleHomeState extends State<MirrorWidget>
       videoPath = filePath;
       await controller.startVideoRecording(filePath);
       widget.exercise.recordingResource = RecordingResource(uri: filePath, type: RecordingType.VIDEO);
-    } on CameraException catch (e) {
+    } on CameraException  {
       // TODO
       return null;
     }
@@ -192,7 +192,7 @@ class _CameraExampleHomeState extends State<MirrorWidget>
     try {
       await controller.stopVideoRecording();
       if (mounted) setState(() {});
-    } on CameraException catch (e) {
+    } on CameraException{
       // TODO
       return null;
     }

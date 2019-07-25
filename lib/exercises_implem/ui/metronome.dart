@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercises_implem/ui/exercice_widget.dart';
 
+
 class MetronomeWidget extends StatefulWidget implements ExerciseWidget {
 
   static const SETTINGS_BPM = "metronome_bpm"; 
+  static const METRONOME_SOUND_DISABLE = "metronome_sound_off";
   
   final Exercise exercise;
 
@@ -21,20 +24,28 @@ class MetronomeWidget extends StatefulWidget implements ExerciseWidget {
   _MetronomeWidgetState createState() => _MetronomeWidgetState();
 
   int get bpm => exercise.theme.settings[SETTINGS_BPM] as int;
+
+  bool get soundSignalEnable => !exercise.theme.settings[METRONOME_SOUND_DISABLE];
 }
 
 class _MetronomeWidgetState extends State<MetronomeWidget> {
 
   final StreamController timerStream = BehaviorSubject<bool>();
+  AudioCache audioSignal = AudioCache();
   bool _state = true;
   Timer timer;
 
   @override
   void initState() {
     super.initState();
+    if(widget.soundSignalEnable) {
+      audioSignal.load("ding.mp3");
+    }
     timer = Timer.periodic(Duration(milliseconds: 60000 ~/ widget.bpm), (Timer timer) {
       _state = !_state;
       timerStream.add(_state);
+      if(widget.soundSignalEnable)
+        triggerAudioSignal();
     });
   }
 
@@ -43,6 +54,7 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
     super.dispose();
     timer.cancel();
     timerStream.close();
+    audioSignal.clearCache();
   }
 
   @override
@@ -85,5 +97,9 @@ class _MetronomeWidgetState extends State<MetronomeWidget> {
         ),
       ),
     );
+  }
+
+  triggerAudioSignal() {
+    audioSignal.play("ding.mp3");
   }
 }

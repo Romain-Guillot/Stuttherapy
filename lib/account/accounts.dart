@@ -105,7 +105,7 @@ class TherapistUser extends User {
 
 ///
 class StutterUser extends User {
-  static const String userIdentifier = "Stutter";
+  static const String userIdentifier = "Stutterer";
 
   BehaviorSubject<LoggedUserMeta> therapistStream = BehaviorSubject<LoggedUserMeta>();
 

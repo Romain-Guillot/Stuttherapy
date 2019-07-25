@@ -1,4 +1,5 @@
 
+import 'package:meta/meta.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:stuttherapy/account/feed.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
@@ -17,11 +18,16 @@ class FeedProvider {
       Map<String, ExerciseTheme> themesMap = {};
       themes.forEach((ExerciseTheme t) => themesMap[t.name] = t);
       FirebaseCloudStorageProvider().all(user, themesMap, exercisesUserUID: userUid).listen((List<Exercise> exercices) {
-        final Feed f = Feed();
+        final Feed f = Feed(userUid);
         f.addItems(exercices);
         feed.add(f);
       });
     });   
     return feed; 
+  }
+
+  static addFeedback({@required String patientUID, @required LoggedUser user, @required Exercise exercise, @required ExerciseFeedback feedback}) {
+    exercise.feedback = feedback;
+    FirebaseCloudStorageProvider().uploadExercise(user, exercise, patientUID: patientUID);
   }
 }

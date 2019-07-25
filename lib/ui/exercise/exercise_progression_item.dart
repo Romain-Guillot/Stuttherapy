@@ -7,7 +7,9 @@ import 'package:stuttherapy/exercise_library/recording_resources.dart';
 import 'package:stuttherapy/exercises_implem/ui/audio_recorder.dart';
 import 'package:stuttherapy/exercises_implem/ui/mirror.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/providers/authentification_provider.dart';
 import 'package:stuttherapy/providers/exercise_cloud_storage.dart';
+import 'package:stuttherapy/providers/feed_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
@@ -18,10 +20,12 @@ const SizedBox padding = SizedBox(height: Dimen.PADDING,);
 class ExerciseProgressionItemWidget extends StatelessWidget {
 
   final Exercise exercise;
+  final String patientUID;
 
   ExerciseProgressionItemWidget({
     Key key, 
-    @required this.exercise
+    @required this.exercise,
+    this.patientUID,
   }) : assert(exercise != null), 
        super(key: key);
 
@@ -31,7 +35,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
       appBar: SecondaryAppBar(
         context: context,
         title: exercise.theme.name,
-        subtitle: Strings.PROGRESS_TITLE + exercise.date.toString(),
+        subtitle: exercise.date.toString(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -44,7 +48,7 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
                 )
               : SizedBox()
             ),
-            ExerciseProgressionItemContent(exercise: exercise,),
+            ExerciseProgressionItemContent(exercise: exercise, patientUID: patientUID,),
           ],
         ),
       ),
@@ -57,58 +61,65 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
   Widget getSyncStatus(context) {
     return StreamBuilder(
       stream: syncButtonFuture(context).stream,
-      builder: (BuildContext context, AsyncSnapshot<Widget> buttonSnap) {
-        if(!buttonSnap.hasData) {
-          return Row(
-            children: <Widget>[
-              CircularProgressIndicator(),
-              Text(Strings.LOADING)
-            ],
-          );
-        } else {
-          return buttonSnap.data;
-        }
-      },
+      builder: (BuildContext context, AsyncSnapshot<Widget> buttonSnap) =>
+        !buttonSnap.hasData
+          ? syncStatusLoading()
+          : buttonSnap.data
     );
   }
 
   BehaviorSubject<Widget> syncButtonFuture(context) {
     var textColor = Theme.of(context).primaryColor;
-    BehaviorSubject<Widget> widgetStream = BehaviorSubject<Widget>();
-    if(AccountProvider.user.isLogged) {
-      FirebaseCloudStorageProvider().isSync(AccountProvider.user.loggedUser, exercise).listen((bool isSync) {
-        if(isSync) 
-          widgetStream.add(
-            FlatButton.icon(
-              textColor: Colors.green,
-              icon: Icon(Icons.check, color: Colors.green,), 
-              label: Text(Strings.PROGRESS_SYNC_STATE), 
-              onPressed: () {
-                showUnsyncExercise(context);
-              })
-          );
-        else
-          widgetStream.add(
-            FlatButton.icon(
-              textColor: Theme.of(context).primaryColor,
-              icon: Icon(Icons.sync, color: Theme.of(context).primaryColor,), 
-              label: Text(Strings.PROGRESS_SYNC_BUTTON), 
-              onPressed: () {
-                AccountProvider.syncProgression(exercise);
-              })
-          );
-      }); 
-    } else {
-      widgetStream.add(
-        FlatButton.icon(
-          label: Text(Strings.PROGRESS_SYNC_LOGGED_REQUIRED), 
-          icon: Icon(Icons.account_circle), 
-          textColor: textColor,
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,))),
-        )
-      );
-    }
+    BehaviorSubject<Widget> widgetStream = BehaviorSubject<Widget>(
+      seedValue: AccountProvider.user.isLogged 
+        ? syncStatusLoading()
+        : FlatButton.icon(
+            label: Text(Strings.PROGRESS_SYNC_LOGGED_REQUIRED), 
+            icon: Icon(Icons.account_circle), 
+            textColor: textColor,
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountLogIn(initialFormMode: FormMode.SIGNIN,))),
+          )
+    );
+
+    AccountProvider.user.loggedUserStream.listen((LoggedUser loggedUser) {
+      FirebaseCloudStorageProvider().isSync(loggedUser, exercise).listen((bool isSync) {
+      if(isSync) 
+        widgetStream.add(
+          FlatButton.icon(
+            textColor: Colors.green,
+            icon: Icon(Icons.check, color: Colors.green,), 
+            label: Text(Strings.PROGRESS_SYNC_STATE), 
+            onPressed: () {
+              showUnsyncExercise(context);
+            })
+        );
+      else
+        widgetStream.add(
+          FlatButton.icon(
+            textColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.sync, color: Theme.of(context).primaryColor,), 
+            label: Text(Strings.PROGRESS_SYNC_BUTTON), 
+            onPressed: () {
+              AccountProvider.syncProgression(exercise);
+            })
+        );
+      });
+    });
     return widgetStream;
+  }
+
+  Widget syncStatusLoading() {
+    return Wrap(
+      spacing: 10,
+      children: <Widget>[
+        SizedBox(
+          width: 15,
+          height: 15,
+          child: CircularProgressIndicator(strokeWidth: 2,)
+        ),
+        Text(Strings.LOADING, style: TextStyle(fontStyle: FontStyle.italic),)
+      ],
+    );
   }
 
   showUnsyncExercise(context) {
@@ -139,29 +150,30 @@ class ExerciseProgressionItemWidget extends StatelessWidget {
 
 class ExerciseProgressionItemContent extends StatelessWidget {
   final Exercise exercise;
+  final String patientUID;
 
-  ExerciseProgressionItemContent({@required this.exercise});
+  ExerciseProgressionItemContent({@required this.exercise, @required this.patientUID});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _FeedbackWidget(feedback: exercise.feedback),
+        _FeedbackWidget(exercise: exercise, patientUID: patientUID,),
         padding,
         Padding(
           padding: const EdgeInsets.all(Dimen.PADDING),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Theme : " + exercise.theme.name),
+              Text(Strings.PROGRESS_EXERCISE_THEME_LABEL + " " + exercise.theme.name),
               padding,
-              Text("Date : " + exercise.date.toString()),
+              Text(Strings.PROGRESS_EXERCISE_DATE_LABEL + " " + exercise.date.toString()),
               padding,
-              Text("Recording resource"),
+              Text(Strings.PROGRESS_EXERCISE_RECORDING_LABEL),
               getRecorginWidget(),
               padding,
-              Text("Saved words :"),
+              Text(Strings.PROGRESS_EXERCISE_SAVED_WORDS_LABEL),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: exercise.savedWords.map((String word) => 
@@ -184,22 +196,28 @@ class ExerciseProgressionItemContent extends StatelessWidget {
         case RecordingType.VIDEO:
           return VideoResourcePlayer(uri: exercise.recordingResource.uri,);
         default:
-          return Text("Recording type not supported.");
+          return Text(Strings.PROGRESS_EXERCISE_RECORDING_NOTSUPPORTED);
       }
     } else {
-      return Text("No recording data.");
+      return Text(Strings.PROGRESS_EXERCISE_NORECORDING);
     }
   }
 }
 
 
 // Feedback can be null
-class _FeedbackWidget extends StatelessWidget {
+class _FeedbackWidget extends StatefulWidget {
 
-  final ExerciseFeedback feedback;
+  final Exercise exercise;
+  final String patientUID;
 
-  _FeedbackWidget({Key key, @required this.feedback}) : super(key: key);
+  _FeedbackWidget({Key key, @required this.exercise, @required this.patientUID}) : super(key: key);
 
+  @override
+  __FeedbackWidgetState createState() => __FeedbackWidgetState();
+}
+
+class __FeedbackWidgetState extends State<_FeedbackWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -208,23 +226,22 @@ class _FeedbackWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          (feedback?.message == null 
-            ? Text("No feedback.", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),)
-            : Container(
-                padding: const EdgeInsets.all(Dimen.PADDING),
-                color: Theme.of(context).accentColor,
-                child: Text(feedback?.message)
-              )
+          Text(
+            (widget.exercise.feedback?.message == null 
+              ? Strings.PROGRESS_EXERCISE_NO_FEEDBACK
+              : widget.exercise.feedback?.message),
+            style: TextStyle(
+              fontStyle: widget.exercise.feedback?.message == null? FontStyle.italic : FontStyle.normal, 
+              color: Colors.white
+            ),
           ),
           (AccountProvider.user is TherapistUser
             ? OutlineButton(
               textColor: Colors.white,
               borderSide: BorderSide(color: Colors.white.withAlpha(100)),
               highlightedBorderColor: Colors.white,
-              child: Text("Edit feedback"),
-              onPressed: () {
-
-              },
+              child: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK),
+              onPressed: () => onAddFeedback(context),
             )
             : SizedBox() // empty widget
           ),
@@ -232,6 +249,76 @@ class _FeedbackWidget extends StatelessWidget {
             
         ],
       ),
+    );
+  }
+
+  onAddFeedback(context) {
+    showDialog(
+      context: context,
+      builder: (context) => _FeedbackEditor(
+        exercise: widget.exercise, 
+        patientUID: widget.patientUID,
+      )
+    ).then((_) {
+      setState(() {});
+    });
+  }
+}
+
+class _FeedbackEditor extends StatefulWidget {
+  final Exercise exercise;
+  final String patientUID;
+
+  _FeedbackEditor({Key key, this.exercise, @required this.patientUID}) : super(key: key);
+
+  @override
+  _FeedbackEditorState createState() => _FeedbackEditorState();
+}
+
+class _FeedbackEditorState extends State<_FeedbackEditor> {
+
+  final _formKey = GlobalKey<FormState>();
+  final feedbackController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    feedbackController.text = widget.exercise.feedback?.message;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK),
+      content: Form(
+        key: _formKey,
+        child: TextFormField(
+          controller: feedbackController,
+          decoration: InputDecoration(labelText: Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_LABEL),
+          validator: (value) => value.isEmpty ? Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_ERROR : null,
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(Strings.PROGRESS_EXERCISE_EDIT_FEEDBACK_SAVE),
+          onPressed: () async {
+            if(_formKey.currentState.validate())
+            await _addFeedback(feedbackController.text);
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
+  }
+
+  _addFeedback(String message) async {
+    
+    FeedProvider.addFeedback(
+      patientUID: widget.patientUID,
+      user: AccountProvider.user.loggedUser,
+      exercise: widget.exercise,
+      feedback: ExerciseFeedback(message: message)
     );
   }
 }

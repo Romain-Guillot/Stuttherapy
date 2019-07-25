@@ -52,14 +52,7 @@ class ExerciseHomepageWidget extends StatelessWidget {
               child: Text(Strings.EXERCISE_LAUNCH),
               onPressed: () {
                 if(theme.settings.isValid()) {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext ctx) => ExerciseInstanceWidget(
-                      exercise: Exercise(
-                        theme: theme, 
-                        resources: ResourceProvider.getResources(theme.settings[ExerciseTheme.SETTINGS_RESOURCE]),
-                      )
-                    )
-                  ));
+                  openExerciseTraining(context);
                 }else {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
@@ -75,6 +68,18 @@ class ExerciseHomepageWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  openExerciseTraining(context) {
+     Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext ctx) => ExerciseInstanceWidget(
+        exercise: Exercise(
+          theme: theme, 
+          resources: ResourceProvider.getResources(theme.settings[ExerciseTheme.SETTINGS_RESOURCE]),
+          wordsCheckingEnable: theme.settings[ExerciseTheme.SETTINGS_MANUALLY_CHECK]
+        )
+      )
+    ));
   }
 }
 

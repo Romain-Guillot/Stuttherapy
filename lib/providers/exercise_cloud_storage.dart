@@ -25,10 +25,10 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
   static const int CURRENT_EXERCISE_SERIALIZATION_VERSION = 1;
 
 
-  uploadExercise(LoggedUser user, Exercise exercise) async {
+  uploadExercise(LoggedUser user, Exercise exercise, {String patientUID}) async {
     if(isLogged(user)) {
       try {
-        String userUid = user.uid;
+        String userUid = patientUID??user.uid;
         await Firestore.instance
           .collection(usersCollection)
           .document(userUid)
@@ -44,6 +44,10 @@ class FirebaseCloudStorageProvider implements BaseExerciseCloudStorage {
       logger.e("Invalid user to add the document");
       throw ExerciseCloudStorageException("Invalid user to add the exercise");
     }
+  }
+
+  updateExercise(LoggedUser user, String patientUID, Exercise exercise) {
+
   }
 
   deleteExercise(LoggedUser user, Exercise exercise) async {

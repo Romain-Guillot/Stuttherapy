@@ -146,6 +146,13 @@ class Exercise implements FeedItem {
   /// Set of words that have to be saved (e.g. : difficult words)
   Set<String> savedWords = {};
 
+  /// true if user decide to enable manual checking
+  @JsonKey(nullable: true)
+  bool wordsCheckingEnable = false;
+
+  /// Number of words that user trained
+  int numberOfWords = 0;
+
   /// Feedback provide for this training to keep information or
   /// correction about this exercise and data.
   ExerciseFeedback feedback;
@@ -176,6 +183,7 @@ class Exercise implements FeedItem {
   Exercise({
     @required this.theme, 
     @required this.resources,
+    this.wordsCheckingEnable,
     DateTime createdAt,
   })
   {
@@ -183,18 +191,6 @@ class Exercise implements FeedItem {
     moveNextResource(); // init [currentResource] stream with a resource
   }
 
-  // /// Constructor useful to restore an [Exercise] object. Typically
-  // /// to reconstruct an object from a file.
-  // /// 
-  // /// All fields are required, even if there are provided with null value.
-  // Exercise.restore({
-  //   @required this.theme,
-  //   @required this.resources,
-  //   @required this.date,
-  //   @required this.savedWords,
-  //   @required this.recordingResource,
-  //   @required this.feedback
-  // });
 
   factory Exercise.fromJson(Map<String, dynamic> json) => _$ExerciseFromJson(json);
 
@@ -214,17 +210,26 @@ class Exercise implements FeedItem {
 
   /// Add a list of words to the current [savedWords] set.
   /// Words and lowercased before to be added.
-  addSavedWords(Iterable<String> _words) {
+  addSavedWords(Iterable<String> _words, int _numberOfWords) {
     List<String> words = [];
     for(String word in _words) {
       words.add(word.toLowerCase());
     }
     savedWords.addAll(words);
+    numberOfWords += _numberOfWords;
   }
 
   /// Set the flag [flagEndOfExercise] to true.
   /// (fill the stream with true boolean object)
   stop() => flagEndOfExercise.add(true);
+
+  /// Return the ratio of the correct words pronunced
+  /// null if the ratio cannot be determined
+  getProgressRatio() {
+    return (wordsCheckingEnable == null || !wordsCheckingEnable || numberOfWords == null || numberOfWords == 0) 
+      ? null 
+      : ((numberOfWords - savedWords.length) / numberOfWords) * 100 ;
+  }
 
   /// Return an identifiant for the exercise
   int get key => date.date.microsecondsSinceEpoch;

@@ -5,14 +5,14 @@ part 'date.g.dart';
 
 /// Encapsulation of [DateTime] object to redefined the
 /// [toString] method to return a String representation
-/// that follow the following format : yyyy-MM-dd
+/// that follow the following format : MMMM d, hh:mm aaa (July 15, 5:12 AM)
 @JsonSerializable()
 class MyDateTime implements Comparable {
 
   DateTime date;
 
   @JsonKey(ignore: true)
-  static DateFormat _formatter =  DateFormat('yyyy-MM-dd HH:mm');
+  static DateFormat _formatter =  DateFormat('MMMM d, hh:mm aaa');
 
   MyDateTime(this.date);
 

@@ -23,7 +23,7 @@ class HomePageStutter extends StatefulWidget {
 class _HomePageStutterState extends State<HomePageStutter> {
 
   List<Widget> pages = [Center(child:CircularProgressIndicator()), Center(child:CircularProgressIndicator())];
-  Map<String, Icon> _pagesNavigationIndicator = {Strings.EXERCISES_TITLE : Icon(Icons.home), Strings.FEED : Icon(Icons.feedback)};
+  Map<String, Icon> _pagesNavigationIndicator = {Strings.EXERCISES_TITLE : Icon(Icons.home), Strings.FEED : Icon(Icons.comment)};
   int _selectedPage = 0;
 
 

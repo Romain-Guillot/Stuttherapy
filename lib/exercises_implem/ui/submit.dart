@@ -94,8 +94,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
           onPressed: () {
             setState(() {
               isChecking = false;
-              addCheckedWordsToExercise();
-              widget.exercise.moveNextResource();
+              moveNext();
             });
           } 
         )
@@ -121,7 +120,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
             icon: Icon(Icons.thumb_up, color: Colors.green), 
             iconSize: _iconSize,
             onPressed: () {
-              widget.exercise.moveNextResource();
+              moveNext();
             },),
           IconButton(
             icon: Icon(Icons.thumb_down, color: Colors.red),
@@ -131,8 +130,7 @@ class _SubmitWidgetState extends State<SubmitWidget> {
                 setState(() => isChecking = true);
               }else {
                 checkedWords.updateAll((String _, bool checked) => checked = true); // We checked to true the only words of checkedWords
-                addCheckedWordsToExercise();
-                widget.exercise.moveNextResource();
+                moveNext();
               }
             }, 
           )
@@ -140,10 +138,12 @@ class _SubmitWidgetState extends State<SubmitWidget> {
       );
   }
 
-  addCheckedWordsToExercise() {
+  moveNext() {
+    int total = checkedWords.keys.length;
     checkedWords.removeWhere((_, bool checked) => !checked);
     Iterable<String> words = checkedWords.keys;
-    widget.exercise.addSavedWords(words);
+    widget.exercise.addSavedWords(words, total);
     AccountProvider.addSavedWords(words);
+    widget.exercise.moveNextResource();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/exercises_implem/exercise_structure_provider.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
+import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/secondary_appbar.dart';
 import 'package:stuttherapy/ui/exercise/exercise_progression_item.dart';
 
@@ -40,12 +41,12 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
     return Scaffold(
       appBar: SecondaryAppBar(
         title: widget.exercise.theme.name, 
-        subtitle: "Exercise", 
+        subtitle: Strings.EXERCISE_TRAIN, 
         context: context,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.check, color: Colors.green), 
-            label: Text("Finish".toUpperCase(), 
+            label: Text(Strings.EXERCISE_STOP.toUpperCase(), 
             style: TextStyle(color: Colors.green),), 
             onPressed: () => widget.exercise.stop(),
           )
@@ -63,7 +64,7 @@ class _ExerciseInstanceWidgetState extends State<ExerciseInstanceWidget> {
                     ); 
             }
           )
-        : Text("Nothing to display ..."),
+        : Text(Strings.SOMETHING_WRONG), // Normally never happened
     );
   }
 }
