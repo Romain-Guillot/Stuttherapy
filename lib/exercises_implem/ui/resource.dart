@@ -55,7 +55,13 @@ class _ResourceWidgetState extends State<ResourceWidget> {
             if(!snapshot.hasData) {
               return Text("Loading resource ...");
             }
-            return Text(snapshot.data.resource, style: TextStyle(color: isCover ? Colors.transparent : Colors.black),);
+            return Text(
+              isCover ? "Hold down to display." : snapshot.data.resource, 
+              style: TextStyle(
+                color: isCover ? Colors.black.withAlpha(150) : Colors.black,
+                fontStyle: isCover ? FontStyle.italic : FontStyle.normal
+                ),
+              );
           }
         ),
       ),

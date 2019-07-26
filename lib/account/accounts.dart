@@ -1,6 +1,7 @@
 import 'package:rxdart/subjects.dart';
 import 'package:stuttherapy/exercise_library/exercises.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
+import 'package:stuttherapy/strings.dart';
 
 
 class RequiredAuthentification implements Exception {
@@ -87,7 +88,7 @@ abstract class User {
 
 ///
 class TherapistUser extends User {
-  static const String userIdentifier = "Therapist";
+  static const String userIdentifier = Strings.ACCOUNT_THERAPIST;
 
   BehaviorSubject<List<LoggedUserMeta>> patients = BehaviorSubject<List<LoggedUserMeta>>();
 
@@ -105,7 +106,7 @@ class TherapistUser extends User {
 
 ///
 class StutterUser extends User {
-  static const String userIdentifier = "Stutterer";
+  static const String userIdentifier = Strings.ACCOUNT_STUTTERER;
 
   BehaviorSubject<LoggedUserMeta> therapistStream = BehaviorSubject<LoggedUserMeta>();
 

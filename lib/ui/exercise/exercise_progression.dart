@@ -141,7 +141,7 @@ class _ProgressChartState extends State<ProgressChart> {
   List<Series<TimeSeriesProgress, int>> series;
   Color lineColor = MaterialPalette.transparent; // loading color before to set the real color in build ...
   ChartWindowTime selectedWindowTime = ChartWindowTime.WEEK;
-  final DateFormat format = DateFormat('MMMM d');
+  final DateFormat format = DateFormat('MMMM d, y');
 
   @override
   void initState() {
@@ -189,8 +189,15 @@ class _ProgressChartState extends State<ProgressChart> {
               animate: true,
               // dateTimeFactory: const LocalDateTimeFactory(),
               behaviors: [
-                ChartTitle("Pronunciation accuracy (%)", behaviorPosition: BehaviorPosition.start),
-                ChartTitle("From ${format.format(DateTime.now())} to ${format.format(historyLimit())} ", behaviorPosition: BehaviorPosition.bottom),
+                ChartTitle(
+                  "Pronunciation accuracy (%)", 
+                  behaviorPosition: BehaviorPosition.start
+                ),
+                ChartTitle(
+                  "From ${format.format(historyLimit())} to ${format.format(DateTime.now())}", 
+                  behaviorPosition: BehaviorPosition.bottom,
+                  titleStyleSpec: TextStyleSpec(fontSize: 14)
+                ),
                 PanAndZoomBehavior(),
               ],
               domainAxis: AxisSpec<num>(showAxisLine: false, renderSpec: NoneRenderSpec()),

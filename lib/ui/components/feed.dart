@@ -35,7 +35,10 @@ class _FeedWidgetState extends State<FeedWidget> {
                 return ListTile(title:Text(Strings.ERROR_UNKNOWN));
               }
               if(!snapshot.hasData) {
-                return ListTile(title: Text(Strings.LOADING));
+                return Padding(
+                  padding: EdgeInsets.all(Dimen.PADDING),
+                  child: Text(Strings.LOADING)
+                );
               } else {
                 return ListView(
                   shrinkWrap: true,

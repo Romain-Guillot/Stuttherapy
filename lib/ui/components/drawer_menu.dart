@@ -7,6 +7,7 @@ import 'package:stuttherapy/ui/account/account_homepage.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/account/saved_words.dart';
 import 'package:stuttherapy/ui/components/auth_buttons.dart';
+import 'package:stuttherapy/ui/manual.dart';
 
 
 class DrawerMenu extends Drawer {
@@ -42,6 +43,13 @@ class DrawerMenu extends Drawer {
               subtitle: Text(Strings.BACKUP_CLOUD_PROGRESS_DESCRIPTION),
               onTap: () => backupProgression(newContext)
             ),
+            ListTile(
+              title: Text(Strings.MANUAL_TITLE),
+              subtitle: Text(Strings.MANUAL_DESCRIPTION),
+              onTap: () => Navigator.push(context, MaterialPageRoute(
+                builder: (context) => Manual()
+              )),
+            )
           ],
         ),
       ),
@@ -49,17 +57,51 @@ class DrawerMenu extends Drawer {
   }
 
   wipeLocalProgression(context) {
-    Navigator.pop(context);
-    AccountProvider.wipeProgressions().then(
-      (_) =>
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
-        ),
-      onError: (e) => 
-        Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+    showDialog(
+      context: context,
+      builder: (ctx) =>
+        AlertDialog(
+          title: Text(Strings.WIPE_LOCAL_PROGRESS),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.grey,
+              child: Text("Cancel"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            FlatButton(
+              textColor: Theme.of(context).errorColor,
+              child: Text("Yes, wipe"),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                AccountProvider.wipeProgressions().then(
+                  (_) =>
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
+                    ),
+                  onError: (e) => 
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+                    )
+                );
+              },
+            )
+          ],
         )
-    );
+    ).then((val) {
+      print(val);
+    });
+    // Navigator.pop(context);
+    // AccountProvider.wipeProgressions().then(
+    //   (_) =>
+    //     Scaffold.of(context).showSnackBar(
+    //       SnackBar(content: Text(Strings.WIPE_LOCAL_PROGRESS_SUCCESS), behavior: SnackBarBehavior.floating)
+    //     ),
+    //   onError: (e) => 
+    //     Scaffold.of(context).showSnackBar(
+    //         SnackBar(content: Text(Strings.SOMETHING_WRONG), behavior: SnackBarBehavior.floating)
+    //     )
+    // );
   }
 
   backupProgression(BuildContext context) async {
