@@ -72,5 +72,6 @@
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 android/key.properties
-key.jks.save
+keystore.jks
+keystore.pwd
 android/app/google-services.json
