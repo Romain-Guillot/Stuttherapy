@@ -5,7 +5,7 @@ import 'package:stuttherapy/log_printer.dart';
 import 'package:stuttherapy/providers/authentification_provider.dart';
 
 class FirebaseCloudTherapistProvider {
-  final logger = Logger(printer: MyPrinter("exercise_cloud_storage.dart"));
+  final logger = Logger(printer: MyPrinter("therapist_provider.dart"));
   
   static final String usersCollection = "users";
   static final String patientsCollection = "patients";
@@ -18,6 +18,7 @@ class FirebaseCloudTherapistProvider {
         .collection(usersCollection)
         .snapshots()
         .listen((QuerySnapshot snap) {
+          logger.d("OKK");
           List<LoggedUserMeta> _tmp = [];
           snap.documents.forEach((DocumentSnapshot doc){
             if(doc.data["therapist"] == user.uid)

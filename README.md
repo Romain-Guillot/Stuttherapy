@@ -7,6 +7,12 @@
 
 ## Database
 
+
+Security rules :
+```
+
+```
+
 ### Resource
 
 - [Firebase plans](https://firebase.google.com/pricing?authuser=0)
