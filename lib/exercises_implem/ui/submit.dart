@@ -103,9 +103,9 @@ class _SubmitWidgetState extends State<SubmitWidget> {
   }
 
   Widget get nextWithoutChecking {
-    return IconButton(
-      icon: Icon(Icons.navigate_next, color: Colors.blue,),
-      iconSize: _iconSize,
+    return FlatButton.icon(
+      icon: Icon(Icons.navigate_next, color: Colors.blue, size: _iconSize,),
+      label: Text("Next resource"),
       onPressed: () {
         widget.exercise.moveNextResource();
       },
@@ -113,29 +113,36 @@ class _SubmitWidgetState extends State<SubmitWidget> {
   }
 
   Widget get binaryRate {
-    return Wrap(
-        spacing: 15,
-        children: [
-          IconButton(
-            icon: Icon(Icons.thumb_up, color: Colors.green), 
-            iconSize: _iconSize,
-            onPressed: () {
-              moveNext();
-            },),
-          IconButton(
-            icon: Icon(Icons.thumb_down, color: Colors.red),
-            iconSize: _iconSize,
-            onPressed: () {
-              if(widget.resourceTye != ExerciseResourceEnum.WORDS) {
-                setState(() => isChecking = true);
-              }else {
-                checkedWords.updateAll((String _, bool checked) => checked = true); // We checked to true the only words of checkedWords
-                moveNext();
-              }
-            }, 
-          )
-        ]
-      );
+    return Column(
+      children: <Widget>[
+        Text("Check if your pronunciation was correct :", style: TextStyle(fontStyle: FontStyle.italic),),
+        Wrap(
+            spacing: 15,
+            children: [
+              FlatButton.icon(
+                color: Colors.green,
+                icon: Icon(Icons.thumb_up, size: 25,), 
+                label: Text("Yes"),
+                onPressed: () {
+                  moveNext();
+                },),
+              FlatButton.icon(
+                color: Colors.red,
+                icon: Icon(Icons.thumb_down, size: 25,),
+                label: Text("No"),
+                onPressed: () {
+                  if(widget.resourceTye != ExerciseResourceEnum.WORDS) {
+                    setState(() => isChecking = true);
+                  }else {
+                    checkedWords.updateAll((String _, bool checked) => checked = true); // We checked to true the only words of checkedWords
+                    moveNext();
+                  }
+                }, 
+              )
+            ]
+          ),
+      ],
+    );
   }
 
   moveNext() {

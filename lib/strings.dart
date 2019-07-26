@@ -21,6 +21,9 @@ class Strings {
   static const STARTUP_SUBMIT = "Submit !";
   static const STARTUP_ERROR_NO_ACCOUNT_SELECTED = "You have to select an account type !";
 
+  // MANUAL
+  static const MANUAL_TITLE = "Manuals";
+  static const MANUAL_DESCRIPTION = "Learn how to use the application.";
 
   // EXERCISE - metronome
   static const METRONOME_TITLE = "Metronome";
@@ -90,6 +93,8 @@ class Strings {
   static const PROGRESS_EXERCISE_DATE_LABEL = "Date:";
 
   // ACCOUNT
+  static const ACCOUNT_STUTTERER = "Stutterer";
+  static const ACCOUNT_THERAPIST = "Therapist";
   static const ACCOUNT_TITLE = "Your profile";
   static const ACCOUNT_TYPE_LABEL = "Account type:";
   static const ACCOUNT_SIGNIN = "Sign in";

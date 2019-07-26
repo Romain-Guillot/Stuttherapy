@@ -7,6 +7,7 @@ import 'package:stuttherapy/ui/account/account_homepage.dart';
 import 'package:stuttherapy/ui/account/account_log_in.dart';
 import 'package:stuttherapy/ui/account/saved_words.dart';
 import 'package:stuttherapy/ui/components/auth_buttons.dart';
+import 'package:stuttherapy/ui/manual.dart';
 
 
 class DrawerMenu extends Drawer {
@@ -42,6 +43,13 @@ class DrawerMenu extends Drawer {
               subtitle: Text(Strings.BACKUP_CLOUD_PROGRESS_DESCRIPTION),
               onTap: () => backupProgression(newContext)
             ),
+            ListTile(
+              title: Text(Strings.MANUAL_TITLE),
+              subtitle: Text(Strings.MANUAL_DESCRIPTION),
+              onTap: () => Navigator.push(context, MaterialPageRoute(
+                builder: (context) => Manual()
+              )),
+            )
           ],
         ),
       ),
@@ -53,7 +61,7 @@ class DrawerMenu extends Drawer {
       context: context,
       builder: (ctx) =>
         AlertDialog(
-          title: Text("Wipe local progress"),
+          title: Text(Strings.WIPE_LOCAL_PROGRESS),
           actions: <Widget>[
             FlatButton(
               textColor: Colors.grey,
