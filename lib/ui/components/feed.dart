@@ -40,16 +40,11 @@ class _FeedWidgetState extends State<FeedWidget> {
                   child: Text(Strings.LOADING)
                 );
               } else {
-                return ListView(
-                  shrinkWrap: true,
+                return Column(
                   children: [
                     therapistInfo(context),
                     SizedBox(height: Dimen.PADDING,),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.items.length,
-                      itemBuilder: (context, position) {
-                        FeedItem item = snapshot.data.items.elementAt(position);
+                    ...snapshot.data.items.map((FeedItem item) {
                         switch (item.runtimeType) {
                           case Exercise:
                             return ExerciseProgressionListItem(
@@ -62,8 +57,7 @@ class _FeedWidgetState extends State<FeedWidget> {
                               subtitle: Text(item.toString()),
                             );
                         }
-                      },
-                    ),
+                    }).toList()
                   ]
                 );
               }

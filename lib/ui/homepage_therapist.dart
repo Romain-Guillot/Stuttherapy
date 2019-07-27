@@ -61,7 +61,7 @@ class HomePageTherapist extends StatelessWidget {
           stream: (AccountProvider.user as TherapistUser).patients,
           builder: (BuildContext context, AsyncSnapshot<List<LoggedUserMeta>> snapPatients) {
             if(!snapPatients.hasData) {
-              return Text(Strings.LOADING);
+              return SizedBox();
             } else {
               List<LoggedUserMeta> patients = snapPatients.data;
               return ListView.builder(
