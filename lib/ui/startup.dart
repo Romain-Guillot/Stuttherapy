@@ -66,7 +66,7 @@ class _StartUpState extends State<StartUp> {
                       child: _choicesWidget()
                     ),
                   ),
-                Expanded(child: SizedBox(),),
+                //   Expanded(child: SizedBox(),),
                 Center(
                   child: RaisedButton(
                     color: Theme.of(context).accentColor,
