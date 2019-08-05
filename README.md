@@ -55,5 +55,21 @@ You can find a copy of the keystore in the following file : `./key.jks.save`
 
 Then, simply build the app bundle : [Build an app bundle](https://flutter.dev/docs/deployment/android#build-an-app-bundle)
 
-To test the bundle :
-`java -jar bundletool.jar build-apks --bundle=build/app/outputs/bundle/release/app.aab --output build/app/outputs/bundle/release/stuttherapy.apks --ks=keystore.jks --ks-pass=file:keystore.pwd --ks-key-alias=key --key-pass=file:keystore.pwd`
+You use `deploy.sh` to build the app bundle and signed it to generate the `apks` file.
+
+And install it :
+```
+java -jar bundletool.jar install-apks --apks=build/app/outputs/bundle/release/stuttherapy.apks
+```
+
+## Update August 5, 2019
+Speech therapist features are not available in this application version because it's still in progress. However if you want to enable these features to continue the developement (or just to test), change the line 15 in main :
+```
+bool enableTherapistFeatures = false;
+```
+
+with the following line :
+
+```
+bool enableTherapistFeatures = true;
+```

@@ -93,7 +93,7 @@ class _LogInFormState extends State<LogInForm> {
           TextFormField(
             controller: passwordController,
             enabled: !isLoading,
-            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_PASSWORD_CONFIRM_LABLE),
+            decoration: InputDecoration(labelText: Strings.ACCOUNT_FORM_PASSWORD_LABEL),
             obscureText: true,
             autofocus: false,
             validator: (password) => password.isEmpty ? Strings.ACCOUNT_FORM_PASSWORD_ERROR : null,
