@@ -8,9 +8,13 @@ import 'package:stuttherapy/ui/homepage_therapist.dart';
 import 'package:stuttherapy/ui/startup.dart';
 
 
-/*
-Regroue SettingsItemWidget to one super widget
-*/
+/**
+ * Therapists feature are currently removed from this version 
+ * to enable it just, set enableTherapistFeatures to true
+ */
+bool enableTherapistFeatures = false;
+
+
 final MaterialColor primary = MaterialColor(
   1,
   {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stuttherapy/account/accounts.dart';
+import 'package:stuttherapy/main.dart';
+import 'package:stuttherapy/main.dart' ;
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/dimen.dart';
@@ -37,7 +39,7 @@ class StartUp extends StatefulWidget {
 class _StartUpState extends State<StartUp> {
 
   final List<Type> choices = [StutterUser, TherapistUser];
-  Type selectedAccount;
+  Type selectedAccount = enableTherapistFeatures ? null : StutterUser;
 
   /// Notice : Direct body child of the Scaffold is a Builder to have a correct context
   ///          to display a snackbar.
@@ -57,13 +59,14 @@ class _StartUpState extends State<StartUp> {
                 SizedBox(height: 20,),
                 Text(Strings.STARTUP_INTRO, style: TextStyle(fontSize: 15, color: Colors.white, height: 1.12)),
                 SizedBox(height: 20,),
-                Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: _choicesWidget()
+                if(enableTherapistFeatures)
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: _choicesWidget()
+                    ),
                   ),
-                ),
-                // Expanded(child: SizedBox(),),
+                Expanded(child: SizedBox(),),
                 Center(
                   child: RaisedButton(
                     color: Theme.of(context).accentColor,

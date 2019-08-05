@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:stuttherapy/main.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 
@@ -14,11 +15,11 @@ Stuttherapy is an application that helps you **overcome your stuttering** with e
 - Check your **progress**;
 - Manage and consult your **saved words**;
 - **Synchronize your progress** in the cloud;
-- **Share** your progress with your **therapist**.
+
 
 *However, keep in mind that Stuttherapy does not replace a doctor or therapist, it should be used as a complementary aid.*
     """,
-  ),
+  ),//- **Share** your progress with your **therapist**.
   ManualItem(
     title: "Exercises",
     content: """
@@ -71,7 +72,7 @@ You can access the list of all these words to practice on them, simply view or d
   ManualItem(
     title: "Cloud synchronisation",
     content: """
-You can synchronize your progress exercises in the cloud to make sure you don't lose them and can restore them at any time on all your Android devices. Synchronization is also useful to share your progress with your therapist (see the guide below).
+You can synchronize your progress exercises in the cloud to make sure you don't lose them and can restore them at any time on all your Android devices. 
 
 In order to synchronize your progress, you must create an account (with a name, email address and password). Once the account is created you can synchronize the exercises of your progress on the cloud.
 
@@ -79,7 +80,8 @@ Once connected, simply open the exercises you want to synchronize in the progres
 
 *Tip:* The registration and login buttons are located in the main menu of the application (button at the top left of the main page). You can remove an exercise from your synchronized progress in the cloud at any time.
 """,
-  ),
+  ),//Synchronization is also useful to share your progress with your therapist (see the guide below).
+  if(enableTherapistFeatures) 
   ManualItem(
     title: "Share your progress with your therapist",
     content: """
@@ -136,7 +138,8 @@ class Manual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    if(enableTherapistFeatures) {
+      return DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -156,8 +159,21 @@ class Manual extends StatelessWidget {
             ],
           ),
         ),
-    );
+      );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(Strings.MANUAL_TITLE),
+          ),
+          body: 
+              ManualList(items: stuttererItems),
+            
+      );
+    }
+    
   }
+
+
 }
 
 class ManualList extends StatefulWidget {

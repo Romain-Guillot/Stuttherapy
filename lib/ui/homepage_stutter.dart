@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stuttherapy/main.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/drawer_menu.dart';
@@ -54,7 +55,7 @@ class _HomePageStutterState extends State<HomePageStutter> {
           
         ]
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: !enableTherapistFeatures ? null : BottomNavigationBar(
         items: _pagesNavigationIndicator.keys.map((String value) {
           return BottomNavigationBarItem(icon: _pagesNavigationIndicator[value], title: Text(value));
         }).toList(),
