@@ -17,7 +17,7 @@ class Strings {
 
   // STARTUP
   static const STARTUP_TITLE = "Hi,";
-  static const STARTUP_INTRO = "Stuttherapy is an application to help you overcome your stuttering through different exercises. Train freely, without pressure!\n\nYou can keep track of your progress and share your results with your therapist to get feedback.";//\n\nBefore you start, choose the context in which you will use this application:";
+  static const STARTUP_INTRO = "Stuttherapy is an application to help you overcome your stuttering through different exercises. Train freely, without pressure!";//\n\nYou can keep track of your progress and share your results with your therapist to get feedback.";//\n\nBefore you start, choose the context in which you will use this application:";
   static const STARTUP_SUBMIT = "Continue !";
   static const STARTUP_ERROR_NO_ACCOUNT_SELECTED = "You have to select an account type !";
 

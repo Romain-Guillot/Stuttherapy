@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:stuttherapy/main.dart';
+import 'package:stuttherapy/env.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/dimen.dart';
 

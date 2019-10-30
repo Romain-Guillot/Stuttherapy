@@ -5,6 +5,8 @@
 The application user the framework [Flutter](https://flutter.dev/). The language
 used by this framework is [Dart](https://dart.dev/).
 
+Follow [this tutorial](https://flutter.dev/docs/get-started/install) to install Flutter.
+
 The entry point of the application is `lib/main.dart`.
 
 ## Database

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stuttherapy/main.dart';
+import 'package:stuttherapy/env.dart';
 import 'package:stuttherapy/providers/account_provider.dart';
 import 'package:stuttherapy/strings.dart';
 import 'package:stuttherapy/ui/components/drawer_menu.dart';
